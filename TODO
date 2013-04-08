@@ -2,4 +2,31 @@
 | TODO |
 \++++++/
 
--set up .gitignore
+-GLTriangle {
+
+	-coloured and textured verison
+}
+
+-Textures {
+
+    -loaded from png files
+}
+
+-Model {
+
+    -loaded from  obj files
+    
+    -consists of GLTriangles
+}
+
+-Resources {
+
+    -Textures, models, and music
+    
+    -Resource objects {
+    
+        -hold one of their type of resource which copies can be made of
+        
+        -also holds the resource sub groups the resource is in (ie.menu, level)
+    }
+}
