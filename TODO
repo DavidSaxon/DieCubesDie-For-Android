@@ -2,6 +2,25 @@
 | TODO |
 \++++++/
 
+-convert tabs to spaces
+
+-Vectors {
+    
+    -2d, 3d, and 4d vectors
+    
+    -copy and create from
+    
+    -add, sub, mul, div
+    
+    -dot product
+    
+    -cross product
+    
+    -distance between
+    
+    -angle between
+}
+
 -GLTriangle {
 
 	-coloured and textured verison
@@ -18,6 +37,8 @@
     
     -consists of GLTriangles
 }
+
+-Proper vertex shaders (in res files)
 
 -Resources {
 
