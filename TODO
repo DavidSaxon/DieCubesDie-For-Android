@@ -6,24 +6,14 @@
 
 -Vectors {
     
-    -2d, 3d, and 4d vectors
-    
-    -copy and create from
-    
-    -add, sub, mul, div
-    
-    -dot product
-    
-    -cross product
-    
-    -distance between
-    
-    -angle between
+    -cross product for 3d and 4d vectors
 }
 
 -GLTriangle {
 
 	-coloured and textured verison
+	
+	-takes a shader, can also change shader
 }
 
 -Textures {

@@ -9,13 +9,31 @@ package nz.co.withfire.diecubesdie.renderer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import nz.co.withfire.diecubesdie.R;
+import nz.co.withfire.diecubesdie.engine.Engine;
+import nz.co.withfire.diecubesdie.resources.ResourceManager;
+import nz.co.withfire.diecubesdie.utilities.ResourceUtil;
+import nz.co.withfire.diecubesdie.utilities.ShaderUtil;
+import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
+
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.util.Log;
 
 public class GLRenderer implements GLSurfaceView.Renderer{
 
     //VARIABLES
+    //the android context
+    private final Context context;
+    
+    //the current engine to use
+    private Engine engine;
+    
+    //TESTING
+    private float blue = 0.0f;
+    private boolean up = true;
     
     //Matrix
     //the projection matrix
@@ -24,7 +42,14 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     private final float[] viewMatrix = new float[16];
     
     //CONSTRUCTOR
-    public GLRenderer() {
+    /**Creates a new OpenGL renderer
+    @param context the android context
+    @param engine the current engine the renderer will be using*/
+    public GLRenderer(final Context context, Engine engine) {
+        
+        //initialise variables
+        this.context = context;
+        this.engine = engine;
     }
     
     //PUBLIC METHODS
@@ -33,6 +58,9 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         
         //initialise openGL
         initGL();
+        
+        //Initialise the engine
+        engine.init();
     }
     
     @Override
@@ -48,6 +76,8 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         //set the camera position
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        
+        Log.v(ValuesUtil.TAG, "changed");
     }
     
     @Override
@@ -59,6 +89,29 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         //set the camera position
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        
+        Log.v(ValuesUtil.TAG, "here");
+        //TESTING
+        if (up && blue < 1.0f) {
+            
+            blue += 0.01f;
+        }
+        else {
+            
+            up = false;
+        }
+        
+        if (!up && blue > 0.0f) {
+            
+            blue -= 0.01f;
+        }
+        else {
+            
+            up = true;
+        }
+        
+        //set the clear colour
+        //GLES20.glClearColor(0.0f, 0.0f, blue, 1.0f);
     }
 
     //PRIVATE METHODS

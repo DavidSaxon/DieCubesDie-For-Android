@@ -6,18 +6,23 @@
 
 package nz.co.withfire.diecubesdie;
 
-import nz.co.withfire.diecubesdie.startup.StartUpEngine;
+import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
+import nz.co.withfire.diecubesdie.renderer.GLRenderer;
+import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 public class StartUpActivity extends Activity {
 
     //VARIABLES
-    //the engine for this activity
-    private StartUpEngine engine;
+    //the surface view of the activity
+    private StartUpSurfaceView surfaceView;
     
     //PUBLIC METHODS
     @Override
@@ -32,9 +37,46 @@ public class StartUpActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         //set the display
-        engine = new StartUpEngine(this);
+        surfaceView = new StartUpSurfaceView(this);
         
         //set the content view to the display
-        setContentView(engine);
+        setContentView(surfaceView);
+    }
+}
+
+class StartUpSurfaceView extends GLSurfaceView {
+    
+    private static final int RENDERMODE_CONTINUOSLY = 0;
+
+    //VARIABLES
+    //the current engine
+    private StartUpEngine engine;
+    
+    //the renderer for the surface
+    private GLRenderer renderer;
+    
+    //CONSTRUCTOR
+    public StartUpSurfaceView(Context context) {
+        
+        //super call
+        super(context);
+        
+        //create an OpenGL ES 2.0 context
+        setEGLContextClientVersion(2);
+        
+        //create a new start up engine
+        engine = new StartUpEngine(context);
+        
+        //create a new renderer
+        renderer = new GLRenderer(context, engine);
+        
+        //set the configuration chooser
+        setEGLConfigChooser(false);
+        
+        //set the renderer
+        setRenderer(renderer);
+        
+        //set the rendering mode
+        setRenderMode(RENDERMODE_CONTINUOSLY);
     }
 }
