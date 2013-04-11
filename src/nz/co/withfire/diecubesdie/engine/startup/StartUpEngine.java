@@ -42,14 +42,15 @@ public class StartUpEngine implements Engine {
         
         //TESTING
         float coords[] =  { // in counterclockwise order:
-                0.0f,  0.622008459f, 1.0f,   // top
-                -0.5f, -0.311004243f, 1.0f,   // bottom left
-                 0.5f, -0.311004243f, 1.0f    // bottom right
+                -0.5f,  0.5f, 1.0f,   // top
+                -0.5f, -0.5f, 1.0f,   // bottom left
+                 0.5f,  0.5f, 1.0f,    // bottom right
+                 0.5f, -0.5f, 1.0f,
+                -0.5f, -0.5f, 1.0f,
+                 0.5f,  0.5f, 1.0f
             };
             
-        float colour[] = {0.0f, 1.0f, 1.0f, 1.0f,
-                    0.0f, 0.0f, 1.0f, 1.0f,
-                    1.0f, 0.0f, 1.0f, 1.0f};
+        float colour[] = {0.2f, 0.0f, 1.0f, 1.0f};
         
         triangle = new GLTriangleCol(coords, colour,
                 resources.getShader("plain_colour_vertex"),

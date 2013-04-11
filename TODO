@@ -9,11 +9,21 @@
     -cross product for 3d and 4d vectors
 }
 
+-Model {
+
+    -loaded from  obj files
+    
+    -consists of GLTriangles
+    
+    -avoid having to copy triangles, should be able to use a final version
+     of the model?
+}
+
 -GLTriangle {
 
 	-coloured and textured verison
 	
-	-takes a shader, can also change shader
+	-can change the shader a triangle is using
 }
 
 -Textures {
@@ -21,23 +31,7 @@
     -loaded from png files
 }
 
--Model {
-
-    -loaded from  obj files
-    
-    -consists of GLTriangles
-}
-
--Proper vertex shaders (in res files)
-
 -Resources {
 
     -Textures, models, and music
-    
-    -Resource objects {
-    
-        -hold one of their type of resource which copies can be made of
-        
-        -also holds the resource sub groups the resource is in (ie.menu, level)
-    }
 }

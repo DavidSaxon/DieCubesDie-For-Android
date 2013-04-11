@@ -29,6 +29,9 @@ public class GLTriangleCol implements Renderable {
     private final int colourStride =
         colValsPerVertex * ValuesUtil.sizeOfFloat;
     
+    //the number of vertex points the triangle has
+    private int vertexCount;
+    
     //the vertex buffer
     private final FloatBuffer vertexBuffer;
     //the colour buffer
@@ -60,6 +63,9 @@ public class GLTriangleCol implements Renderable {
         this.colour = colour;
         this.vertexShader = vertexShader;
         this.fragmentShader = fragmentShader;
+        
+        //calculate the number of vertexes
+        vertexCount = this.coords.length / coordsPerVertex;
         
         //initialise the byte buffer for the vertex buffer
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -110,13 +116,10 @@ public class GLTriangleCol implements Renderable {
                                      vertexStride, vertexBuffer);
 
         //get a handle to colour and enable it
-        int colourHandle = GLES20.glGetAttribLocation(program, "a_Colour");
-        GLES20.glEnableVertexAttribArray(colourHandle);
+        int colourHandle = GLES20.glGetUniformLocation(program, "v_Colour");
 
-        //prepare the colour data
-        GLES20.glVertexAttribPointer(colourHandle, colValsPerVertex,
-                                     GLES20.GL_FLOAT, false,
-                                     colourStride, colourBuffer);
+        //set the colour for drawing
+        GLES20.glUniform4fv(colourHandle, 1, colour, 0);
 
         //get handle to the transformation matrix
         int mvpMatrixHandle = GLES20.glGetUniformLocation(
@@ -126,7 +129,7 @@ public class GLTriangleCol implements Renderable {
         GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mvpMatrix, 0);
 
         //draw the triangle
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
 
         //disable the vertex and colour arrays
         GLES20.glDisableVertexAttribArray(positionHandle);
