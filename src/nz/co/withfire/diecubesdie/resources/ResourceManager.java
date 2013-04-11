@@ -48,6 +48,14 @@ public class ResourceManager {
         }
     }
     
+    /**Gets a shader from the resource map
+    @param key the key of the shader
+    @return the shader*/
+    public int getShader(String key) {
+        
+        return shaders.get(key).getShader();
+    }
+    
     //PRIVATE METHODS
     /**Initialises all the resource maps, but does not load any resources*/
     private void init() {

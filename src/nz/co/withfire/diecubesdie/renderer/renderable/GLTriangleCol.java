@@ -11,10 +11,11 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
-public class GLTriangleCol {
+public class GLTriangleCol implements Renderable {
 
     //VARIABLES
     //the number of position co-ordinates per vertex
@@ -32,57 +33,33 @@ public class GLTriangleCol {
     private final FloatBuffer vertexBuffer;
     //the colour buffer
     private final FloatBuffer colourBuffer;
-    //the opengl program
-    //private final int program;
+    //the OpenGL program
+    private final int program;
     
     //the co-ordinates of the triangle
     private float coords[];
     //the colour values of the triangle
     private float colour[];
     
-    //TODO: move shaders from here
-    //shaders
-    private final String vertexShaderCode =
-
-        //the model view projection matrix
-        "uniform mat4 uMVPMatrix;" +
-        //vertex information that will be passed in
-        "attribute vec4 vPosition;" +
-        //colour information that will be passed in
-        "attribute vec4 a_Color;\n" +
-        //this will be passed to the fragment shader
-        "varying vec4 v_Color;\n" +
-                
-        "void main() {" +
-        
-            //pass the colour through to the fragment shader
-            "v_Color = a_Color\n;" +
-            //set the position
-        "   gl_Position = uMVPMatrix * vPosition;" +
-        "}";
-
-    private final String fragmentShaderCode =
-        
-        //use medium precision
-        "precision mediump float;" +
-        //the colour
-        "varying vec4 v_Color;" +
-                
-        "void main() {" +
-        
-            //set the colour
-        "   gl_FragColor = v_Color;" +
-        "}";
+    //the vertex shader of the triangle
+    private int vertexShader;
+    //the fragment shader of the triangle
+    private int fragmentShader;
     
     //CONSTRUCTOR
     /**Create a new gl triangle
     @param coords the co-ordinate data of the triangle
-    @param colour the colour data of the the triangle*/
-    public GLTriangleCol(float coords[], float colour[]) {
+    @param colour the colour data of the the triangle
+    @param vertexShader the vertex shader to use for the triangle
+    @param fragmentShader the fragment shader to use for the triangle*/
+    public GLTriangleCol(float coords[], float colour[],
+        int vertexShader, int fragmentShader) {
         
         //initialise the variables
         this.coords = coords;
         this.colour = colour;
+        this.vertexShader = vertexShader;
+        this.fragmentShader = fragmentShader;
         
         //initialise the byte buffer for the vertex buffer
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -104,11 +81,54 @@ public class GLTriangleCol {
         colourBuffer.put(colour);
         colourBuffer.position(0);
         
-        //TODO: create a resource for shaders
-//        //prepare the shaders and the openGL program
-//        int vertexShader = ShaderLoader.loadShader(GLES20.GL_VERTEX_SHADER,
-//                                                   vertexShaderCode);
-//        int fragmentShader = ShaderLoader.loadShader(GLES20.GL_FRAGMENT_SHADER,
-//                                                     fragmentShaderCode)
+        //create the openGL program
+        program = GLES20.glCreateProgram();
+        //attach the vertex shader to the program
+        GLES20.glAttachShader(program, this.vertexShader);
+        //attach the fragment shader to the program
+        GLES20.glAttachShader(program, this.fragmentShader);
+        //create openGL program executables
+        GLES20.glLinkProgram(program);
+    }
+    
+    @Override
+    public void draw(float[] mvpMatrix) {
+        
+        //set the blending function
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        
+        //Set the OpenGL program to use
+        GLES20.glUseProgram(program);
+
+        //get a handle the vertex positions and enable them
+        int positionHandle = GLES20.glGetAttribLocation(program, "v_Position");
+        GLES20.glEnableVertexAttribArray(positionHandle);
+
+        //prepare the triangle coordinate data
+        GLES20.glVertexAttribPointer(positionHandle, coordsPerVertex,
+                                     GLES20.GL_FLOAT, false,
+                                     vertexStride, vertexBuffer);
+
+        //get a handle to colour and enable it
+        int colourHandle = GLES20.glGetAttribLocation(program, "a_Colour");
+        GLES20.glEnableVertexAttribArray(colourHandle);
+
+        //prepare the colour data
+        GLES20.glVertexAttribPointer(colourHandle, colValsPerVertex,
+                                     GLES20.GL_FLOAT, false,
+                                     colourStride, colourBuffer);
+
+        //get handle to the transformation matrix
+        int mvpMatrixHandle = GLES20.glGetUniformLocation(
+            program, "u_MVPMatrix");
+
+        //apply the projection and view transformation
+        GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, mvpMatrix, 0);
+
+        //draw the triangle
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
+
+        //disable the vertex and colour arrays
+        GLES20.glDisableVertexAttribArray(positionHandle);
     }
 }

@@ -9,11 +9,8 @@ package nz.co.withfire.diecubesdie.renderer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.engine.Engine;
-import nz.co.withfire.diecubesdie.resources.ResourceManager;
-import nz.co.withfire.diecubesdie.utilities.ResourceUtil;
-import nz.co.withfire.diecubesdie.utilities.ShaderUtil;
+import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
 import android.content.Context;
@@ -40,6 +37,11 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     private final float[] projectionMatrix = new float[16];
     //the view matrix
     private final float[] viewMatrix = new float[16];
+    
+    //the model view projection matrix
+    private float[] mvpMatrix = new float[16];
+    //the translation matrix
+    private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
     /**Creates a new OpenGL renderer
@@ -76,8 +78,6 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         //set the camera position
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        
-        Log.v(ValuesUtil.TAG, "changed");
     }
     
     @Override
@@ -90,25 +90,29 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         
-        Log.v(ValuesUtil.TAG, "here");
-        //TESTING
-        if (up && blue < 1.0f) {
-            
-            blue += 0.01f;
-        }
-        else {
-            
-            up = false;
-        }
+        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
         
-        if (!up && blue > 0.0f) {
-            
-            blue -= 0.01f;
-        }
-        else {
-            
-            up = true;
-        }
+        ((StartUpEngine) engine).triangle.draw(mvpMatrix);
+        
+//        Log.v(ValuesUtil.TAG, "here");
+//        //TESTING
+//        if (up && blue < 1.0f) {
+//            
+//            blue += 0.01f;
+//        }
+//        else {
+//            
+//            up = false;
+//        }
+//        
+//        if (!up && blue > 0.0f) {
+//            
+//            blue -= 0.01f;
+//        }
+//        else {
+//            
+//            up = true;
+//        }
         
         //set the clear colour
         //GLES20.glClearColor(0.0f, 0.0f, blue, 1.0f);
