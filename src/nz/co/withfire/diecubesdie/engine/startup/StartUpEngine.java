@@ -7,9 +7,14 @@
 
 package nz.co.withfire.diecubesdie.engine.startup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import nz.co.withfire.diecubesdie.engine.Engine;
-import nz.co.withfire.diecubesdie.renderer.renderable.GLTriangleCol;
+import nz.co.withfire.diecubesdie.renderer.renderable.Renderable;
+import nz.co.withfire.diecubesdie.renderer.renderable.model.Model;
+import nz.co.withfire.diecubesdie.renderer.renderable.shape.GLTriangleCol;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 
 public class StartUpEngine implements Engine {
@@ -23,6 +28,7 @@ public class StartUpEngine implements Engine {
     
     //TESTING
     public GLTriangleCol triangle;
+    public Model model;
     
     //CONSTRUCTOR
     /**Creates a new start up engine
@@ -38,23 +44,12 @@ public class StartUpEngine implements Engine {
         //since this is the start up engine, create a new resource manager
         resources = new ResourceManager(context);
         //load all the shaders
-        resources.loadShaders();
+        resources.loadAllShaders();
+        //TODO: change to only load omicron models
+        resources.loadAllModels();
         
         //TESTING
-        float coords[] =  { // in counterclockwise order:
-                -0.5f,  0.5f, 1.0f,   // top
-                -0.5f, -0.5f, 1.0f,   // bottom left
-                 0.5f,  0.5f, 1.0f,    // bottom right
-                 0.5f, -0.5f, 1.0f,
-                -0.5f, -0.5f, 1.0f,
-                 0.5f,  0.5f, 1.0f
-            };
-            
-        float colour[] = {0.2f, 0.0f, 1.0f, 1.0f};
-        
-        triangle = new GLTriangleCol(coords, colour,
-                resources.getShader("plain_colour_vertex"),
-                resources.getShader("colour_no_lighting_fragment"));
+        model = resources.getModel("test_plane");
     }
 
     @Override

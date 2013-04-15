@@ -1,8 +1,8 @@
-/****************************************************************\
-| Interface for any object that can be rendered by the renderer. |
-|                                                                |
-| @author David Saxon                                            |
-\****************************************************************/
+/**********************************************************************\
+| Interface the defines the methods for any object that is renderable. |
+|                                                                      |
+| @author David Saxon                                                  |
+\**********************************************************************/
 
 package nz.co.withfire.diecubesdie.renderer.renderable;
 

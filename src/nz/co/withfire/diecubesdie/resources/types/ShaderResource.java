@@ -7,7 +7,6 @@
 package nz.co.withfire.diecubesdie.resources.types;
 
 import nz.co.withfire.diecubesdie.utilities.ResourceUtil;
-import nz.co.withfire.diecubesdie.utilities.ShaderUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import android.content.Context;
 import android.util.Log;
@@ -40,7 +39,7 @@ public class ShaderResource {
     public void load(final Context context) {
         
         //get the shader from the file and compile it
-        shader = ShaderUtil.compileShader(shaderType,
+        shader = ResourceUtil.compileShader(shaderType,
             ResourceUtil.resourceToString(context, resourceID));
         
         //the shader has successfully loaded
@@ -55,9 +54,15 @@ public class ShaderResource {
             
             //report error
             throw new RuntimeException(
-                    "Attempted using un-loaded shader");
+                    "Attempted using an un-loaded shader");
         }
         
         return shader;
+    }
+    
+    /**@return whether shader has been loaded*/
+    public boolean isLoaded() {
+        
+        return loaded;
     }
 }

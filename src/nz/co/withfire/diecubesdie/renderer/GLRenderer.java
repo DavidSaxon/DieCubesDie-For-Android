@@ -92,7 +92,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         
         Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
         
-        ((StartUpEngine) engine).triangle.draw(mvpMatrix);
+        ((StartUpEngine) engine).model.draw(mvpMatrix);
         
 //        Log.v(ValuesUtil.TAG, "here");
 //        //TESTING

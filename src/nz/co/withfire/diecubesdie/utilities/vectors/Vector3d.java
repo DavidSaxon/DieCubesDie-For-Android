@@ -124,8 +124,9 @@ public class Vector3d {
     @return the distance between the two vectors*/
     final public float distance(final Vector3d other) {
         
-        return (float) Math.sqrt(Math.pow(this.x - this.y - this.z, 2.0f) +
-            Math.pow(other.x - other.y - other.z, 2.0f));
+        return (float) Math.sqrt(Math.pow(this.x - other.x,  2.0f) +
+            Math.pow(this.y - other.y, 2.0f) +
+            Math.pow(this.z - other.z, 2.0f));
     }
     
     /**Calculate the angle between this vector and the other vector
