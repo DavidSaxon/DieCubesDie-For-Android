@@ -14,11 +14,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import nz.co.withfire.diecubesdie.renderer.renderable.shape.GLTriangleCol;
+import nz.co.withfire.diecubesdie.renderer.renderable.shape.GLTriangleTex;
 import nz.co.withfire.diecubesdie.renderer.renderable.shape.Shape;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
+import android.opengl.GLUtils;
 import android.util.Log;
 
 public class ResourceUtil {
@@ -98,15 +103,58 @@ public class ResourceUtil {
         return shaderHandle;
     }
     
+    /**Loads an .png file as an OpenGL Texture
+    @param context the android context
+    @param resourceId the id of the .png file
+    @return the OpenGL texture*/
+    static public int loadPNG(final Context context, int resourceId) {
+        
+        //create a pointer for the texture
+        final int[] textureHandle = new int[1];
+        GLES20.glGenTextures(1, textureHandle, 0);
+        
+        //if generating the texture fails report error
+        if (textureHandle[0] == 0) {
+            
+            throw new RuntimeException("Error loading texture");
+        }
+        
+        //set up the bitmap details
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+        
+        //read in the the png file
+        final Bitmap bitmap = BitmapFactory.decodeResource(
+            context.getResources(), resourceId, options);
+        
+        //bind the texture in openGL
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+        
+        //set filtering
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        
+        //load in the texture
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        
+        //recycle the bitmap since the data has been loaded into OpenGL
+        bitmap.recycle();
+        
+        return textureHandle[0];
+    }
+    
     /**Loads a an .obj file as a OpenGl Triangle
     NOTE: the .obj file must consist of triangles for efficiency
     @param context the android context
     @param resourceId the id of the resource to load
+    @param tex the texture of the model
     @param vertexShader the vertex shader to use for the shape
     @param fragmentShader the fragment shader to use for the shape
     @return the loaded shape*/
     static public Shape loadOBJ(final Context context, int resourceId,
-        int vertexShader, int fragmentShader) {
+        int tex, int vertexShader, int fragmentShader) {
         
         //open the file as a string
         String file = resourceToString(context, resourceId);
@@ -116,8 +164,12 @@ public class ResourceUtil {
         
         //an array list that contains the vertex coords
         ArrayList<Vector3d> vertices = new ArrayList<Vector3d>();
+        //an list the contains the texture coords
+        ArrayList<Vector2d> texCoords = new ArrayList<Vector2d>();
         //an array of the vertexs in order that make up the model
-        ArrayList<Vector3d> faces = new ArrayList<Vector3d>();
+        ArrayList<Vector3d> faceVertices = new ArrayList<Vector3d>();
+        //the array of texture coords in the model
+        ArrayList<Vector2d> faceTextures = new ArrayList<Vector2d>();
         
         //read through the entire file
         while(scanner.hasNext()) {
@@ -133,15 +185,29 @@ public class ResourceUtil {
                     Float.parseFloat(scanner.next()),
                     Float.parseFloat(scanner.next())));
             }
+            //read the texture coords
+            else if (next.equals("vt")) {
+                
+                //add the coord
+                texCoords.add(new Vector2d(Float.parseFloat(scanner.next()),
+                        Float.parseFloat(scanner.next())));
+            }
             //read face vertices
             else if (next.equals("f")) {
                 
-                //get the vertices of the face
-                faces.add(vertices.get(Integer.parseInt(scanner.next()) - 1));
-                faces.add(vertices.get(Integer.parseInt(scanner.next()) - 1));
-                faces.add(vertices.get(Integer.parseInt(scanner.next()) - 1));
+                for (int i = 0; i < 3; ++i) {
+                    
+                    //get the index from the file and split
+                    String indices[] = scanner.next().split("/");
+                    
+                    //parse as ints
+                    int vertexIndex = Integer.parseInt(indices[0]) - 1;
+                    int textureIndex = Integer.parseInt(indices[1]) - 1;
+                    
+                    faceVertices.add(vertices.get(vertexIndex));
+                    faceTextures.add(texCoords.get(textureIndex));
+                }
             }
-            //TODO: texture coords
             else {
                 
                 //throw away the line
@@ -149,22 +215,29 @@ public class ResourceUtil {
             }
         }
         
-        Log.v(ValuesUtil.TAG, "done");
+        Log.v(ValuesUtil.TAG, "swap");
         
         //get the triangle coords
-        float coords[] = new float[faces.size() * 3];
-        for (int i = 0; i < faces.size(); ++i) {
+        float coords[] = new float[faceVertices.size() * 3];
+        float tCoords[] = new float[faceTextures.size() * 2];
+        for (int i = 0; i < faceVertices.size(); ++i) {
             
-            coords[(i * 3)]     = faces.get(i).getX();
-            coords[(i * 3) + 1] = faces.get(i).getY();
-            coords[(i * 3) + 2] = faces.get(i).getZ();
+            //get vertex coords
+            coords[(i * 3)]     = faceVertices.get(i).getX();
+            coords[(i * 3) + 1] = faceVertices.get(i).getY();
+            coords[(i * 3) + 2] = faceVertices.get(i).getZ();
+            
+            //get texture coords
+            tCoords[(i * 2)]     = faceTextures.get(i).getX();
+            tCoords[(i * 2) + 1] = faceTextures.get(i).getY();
         }
         
-        //temp colour
-        float colour[] = {0.2f, 0.0f, 1.0f, 1.0f};
+        Log.v(ValuesUtil.TAG, "create triangle");
         
-        return new GLTriangleCol(coords, colour,
+        return new GLTriangleTex(coords, tCoords, tex,
                 vertexShader, fragmentShader);
+        
+        //Log.v(ValuesUtil.TAG, "done create tri");
     }
     
 }

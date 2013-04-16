@@ -9,11 +9,13 @@ package nz.co.withfire.diecubesdie.resources.types;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import nz.co.withfire.diecubesdie.renderer.renderable.Renderable;
 import nz.co.withfire.diecubesdie.renderer.renderable.model.Model;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.ResourceUtil;
+import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
 public class ModelResource {
 
@@ -24,6 +26,8 @@ public class ModelResource {
     private int resourceIds[];
     //the list of groups the model is within
     private ResourceGroup[] groups;
+    //the label of the texture to use for the model
+    private String tex;
     //the label of the vertex shader to use for the model
     private String vertexShader;
     ///the label of the fragment shader to use for the model
@@ -35,15 +39,17 @@ public class ModelResource {
     /**Creates a new resource model
     @param resourceIds the resources to use in the model
     @param groups the resource groups the model is in
+    @param tex the label of the texture to use for the model
     @param vertexShader the label of the vertex shader to use for the model
     @param fragmentShader the label of the fragmentshader to use for the model*/
     public ModelResource(int resourceIds[], ResourceGroup groups[],
-        String vertexShader, String fragmentShader) {
+        String tex, String vertexShader, String fragmentShader) {
         
         //initialise the variables
         model = null;
         this.resourceIds = resourceIds;
         this.groups = groups;
+        this.tex = tex;
         this.vertexShader = vertexShader;
         this.fragmentShader = fragmentShader;
     }
@@ -63,12 +69,15 @@ public class ModelResource {
         for (int id : resourceIds) {
             
             renderables.add(ResourceUtil.loadOBJ(context, id,
+                resources.getTexture(tex),
                 resources.getShader(vertexShader),
                 resources.getShader(fragmentShader)));
         }
         
         //create the model
+        Log.v(ValuesUtil.TAG, "create model");
         model = new Model(renderables);
+        Log.v(ValuesUtil.TAG, "done create model");
         
         //the model has successfully loaded
         loaded = true;
@@ -88,7 +97,7 @@ public class ModelResource {
         return model;
     }
     
-    /**@return wether the model has been loaded*/
+    /**@return whether the model has been loaded*/
     public boolean isLoaded() {
         
         return loaded;

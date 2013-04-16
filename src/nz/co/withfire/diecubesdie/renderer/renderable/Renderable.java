@@ -12,4 +12,6 @@ public interface Renderable {
     /**Draws the renderable
     @param mvpMatrix the model view projection*/
     public void draw(float mvpMatrix[]);
+    
+    public void draw(float[] viewMatrix, float[] projectionMatrix);
 }

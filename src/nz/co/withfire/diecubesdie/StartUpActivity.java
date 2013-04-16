@@ -45,8 +45,6 @@ public class StartUpActivity extends Activity {
 }
 
 class StartUpSurfaceView extends GLSurfaceView {
-    
-    private static final int RENDERMODE_CONTINUOSLY = 0;
 
     //VARIABLES
     //the current engine
@@ -77,6 +75,6 @@ class StartUpSurfaceView extends GLSurfaceView {
         setRenderer(renderer);
         
         //set the rendering mode
-        setRenderMode(RENDERMODE_CONTINUOSLY);
+        setRenderMode(RENDERMODE_CONTINUOUSLY);
     }
 }

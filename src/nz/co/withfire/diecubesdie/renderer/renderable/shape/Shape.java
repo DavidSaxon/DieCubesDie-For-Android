@@ -17,4 +17,9 @@ public class Shape implements Renderable {
         
         //do nothing
     }
+    
+    public void draw(float[] viewMatrix, float[] projectionMatrix) {
+        
+        
+    }
 }
