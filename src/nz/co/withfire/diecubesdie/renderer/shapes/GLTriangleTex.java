@@ -4,7 +4,7 @@
 | @author David Saxon                                                  |
 \**********************************************************************/
 
-package nz.co.withfire.diecubesdie.renderer.renderable.shape;
+package nz.co.withfire.diecubesdie.renderer.shapes;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -15,34 +15,37 @@ import android.util.Log;
 
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
-public class GLTriangleCol extends Shape {
+public class GLTriangleTex implements Shape {
 
     //VARIABLES
     //the number of position co-ordinates per vertex
     private final int coordsPerVertex = 3;
     //the number of colour values per Vertex
-    private final int colValsPerVertex = 4;
+    private final int coordsPerTex = 2;
     //the stride of a vertex
     private final int vertexStride = 
         coordsPerVertex * ValuesUtil.sizeOfFloat;
     //the stride of a colour
-    private final int colourStride =
-        colValsPerVertex * ValuesUtil.sizeOfFloat;
+    private final int texStride =
+            coordsPerTex * ValuesUtil.sizeOfFloat;
     
     //the number of vertex points the triangle has
     private int vertexCount;
     
     //the vertex buffer
     private final FloatBuffer vertexBuffer;
-    //the colour buffer
-    private final FloatBuffer colourBuffer;
+    //the texture buffer
+    private final FloatBuffer texBuffer;
     //the OpenGL program
     private final int program;
     
     //the co-ordinates of the triangle
     private float coords[];
-    //the colour values of the triangle
-    private float colour[];
+    //thetexture co-ordinates of the triangle
+    private float texCoords[];
+    
+    //the texture of the triangle
+    private int tex;
     
     //the vertex shader of the triangle
     private int vertexShader;
@@ -52,15 +55,17 @@ public class GLTriangleCol extends Shape {
     //CONSTRUCTOR
     /**Create a new gl triangle
     @param coords the co-ordinate data of the triangle
-    @param colour the colour data of the the triangle
+    @param texCoords the texture coords for the triangle
+    @param tex the texture for the triangle
     @param vertexShader the vertex shader to use for the triangle
     @param fragmentShader the fragment shader to use for the triangle*/
-    public GLTriangleCol(float coords[], float colour[],
-        int vertexShader, int fragmentShader) {
+    public GLTriangleTex(float coords[], float texCoords[],
+        int tex, int vertexShader, int fragmentShader) {
         
         //initialise the variables
         this.coords = coords;
-        this.colour = colour;
+        this.texCoords = texCoords;
+        this.tex = tex;
         this.vertexShader = vertexShader;
         this.fragmentShader = fragmentShader;
         
@@ -77,15 +82,15 @@ public class GLTriangleCol extends Shape {
         vertexBuffer.put(coords);
         vertexBuffer.position(0);
         
-        //initialise the byte buffer for the colour buffer
-        ByteBuffer cb = ByteBuffer.allocateDirect(
-            colour.length * ValuesUtil.sizeOfFloat);
-        cb.order(ByteOrder.nativeOrder());
+        //Initialise the byte buffer for the texture coords
+        ByteBuffer tb = ByteBuffer.allocateDirect(
+            texCoords.length * ValuesUtil.sizeOfFloat);
+        tb.order(ByteOrder.nativeOrder());
         
-        //initialise the vertex buffer and insert the co-ordinates
-        colourBuffer = cb.asFloatBuffer();
-        colourBuffer.put(colour);
-        colourBuffer.position(0);
+        //initialise the texture buffer and insert the co-ordinates
+        texBuffer = tb.asFloatBuffer();
+        texBuffer.put(texCoords);
+        texBuffer.position(0);
         
         //create the openGL program
         program = GLES20.glCreateProgram();
@@ -105,9 +110,22 @@ public class GLTriangleCol extends Shape {
         
         //Set the OpenGL program to use
         GLES20.glUseProgram(program);
+        
+        //get a handle to the texture
+        int textureUniformHandle =
+            GLES20.glGetUniformLocation(program, "u_Texture");
+        
+        //set the active texture unit to texture unit 0
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        
+        //bind this texture to this unit
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, tex);
+        
+        //tell the uniform shader to use this texture
+        GLES20.glUniform1i(tex, 0);
 
         //get a handle the vertex positions and enable them
-        int positionHandle = GLES20.glGetAttribLocation(program, "v_Position");
+        int positionHandle = GLES20.glGetAttribLocation(program, "a_Position");
         GLES20.glEnableVertexAttribArray(positionHandle);
 
         //prepare the triangle coordinate data
@@ -115,11 +133,18 @@ public class GLTriangleCol extends Shape {
                                      GLES20.GL_FLOAT, false,
                                      vertexStride, vertexBuffer);
 
-        //get a handle to colour and enable it
-        int colourHandle = GLES20.glGetUniformLocation(program, "v_Colour");
-
-        //set the colour for drawing
-        GLES20.glUniform4fv(colourHandle, 1, colour, 0);
+        //get a handle to the texture coord data
+        int texCoordHandle = GLES20.glGetAttribLocation(program, "a_texCoord");
+        
+        //pass in the texture information    
+        
+        
+        texBuffer.position(0);
+        GLES20.glVertexAttribPointer(texCoordHandle, coordsPerTex,
+            GLES20.GL_FLOAT, false, texStride, texBuffer);
+        
+        GLES20.glEnableVertexAttribArray(texCoordHandle);
+        
 
         //get handle to the transformation matrix
         int mvpMatrixHandle = GLES20.glGetUniformLocation(

@@ -13,11 +13,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import nz.co.withfire.diecubesdie.renderer.renderable.shape.GLTriangleCol;
-import nz.co.withfire.diecubesdie.renderer.renderable.shape.GLTriangleTex;
-import nz.co.withfire.diecubesdie.renderer.renderable.shape.Shape;
+import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleCol;
+import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleTex;
+import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -234,4 +235,71 @@ public class ResourceUtil {
                 vertexShader, fragmentShader);
     }
     
+    /**Loads a an .obj file as a OpenGl Triangle that is a solid colour
+    NOTE: the .obj file must consist of triangles for efficiency
+    @param context the android context
+    @param resourceId the id of the resource to load
+    @param colour the colour to use for the shape
+    @param vertexShader the vertex shader to use for the shape
+    @param fragmentShader the fragment shader to use for the shape
+    @return the loaded shape*/
+    static public Shape loadOBJ(final Context context, int resourceId,
+        Vector4d colour, int vertexShader, int fragmentShader) {
+        
+        //open the file as a string
+        String file = resourceToString(context, resourceId);
+        
+        //load the file into a scanner
+        Scanner scanner = new Scanner(file);
+        
+        //an array list that contains the vertex coords
+        ArrayList<Vector3d> vertices = new ArrayList<Vector3d>();
+        //an array of the vertexs in order that make up the model
+        ArrayList<Vector3d> faceVertices = new ArrayList<Vector3d>();
+        
+        //read through the entire file
+        while(scanner.hasNext()) {
+        
+            //get the next value
+            String next  = scanner.next();
+            
+            //read the vertex coords
+            if (next.equals("v")) {
+                
+                //add the vertex
+                vertices.add(new Vector3d(Float.parseFloat(scanner.next()),
+                    Float.parseFloat(scanner.next()),
+                    Float.parseFloat(scanner.next())));
+            }
+            //read face vertices
+            else if (next.equals("f")) {
+                
+                for (int i = 0; i < 3; ++i) {
+                    
+                    //parse as ints
+                    int vertexIndex = Integer.parseInt(scanner.next()) - 1;
+                    
+                    faceVertices.add(vertices.get(vertexIndex));
+                }
+            }
+            else {
+                
+                //throw away the line
+                scanner.nextLine();
+            }
+        }
+        
+        //get the triangle coords
+        float coords[] = new float[faceVertices.size() * 3];
+        for (int i = 0; i < faceVertices.size(); ++i) {
+            
+            //get vertex coords
+            coords[(i * 3)]     = faceVertices.get(i).getX();
+            coords[(i * 3) + 1] = faceVertices.get(i).getY();
+            coords[(i * 3) + 2] = faceVertices.get(i).getZ();
+        }
+        
+        return new GLTriangleCol(coords, colour,
+                vertexShader, fragmentShader);
+    }
 }

@@ -3,15 +3,20 @@ package nz.co.withfire.diecubesdie.entities.startup;
 import android.opengl.Matrix;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
-import nz.co.withfire.diecubesdie.renderer.renderable.model.Model;
+import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleCol;
+import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 public class Splash extends Drawable implements Entity {
 
     //VARIABLES
-    //the model of the splash screen
-    private Model splash;
-    //the model to use for the fade in
-    private Model fadeIn;
+    //the shape of the splash screen
+    private Shape splash;
+    //the shape to use for the fade in
+    private GLTriangleCol fader;
+    
+    //is true once the splash has finished loading
+    private boolean fadeComplete = false;
     
     //Matrix
     //the model view projection matrix
@@ -21,20 +26,33 @@ public class Splash extends Drawable implements Entity {
     
     //CONSTRUCTOR
     /**Creates a new splash screen
-    @param splash the model to use for the splash screen
-    @param fadeIn the model to use for the fade in*/
-    public Splash(Model splash, Model fadeIn) {
+    @param splash the shape to use for the splash screen
+    @param fader the shape to use for the fade in*/
+    public Splash(Shape splash, Shape fader) {
         
         //initialise variables
         this.splash = splash;
-        this.fadeIn = fadeIn;
+        this.fader = (GLTriangleCol) fader;
+        
+        //set the fader to black
+        this.fader.setColour(new Vector4d(0.0f, 0.0f, 0.0f, 1.0f));
     }
     
     //PUBLIC METHODS
     @Override
     public void update() {
         
-        //do nothing
+        //fade in
+        if (fader.getColour().getW() > 0.0) {
+            
+            //change the alpha value of the fader
+            fader.getColour().setW(fader.getColour().getW() - 0.001f);
+            fader.reloadColour();
+        }
+        else {
+            
+            fadeComplete = true;
+        }
     }
     
     @Override
@@ -45,5 +63,13 @@ public class Splash extends Drawable implements Entity {
         
         //draw the models
         splash.draw(mvpMatrix);
+        fader.draw(mvpMatrix);
     }
+    
+    /**@return if the fade has finished*/
+    public boolean fadeFinished() {
+        
+        return fadeComplete;
+    }
+    
 }

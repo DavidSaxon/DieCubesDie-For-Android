@@ -153,6 +153,14 @@ public class Vector4d {
         //return (float) (-1.0*(Math.atan2(y-other.y, x-other.x)));
     }
     
+    /**@return the values of the vector as an array*/
+    final public float[] toArray() {
+        
+        float array[] = {x, y, z, w};
+        
+        return array;
+    }
+    
     //GETTERS
     /**@return the x value of the vector*/
     final public float getX() {

@@ -13,8 +13,9 @@ public final class R {
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
         public static final int omicron_splash=0x7f020001;
-        public static final int square_plane=0x7f020002;
-        public static final int with_fire_splash=0x7f020003;
+        public static final int square_plane_coloured=0x7f020002;
+        public static final int square_plane_textured=0x7f020003;
+        public static final int with_fire_splash=0x7f020004;
     }
     public static final class id {
         public static final int menu_settings=0x7f080000;
@@ -27,9 +28,10 @@ public final class R {
     }
     public static final class raw {
         public static final int colour_no_lighting_fragment_shader=0x7f040000;
-        public static final int plain_colour_vertex_shader=0x7f040001;
-        public static final int plain_texture_vertex_shader=0x7f040002;
-        public static final int texture_no_lighting_fragment_shader=0x7f040003;
+        public static final int music_intro_menu=0x7f040001;
+        public static final int plain_colour_vertex_shader=0x7f040002;
+        public static final int plain_texture_vertex_shader=0x7f040003;
+        public static final int texture_no_lighting_fragment_shader=0x7f040004;
     }
     public static final class string {
         public static final int app_name=0x7f050000;

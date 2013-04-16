@@ -12,12 +12,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
+import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.startup.Splash;
-import nz.co.withfire.diecubesdie.renderer.renderable.model.Model;
-import nz.co.withfire.diecubesdie.renderer.renderable.shape.GLTriangleCol;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
@@ -39,10 +38,8 @@ public class StartUpEngine implements Engine {
     //Entities
     //the omicron splash screen
     private Splash omicronSplash;
-    
-    //TESTING
-    public GLTriangleCol triangle;
-    public Model model;
+    //the with fire splash screen
+    private Splash withFireSplash;
     
     //CONSTRUCTOR
     /**Creates a new start up engine
@@ -64,12 +61,13 @@ public class StartUpEngine implements Engine {
         //Load the textures for the omicron intro
         resources.loadTexturesFromGroup(ResourceGroup.OMICRON);
 
-        //Load the models for the omicron intro
-        resources.loadModelsFromGroup(ResourceGroup.OMICRON);
+        //Load the shapes for the omicron intro
+        resources.loadShapesFromGroup(ResourceGroup.OMICRON);
         
         //add the omicron splash screen entity
-        omicronSplash = new Splash(resources.getModel(
-            "omicron_splash"), null); 
+        omicronSplash = new Splash(
+            resources.getShape("omicron_splash"),
+            resources.getShape("splash_fader")); 
         entities.add(omicronSplash);
         drawables.add(omicronSplash);
     }
@@ -77,7 +75,28 @@ public class StartUpEngine implements Engine {
     @Override
     public boolean execute() {
         
-        // TODO Auto-generated method stub
+        if (omicronSplash.fadeFinished()) {
+            
+            //TODO: change to secondary loading
+            resources.loadTexturesFromGroup(ResourceGroup.WITH_FIRE);
+            resources.loadShapesFromGroup(ResourceGroup.WITH_FIRE);
+            
+            entities.remove(omicronSplash);
+            drawables.remove(omicronSplash);
+            
+            withFireSplash = new Splash(
+                resources.getShape("with_fire_splash"),
+                resources.getShape("splash_fader"));
+            entities.add(withFireSplash);
+            drawables.add(withFireSplash);
+        }
+        
+        //update the entities
+        for (Entity e : entities) {
+            
+            e.update();
+        }
+        
         return false;
     }
 
