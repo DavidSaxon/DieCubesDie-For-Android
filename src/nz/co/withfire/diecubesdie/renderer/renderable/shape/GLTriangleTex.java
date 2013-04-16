@@ -13,7 +13,6 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES20;
 import android.util.Log;
 
-import nz.co.withfire.diecubesdie.utilities.ResourceUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
 public class GLTriangleTex extends Shape {
@@ -108,8 +107,6 @@ public class GLTriangleTex extends Shape {
     
     @Override
     public void draw(float[] mvpMatrix) {
-        
-        Log.v(ValuesUtil.TAG, "draw");
         
         //set the blending function
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);

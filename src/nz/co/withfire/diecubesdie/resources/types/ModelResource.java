@@ -7,11 +7,13 @@
 package nz.co.withfire.diecubesdie.resources.types;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
+
 import android.util.Log;
-import nz.co.withfire.diecubesdie.renderer.renderable.Renderable;
 import nz.co.withfire.diecubesdie.renderer.renderable.model.Model;
+import nz.co.withfire.diecubesdie.renderer.renderable.shape.Shape;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.ResourceUtil;
@@ -60,15 +62,20 @@ public class ModelResource {
     @param resources the resource manager, so we can get the shaders*/
     public void load(final Context context, ResourceManager resources) {
         
+        //check that if it has already been loaded
+        if (loaded) {
+            
+            return;
+        }
         
         //an array list of renderables the model contains
-        ArrayList<Renderable> renderables =
-            new ArrayList<Renderable>();
+        List<Shape> shapes =
+            new ArrayList<Shape>();
         
         //iterate over the files and load the shapes from them
         for (int id : resourceIds) {
             
-            renderables.add(ResourceUtil.loadOBJ(context, id,
+            shapes.add(ResourceUtil.loadOBJ(context, id,
                 resources.getTexture(tex),
                 resources.getShader(vertexShader),
                 resources.getShader(fragmentShader)));
@@ -76,7 +83,7 @@ public class ModelResource {
         
         //create the model
         Log.v(ValuesUtil.TAG, "create model");
-        model = new Model(renderables);
+        model = new Model(shapes);
         Log.v(ValuesUtil.TAG, "done create model");
         
         //the model has successfully loaded
@@ -95,6 +102,12 @@ public class ModelResource {
         }
         
         return model;
+    }
+    
+    /**@return the groups the model is in*/
+    public ResourceGroup[] getGroups() {
+        
+        return groups;
     }
     
     /**@return whether the model has been loaded*/

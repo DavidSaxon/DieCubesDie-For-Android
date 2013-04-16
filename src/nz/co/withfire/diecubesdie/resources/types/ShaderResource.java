@@ -38,6 +38,12 @@ public class ShaderResource {
     @param context the android context*/
     public void load(final Context context) {
         
+        //check that if it has already been loaded
+        if (loaded) {
+            
+            return;
+        }
+        
         //get the shader from the file and compile it
         shader = ResourceUtil.compileShader(shaderType,
             ResourceUtil.resourceToString(context, resourceID));

@@ -27,6 +27,7 @@ public class ResourceManager {
     public enum ResourceGroup {
         
         OMICRON,
+        WITH_FIRE,
         START_UP,
         MENU
     }
@@ -76,7 +77,27 @@ public class ResourceManager {
         }
     }
     
-    //TODO: load texture groups
+    /**Loads all the textures within the group into memory
+    @param group the group to load textures from*/
+    public void loadTexturesFromGroup(ResourceGroup group) {
+        
+        //iterate over the map and check if it is within the group
+        for (TextureResource t : textures.values()) {
+            
+            ResourceGroup[] groups = t.getGroups();
+            
+            //check if it is within the group
+            for (int i = 0; i < groups.length; ++i) {
+                
+                if (groups[i] == group) {
+                    
+                    //load
+                    t.load(context);
+                    break;
+                }
+            }
+        }
+    }
     
     /**Loads all the models into memory*/
     public void loadAllModels() {
@@ -88,7 +109,27 @@ public class ResourceManager {
         }
     }
     
-    //TODO: loaded model groups
+    /**Loads all the models within the group into memory
+    @param group the group to load models from*/
+    public void loadModelsFromGroup(ResourceGroup group) {
+        
+        //iterate over the map and check if it is within the group
+        for (ModelResource m : models.values()) {
+            
+            ResourceGroup[] groups = m.getGroups();
+            
+            //check if it is within the group
+            for (int i = 0; i < groups.length; ++i) {
+                
+                if (groups[i] == group) {
+                    
+                    //load
+                    m.load(context, this);
+                    break;
+                }
+            }
+        }
+    }
     
     /**Gets a shader from the resource map
     @param key the key of the shader
@@ -135,8 +176,14 @@ public class ResourceManager {
         //add the textures
         {
         ResourceGroup groups[] = {ResourceGroup.OMICRON};
-        textures.put("omicron_intro",
-            new TextureResource(R.drawable.omicron_intro,
+        textures.put("omicron_splash",
+            new TextureResource(R.drawable.omicron_splash,
+            groups));
+        }
+        {
+        ResourceGroup groups[] = {ResourceGroup.WITH_FIRE};
+        textures.put("with_fire_splash",
+            new TextureResource(R.drawable.with_fire_splash,
             groups));
         }
         
@@ -144,8 +191,8 @@ public class ResourceManager {
         {
         int ids[] = {R.drawable.square_plane};
         ResourceGroup groups[] = {ResourceGroup.OMICRON};
-        models.put("omicron_intro", new ModelResource(ids, groups,
-                "omicron_intro", "plain_texture_vertex",
+        models.put("omicron_splash", new ModelResource(ids, groups,
+                "omicron_splash", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
         }
     }

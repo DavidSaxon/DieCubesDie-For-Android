@@ -12,8 +12,9 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int omicron_intro=0x7f020001;
+        public static final int omicron_splash=0x7f020001;
         public static final int square_plane=0x7f020002;
+        public static final int with_fire_splash=0x7f020003;
     }
     public static final class id {
         public static final int menu_settings=0x7f080000;

@@ -38,6 +38,12 @@ public class TextureResource {
     @param context the OpenGL context*/
     public void load(final Context context) {
         
+        //check that if it has already been loaded
+        if (loaded) {
+            
+            return;
+        }
+        
         //load the texture
         texture = ResourceUtil.loadPNG(context, resourceId);
         
@@ -57,6 +63,12 @@ public class TextureResource {
         }
         
         return texture;
+    }
+    
+    /**@return the groups the texture is contained within*/
+    public ResourceGroup[] getGroups() {
+        
+        return groups;
     }
     
     /**@return whether the texture has been loaded*/

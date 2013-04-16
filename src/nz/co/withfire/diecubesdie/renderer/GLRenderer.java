@@ -6,11 +6,14 @@
 
 package nz.co.withfire.diecubesdie.renderer;
 
+import java.util.List;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
+import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
 import android.content.Context;
@@ -83,7 +86,8 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     @Override
     public void onDrawFrame(GL10 arg0) {
        
-        Log.v(ValuesUtil.TAG, "draw");
+        //executes the engine
+        engine.execute();
         
         //redraw background colour
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
@@ -92,32 +96,11 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         
-        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
-        
-        ((StartUpEngine) engine).model.draw(viewMatrix, projectionMatrix);
-        
-//        Log.v(ValuesUtil.TAG, "here");
-//        //TESTING
-//        if (up && blue < 1.0f) {
-//            
-//            blue += 0.01f;
-//        }
-//        else {
-//            
-//            up = false;
-//        }
-//        
-//        if (!up && blue > 0.0f) {
-//            
-//            blue -= 0.01f;
-//        }
-//        else {
-//            
-//            up = true;
-//        }
-        
-        //set the clear colour
-        //GLES20.glClearColor(0.0f, 0.0f, blue, 1.0f);
+        //get the entities from the engine and draw them
+        for (Drawable d : engine.getDrawables()) {
+            
+            d.draw(viewMatrix, projectionMatrix);
+        }
     }
 
     //PRIVATE METHODS

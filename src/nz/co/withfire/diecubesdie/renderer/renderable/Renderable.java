@@ -8,10 +8,8 @@ package nz.co.withfire.diecubesdie.renderer.renderable;
 
 public interface Renderable {
 
-    //METHODS
+    //PUBLIC METHODS
     /**Draws the renderable
-    @param mvpMatrix the model view projection*/
-    public void draw(float mvpMatrix[]);
-    
-    public void draw(float[] viewMatrix, float[] projectionMatrix);
+    @param mvpMatrix the model view projection matrix*/
+    public void draw(float[] mvpMatrix);
 }

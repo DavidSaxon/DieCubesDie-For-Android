@@ -13,10 +13,13 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 import nz.co.withfire.diecubesdie.engine.Engine;
-import nz.co.withfire.diecubesdie.renderer.renderable.Renderable;
+import nz.co.withfire.diecubesdie.entities.Drawable;
+import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.startup.Splash;
 import nz.co.withfire.diecubesdie.renderer.renderable.model.Model;
 import nz.co.withfire.diecubesdie.renderer.renderable.shape.GLTriangleCol;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
+import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
 public class StartUpEngine implements Engine {
@@ -27,6 +30,15 @@ public class StartUpEngine implements Engine {
     
     //the resource manager of the engine
     private ResourceManager resources;
+    
+    //The list of all entities
+    private List<Entity> entities = new ArrayList<Entity>();
+    //subset of entites that contains the drawables
+    private List<Drawable> drawables = new ArrayList<Drawable>();
+    
+    //Entities
+    //the omicron splash screen
+    private Splash omicronSplash;
     
     //TESTING
     public GLTriangleCol triangle;
@@ -45,23 +57,34 @@ public class StartUpEngine implements Engine {
         
         //since this is the start up engine, create a new resource manager
         resources = new ResourceManager(context);
+        
         //load all the shaders
         resources.loadAllShaders();
-        //TODO: change to only load omicron textures
-        resources.loadAllTextures();
-        Log.v(ValuesUtil.TAG, "load models");
-        //TODO: change to only load omicron models
-        resources.loadAllModels();
-        Log.v(ValuesUtil.TAG, "done");
         
-        //TESTING
-        model = resources.getModel("omicron_intro");
+        //Load the textures for the omicron intro
+        resources.loadTexturesFromGroup(ResourceGroup.OMICRON);
+
+        //Load the models for the omicron intro
+        resources.loadModelsFromGroup(ResourceGroup.OMICRON);
+        
+        //add the omicron splash screen entity
+        omicronSplash = new Splash(resources.getModel(
+            "omicron_splash"), null); 
+        entities.add(omicronSplash);
+        drawables.add(omicronSplash);
     }
 
     @Override
     public boolean execute() {
+        
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public List<Drawable> getDrawables() {
+        
+        return drawables;
     }
 
 }

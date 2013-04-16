@@ -215,8 +215,6 @@ public class ResourceUtil {
             }
         }
         
-        Log.v(ValuesUtil.TAG, "swap");
-        
         //get the triangle coords
         float coords[] = new float[faceVertices.size() * 3];
         float tCoords[] = new float[faceTextures.size() * 2];
@@ -232,12 +230,8 @@ public class ResourceUtil {
             tCoords[(i * 2) + 1] = faceTextures.get(i).getY();
         }
         
-        Log.v(ValuesUtil.TAG, "create triangle");
-        
         return new GLTriangleTex(coords, tCoords, tex,
                 vertexShader, fragmentShader);
-        
-        //Log.v(ValuesUtil.TAG, "done create tri");
     }
     
 }
