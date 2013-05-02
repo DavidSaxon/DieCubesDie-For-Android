@@ -86,8 +86,24 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     @Override
     public void onDrawFrame(GL10 arg0) {
        
+        
+        //TODO: limit fps
+        
         //executes the engine
-        engine.execute();
+        if (engine.execute()) {
+            
+            //the current state is done
+            if (engine.shouldExit()) {
+                
+                //TODO: exit the app
+            }
+            else {
+                
+                //get the next engine and continue
+                engine = engine.nextState();
+            }
+        }
+        
         
         //redraw background colour
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);

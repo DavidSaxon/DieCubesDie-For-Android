@@ -30,7 +30,11 @@ public class ResourceManager {
         OMICRON,
         WITH_FIRE,
         START_UP,
-        MENU
+        MENU,
+        LEVEL,
+        CUBE,
+        TERRIAN,
+        PLAINS
     }
     
     //VARIABLES
@@ -160,21 +164,27 @@ public class ResourceManager {
     /**Initialises all the resource maps, but does not load any resources*/
     private void init() {
         
-        //add the shaders
+        //----------SHADERS----------
         shaders.put("plain_colour_vertex",
             new ShaderResource(GLES20.GL_VERTEX_SHADER,
-            R.raw.plain_colour_vertex_shader));
+            R.raw.shader_vertex_plain_colour));
         shaders.put("colour_no_lighting_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.colour_no_lighting_fragment_shader));
+                R.raw.shader_fragment_colour_no_lighting));
         shaders.put("plain_texture_vertex",
                 new ShaderResource(GLES20.GL_VERTEX_SHADER,
-                R.raw.plain_texture_vertex_shader));
+                R.raw.shader_vertex_plain_texture));
         shaders.put("texture_no_lighting_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.texture_no_lighting_fragment_shader));
+                R.raw.shader_fragment_texture_no_lighting));
         
-        //ADD THE TEXTURES
+        
+        
+        
+        
+        //----------TEXTURES----------
+        
+        //START UP
         //omicron splash screen
         {
         ResourceGroup groups[] = {ResourceGroup.OMICRON};
@@ -189,13 +199,36 @@ public class ResourceManager {
             new TextureResource(R.drawable.with_fire_splash,
             groups));
         }
+        //presents splash screen
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU,
+                    ResourceGroup.START_UP};
+            textures.put("presents_splash",
+                new TextureResource(R.drawable.splash_presents,
+                groups));
+        }
         
-        //ADD THE MODELS
+        //LEVEL
+        //wooden cube
+        {
+        ResourceGroup groups[] = {ResourceGroup.LEVEL,
+                ResourceGroup.CUBE};
+        textures.put("wooden_cube",
+            new TextureResource(R.drawable.cube_wood,
+            groups));
+        }
+        
+        
+        
+        
+        //----------SHAPES----------
+        
+        //START UP
         //omicron splash screen
         {
         ResourceGroup groups[] = {ResourceGroup.OMICRON};
         shapes.put("omicron_splash", new ShapeResource(
-            R.drawable.square_plane_textured, groups,
+            R.raw.shape_square_plane_textured, groups,
             "omicron_splash", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
         }
@@ -203,8 +236,17 @@ public class ResourceManager {
         {
             ResourceGroup groups[] = {ResourceGroup.WITH_FIRE};
             shapes.put("with_fire_splash", new ShapeResource(
-                R.drawable.square_plane_textured, groups,
+                R.raw.shape_square_plane_textured, groups,
                 "with_fire_splash", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //presents splash screen
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU,
+                    ResourceGroup.START_UP};
+            shapes.put("presents_splash", new ShapeResource(
+                R.raw.shape_small_square_plane_textured, groups,
+                "presents_splash", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
         }
         //splash screen fader
@@ -213,9 +255,20 @@ public class ResourceManager {
             ResourceGroup.WITH_FIRE};
         Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
         shapes.put("splash_fader", new ShapeResource(
-            R.drawable.square_plane_coloured, groups,
+            R.raw.shape_square_plane_coloured, groups,
             col, "plain_colour_vertex",
             "colour_no_lighting_fragment"));
+        }
+        
+        //LEVELS
+        //wooden cube
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL,
+                    ResourceGroup.CUBE};
+            shapes.put("wooden_cube", new ShapeResource(
+                R.raw.shape_small_square_plane_textured, groups,
+                "wooden_cube", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
         }
     }
 }

@@ -4,19 +4,15 @@
 
 -convert tabs to spaces
 
+-engine {
+
+    -needs to return a state saying that it is done
+
+}
+
 -Vectors {
     
     -cross product for 3d and 4d vectors
-}
-
--Model {
-
-    -loaded from  obj files
-    
-    -consists of GLTriangles
-    
-    -avoid having to copy triangles, should be able to use a final version
-     of the model?
 }
 
 -GLTriangle {
@@ -29,9 +25,4 @@
 -Textures {
 
     -loaded from png files
-}
-
--Resources {
-
-    -Textures, models, and music
 }

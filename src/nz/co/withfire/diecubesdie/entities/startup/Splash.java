@@ -46,7 +46,7 @@ public class Splash extends Drawable implements Entity {
         if (fader.getColour().getW() > 0.0) {
             
             //change the alpha value of the fader
-            fader.getColour().setW(fader.getColour().getW() - 0.001f);
+            fader.getColour().setW(fader.getColour().getW() - 0.05f);
             fader.reloadColour();
         }
         else {

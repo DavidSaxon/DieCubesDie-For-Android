@@ -12,8 +12,8 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
-import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.engine.Engine;
+import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.startup.Splash;
@@ -35,11 +35,14 @@ public class StartUpEngine implements Engine {
     //subset of entites that contains the drawables
     private List<Drawable> drawables = new ArrayList<Drawable>();
     
+    //is true once start up has finished
+    private boolean complete = false;
+    //counts which stage of loading the engine is up to
+    private int loadCounter = 0;
+    
     //Entities
-    //the omicron splash screen
-    private Splash omicronSplash;
-    //the with fire splash screen
-    private Splash withFireSplash;
+    //the splash screen
+    private Splash splash;
     
     //CONSTRUCTOR
     /**Creates a new start up engine
@@ -52,43 +55,19 @@ public class StartUpEngine implements Engine {
     @Override
     public void init() {
         
-        //since this is the start up engine, create a new resource manager
-        resources = new ResourceManager(context);
-        
-        //load all the shaders
-        resources.loadAllShaders();
-        
-        //Load the textures for the omicron intro
-        resources.loadTexturesFromGroup(ResourceGroup.OMICRON);
-
-        //Load the shapes for the omicron intro
-        resources.loadShapesFromGroup(ResourceGroup.OMICRON);
-        
-        //add the omicron splash screen entity
-        omicronSplash = new Splash(
-            resources.getShape("omicron_splash"),
-            resources.getShape("splash_fader")); 
-        entities.add(omicronSplash);
-        drawables.add(omicronSplash);
+        //start loading
+        load();
     }
 
     @Override
     public boolean execute() {
         
-        if (omicronSplash.fadeFinished()) {
+        
+        //if the splash screen is done
+        if (splash != null && splash.fadeFinished()) {
             
-            //TODO: change to secondary loading
-            resources.loadTexturesFromGroup(ResourceGroup.WITH_FIRE);
-            resources.loadShapesFromGroup(ResourceGroup.WITH_FIRE);
-            
-            entities.remove(omicronSplash);
-            drawables.remove(omicronSplash);
-            
-            withFireSplash = new Splash(
-                resources.getShape("with_fire_splash"),
-                resources.getShape("splash_fader"));
-            entities.add(withFireSplash);
-            drawables.add(withFireSplash);
+            //perform more loading
+            load();
         }
         
         //update the entities
@@ -97,7 +76,7 @@ public class StartUpEngine implements Engine {
             e.update();
         }
         
-        return false;
+        return complete;
     }
 
     @Override
@@ -105,5 +84,94 @@ public class StartUpEngine implements Engine {
         
         return drawables;
     }
+    
+    @Override
+    public Engine nextState() {
 
+        //for now go straight to level
+        //should go to menu
+        
+        return new LevelEngine(context, resources);
+    }
+
+    @Override
+    public boolean shouldExit() {
+        
+        //never exit from start up
+        return false;
+    }
+
+    //PRIVATE FUNCTIONS
+    /**Loads data in stages*/
+    private void load() {
+        
+        if (loadCounter == 0) {
+            
+            //create the required objects
+            //create the resource manager
+            resources = new ResourceManager(context);
+            
+            //load all the shaders
+            resources.loadAllShaders();
+            
+            //load the omicron splash data
+            resources.loadTexturesFromGroup(ResourceGroup.OMICRON);
+            resources.loadShapesFromGroup(ResourceGroup.OMICRON);
+            
+            //load the start up music
+            //TODO:
+            
+            //create the omicron splash
+            splash = new Splash(
+                resources.getShape("omicron_splash"),
+                resources.getShape("splash_fader")); 
+            entities.add(splash);
+            drawables.add(splash);
+        }
+        else if (loadCounter == 1) {
+            
+            //load the with fire resources
+            resources.loadTexturesFromGroup(ResourceGroup.WITH_FIRE);
+            resources.loadShapesFromGroup(ResourceGroup.WITH_FIRE);
+            
+            //remove the omicron splash screen
+            entities.remove(splash);
+            drawables.remove(splash);
+            
+            //TODO:release the omicron resources
+            
+            //add the with fire splash screen
+            splash = new Splash(
+                resources.getShape("with_fire_splash"),
+                resources.getShape("splash_fader"));
+            entities.add(splash);
+            drawables.add(splash);
+        }
+        else if (loadCounter == 2) {
+            
+            //load the menu resources
+            resources.loadTexturesFromGroup(ResourceGroup.MENU);
+            resources.loadShapesFromGroup(ResourceGroup.MENU);
+            
+            //remove the with fire splash screen
+            entities.remove(splash);
+            drawables.remove(splash);
+            
+            //TODO:release the with fire resources
+            
+            //add the presents splash screen
+            splash = new Splash(
+                resources.getShape("presents_splash"),
+                resources.getShape("splash_fader"));
+            entities.add(splash);
+            drawables.add(splash);
+        }
+        else if (loadCounter == 3) {
+            
+            //we're done!
+            complete = true;
+        }
+        
+        ++loadCounter;
+    }    
 }

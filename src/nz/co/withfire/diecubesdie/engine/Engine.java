@@ -23,4 +23,10 @@ public interface Engine {
     /**@return the list of drawables in the engine*/
     public List<Drawable> getDrawables();
     
+    /**@return the next state to execute once this state has completed*/
+    public Engine nextState();
+    
+    /**@return if the game should exit after this state has been completed*/
+    public boolean shouldExit();
+    
 }
