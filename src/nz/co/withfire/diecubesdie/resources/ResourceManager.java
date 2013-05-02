@@ -214,7 +214,7 @@ public class ResourceManager {
         ResourceGroup groups[] = {ResourceGroup.LEVEL,
                 ResourceGroup.CUBE};
         textures.put("wooden_cube",
-            new TextureResource(R.drawable.cube_wood,
+            new TextureResource(R.drawable.cube_nano,
             groups));
         }
         
@@ -266,7 +266,7 @@ public class ResourceManager {
             ResourceGroup groups[] = {ResourceGroup.LEVEL,
                     ResourceGroup.CUBE};
             shapes.put("wooden_cube", new ShapeResource(
-                R.raw.shape_small_square_plane_textured, groups,
+                R.raw.shape_cube_textured, groups,
                 "wooden_cube", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
         }

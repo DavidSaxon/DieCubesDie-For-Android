@@ -76,18 +76,21 @@ public class GLRenderer implements GLSurfaceView.Renderer{
 
         //calculate the projection matrix
         float ratio = (float) width / height;
-        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 3.0f, 50);
         
         //set the camera position
-        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0.0f,
+        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 25.0f);
+        Matrix.rotateM(viewMatrix, 0, 45, -1.0f, 0, 0.0f);
+        Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
     }
     
     @Override
     public void onDrawFrame(GL10 arg0) {
-       
         
         //TODO: limit fps
+        Matrix.rotateM(viewMatrix, 0, 0.5f, 0, 1.0f, 0.0f);
         
         //executes the engine
         if (engine.execute()) {
@@ -101,6 +104,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
                 
                 //get the next engine and continue
                 engine = engine.nextState();
+                engine.init();
             }
         }
         
@@ -108,9 +112,6 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         //redraw background colour
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
-        //set the camera position
-        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0.0f,
-                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         
         //get the entities from the engine and draw them
         for (Drawable d : engine.getDrawables()) {
@@ -125,6 +126,16 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         
         //set the clear colour
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        
+        //enable depth testing
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
+        GLES20.glDepthMask(true);
+        
+        //enable backface culling
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
+        GLES20.glCullFace(GLES20.GL_BACK);
+        GLES20.glFrontFace(GLES20.GL_CCW);
         
         //enable transparency
         GLES20.glEnable(GLES20.GL_BLEND);

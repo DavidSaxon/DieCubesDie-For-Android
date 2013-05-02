@@ -70,7 +70,7 @@ class MainSurfaceView extends GLSurfaceView {
         renderer = new GLRenderer(context, engine);
         
         //set the configuration chooser
-        setEGLConfigChooser(false);
+        setEGLConfigChooser(true);
         
         //set the renderer
         setRenderer(renderer);

@@ -17,6 +17,8 @@ public class Splash extends Drawable implements Entity {
     
     //is true once the splash has finished loading
     private boolean fadeComplete = false;
+    //the fade speed of the splash
+    private float fadeSpeed = 0.5f;
     
     //Matrix
     //the model view projection matrix
@@ -46,7 +48,7 @@ public class Splash extends Drawable implements Entity {
         if (fader.getColour().getW() > 0.0) {
             
             //change the alpha value of the fader
-            fader.getColour().setW(fader.getColour().getW() - 0.05f);
+            fader.getColour().setW(fader.getColour().getW() - fadeSpeed);
             fader.reloadColour();
         }
         else {

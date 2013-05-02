@@ -8,6 +8,7 @@ import android.content.Context;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 
@@ -45,6 +46,13 @@ public class LevelEngine implements Engine {
 
         resources.loadTexturesFromGroup(ResourceGroup.LEVEL);
         resources.loadShapesFromGroup(ResourceGroup.LEVEL);
+        
+        //TESTING
+        //add a wooden cube
+        WoodenCube testWoodenCube = new WoodenCube(
+            resources.getShape("wooden_cube"));
+        entities.add(testWoodenCube);
+        drawables.add(testWoodenCube);
     }
 
     @Override

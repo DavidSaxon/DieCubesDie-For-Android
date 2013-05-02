@@ -1,11 +1,11 @@
-# Blender v2.65 (sub 0) OBJ File: ''
+# Blender v2.66 (sub 1) OBJ File: ''
 # www.blender.org
-mtllib square_plane_coloured.mtl
+mtllib shape_square_plane_coloured.mtl
 o Plane
-v 1.000000 1.000000 0.049999
-v 1.000000 -1.000000 0.049999
-v -1.000000 1.000000 0.050001
-v -1.000000 -1.000000 0.050001
+v 1.000000 1.000000 0.000000
+v -1.000000 1.000000 0.000000
+v 1.000000 -1.000000 -0.000000
+v -1.000000 -1.000000 -0.000000
 usemtl None
 s off
 f 2 1 3
