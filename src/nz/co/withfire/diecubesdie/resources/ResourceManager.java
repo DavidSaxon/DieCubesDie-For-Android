@@ -209,12 +209,23 @@ public class ResourceManager {
         }
         
         //LEVEL
+        //Cubes
         //wooden cube
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL,
                 ResourceGroup.CUBE};
         textures.put("wooden_cube",
             new TextureResource(R.drawable.cube_nano,
+            groups));
+        }
+        //Terrian
+        //Planes
+        //grass tile
+        {
+        ResourceGroup groups[] = {ResourceGroup.LEVEL,
+                ResourceGroup.TERRIAN, ResourceGroup.PLAINS};
+        textures.put("plains_grass_tile",
+            new TextureResource(R.drawable.cube_wood,
             groups));
         }
         
@@ -260,7 +271,8 @@ public class ResourceManager {
             "colour_no_lighting_fragment"));
         }
         
-        //LEVELS
+        //LEVEL
+        //Cube
         //wooden cube
         {
             ResourceGroup groups[] = {ResourceGroup.LEVEL,
@@ -268,6 +280,17 @@ public class ResourceManager {
             shapes.put("wooden_cube", new ShapeResource(
                 R.raw.shape_cube_textured, groups,
                 "wooden_cube", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //Terrain
+        //Plains
+        //plains grass tile
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL,
+                    ResourceGroup.CUBE};
+            shapes.put("plains_grass_tile", new ShapeResource(
+                R.raw.shape_terrian_ground_tile, groups,
+                "plains_grass_tile", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
         }
     }

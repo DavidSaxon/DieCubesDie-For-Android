@@ -9,8 +9,10 @@ import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
+import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
 public class LevelEngine implements Engine {
 
@@ -53,11 +55,28 @@ public class LevelEngine implements Engine {
             resources.getShape("wooden_cube"));
         entities.add(testWoodenCube);
         drawables.add(testWoodenCube);
+        
+        //add ground
+        for (int i = -50; i < 4; ++i) {
+            for (int j = -1; j < 4; ++j) {
+                
+                Vector2d gPos = new Vector2d(i, j);
+                Ground g = new Ground(gPos,
+                    resources.getShape("plains_grass_tile"));
+                //entities.add(g);
+                drawables.add(g);
+            }
+        }
     }
 
     @Override
     public boolean execute() {
         
+        //update the entities
+        for (Entity e : entities) {
+            
+            e.update();
+        }
 
         return complete;
     }

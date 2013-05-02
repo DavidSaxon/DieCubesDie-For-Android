@@ -4,6 +4,13 @@
 
 -convert tabs to spaces
 
+res {
+
+    -fix terrain spelling
+    
+    -set plane squares to start up
+}
+
 -engine {
 
     -needs to return a state saying that it is done

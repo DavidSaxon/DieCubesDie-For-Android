@@ -81,7 +81,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         //set the camera position
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 25.0f);
+        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 4.0f);
         Matrix.rotateM(viewMatrix, 0, 45, -1.0f, 0, 0.0f);
         Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
     }
@@ -90,7 +90,8 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     public void onDrawFrame(GL10 arg0) {
         
         //TODO: limit fps
-        Matrix.rotateM(viewMatrix, 0, 0.5f, 0, 1.0f, 0.0f);
+        //Matrix.rotateM(viewMatrix, 0, viewMatrix, 0, 0.25f, 0, 1.0f, 0.0f);
+        Matrix.translateM(viewMatrix, 0, 0.043f, 0.0f, 0.0f);
         
         //executes the engine
         if (engine.execute()) {
