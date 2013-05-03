@@ -78,6 +78,12 @@ public class StartUpEngine implements Engine {
         
         return complete;
     }
+    
+    @Override
+    public void applyCamera(float[] viewMatrix) {
+
+        //do nothing
+    }    
 
     @Override
     public List<Drawable> getDrawables() {
@@ -173,5 +179,5 @@ public class StartUpEngine implements Engine {
         }
         
         ++loadCounter;
-    }    
+    }
 }

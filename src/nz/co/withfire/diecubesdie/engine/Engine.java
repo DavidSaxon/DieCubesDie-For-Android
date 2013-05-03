@@ -23,10 +23,13 @@ public interface Engine {
     /**@return the list of drawables in the engine*/
     public List<Drawable> getDrawables();
     
+    /**Applies the camera transformations
+    @param viewMatrix the view matrix to apply the camera translations to*/
+    public void applyCamera(float[] viewMatrix);
+    
     /**@return the next state to execute once this state has completed*/
     public Engine nextState();
     
     /**@return if the game should exit after this state has been completed*/
     public boolean shouldExit();
-    
 }

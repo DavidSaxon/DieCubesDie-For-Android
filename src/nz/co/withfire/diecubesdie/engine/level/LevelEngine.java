@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.opengl.Matrix;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
@@ -80,6 +81,14 @@ public class LevelEngine implements Engine {
 
         return complete;
     }
+    
+    @Override
+    public void applyCamera(float[] viewMatrix) {
+
+        //TESTING
+        //Matrix.translateM(viewMatrix, 0, 0.043f, 0.0f, 0.0f);
+        Matrix.translateM(viewMatrix, 0, 0.0f, -0.05f, 0.05f);
+    }   
 
     @Override
     public List<Drawable> getDrawables() {

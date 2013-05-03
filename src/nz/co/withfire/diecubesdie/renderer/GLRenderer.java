@@ -90,8 +90,6 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     public void onDrawFrame(GL10 arg0) {
         
         //TODO: limit fps
-        //Matrix.rotateM(viewMatrix, 0, viewMatrix, 0, 0.25f, 0, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, 0.043f, 0.0f, 0.0f);
         
         //executes the engine
         if (engine.execute()) {
@@ -113,6 +111,8 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         //redraw background colour
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
+        //apply the camera
+        engine.applyCamera(viewMatrix);
         
         //get the entities from the engine and draw them
         for (Drawable d : engine.getDrawables()) {
