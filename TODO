@@ -4,7 +4,25 @@
 
 -convert tabs to spaces
 
--fps control
+-general {
+
+}
+
+-fps manager {
+
+    -controls all fps and holds variables
+
+    -monitors fps and tries to adjust to fps with best performance
+     (cap 60, limit 15?)
+     
+    -returns a scale that everything should base movement off
+}
+
+entities {
+
+    -entities should have a getPausable() (for physics);
+
+}
 
 res {
 

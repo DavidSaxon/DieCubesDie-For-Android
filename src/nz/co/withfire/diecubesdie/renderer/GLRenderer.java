@@ -20,6 +20,7 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 import android.util.Log;
 
 public class GLRenderer implements GLSurfaceView.Renderer{
@@ -31,9 +32,13 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     //the current engine to use
     private Engine engine;
     
-    //TESTING
-    private float blue = 0.0f;
-    private boolean up = true;
+    //Fps managment
+    //the time the last frame started
+    private long startTime;
+    //the time accumulated since the last frame
+    private int accumTime = 0;
+    //the length of a frame in ms
+    private int frameLength = 33;
     
     //Matrix
     //the projection matrix
@@ -41,10 +46,6 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     //the view matrix
     private final float[] viewMatrix = new float[16];
     
-    //the model view projection matrix
-    private float[] mvpMatrix = new float[16];
-    //the translation matrix
-    private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
     /**Creates a new OpenGL renderer
@@ -80,29 +81,52 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        
+        //set the frame start time and reset accum time
+        startTime = SystemClock.uptimeMillis();
+        accumTime = 0;
     }
     
     @Override
     public void onDrawFrame(GL10 arg0) {
         
-        //TODO: limit fps
+        //fps control
+        long currentTime = SystemClock.uptimeMillis();
+        int frameTime = (int) (currentTime - startTime);
+        startTime = currentTime;
+        accumTime += frameTime;
         
-        //executes the engine
-        if (engine.execute()) {
+        //limit extra updates
+        if (accumTime > frameLength * 3) {
             
-            //the current state is done
-            if (engine.shouldExit()) {
+            accumTime = frameLength * 3;
+        }
+        
+        //update as many times as we need to (up to limit)
+        while (accumTime >= frameLength) {
+            
+            //executes the engine
+            if (engine.execute()) {
                 
-                //TODO: exit the app
+                //the current state is done
+                if (engine.shouldExit()) {
+                    
+                    //TODO: exit the app
+                }
+                else {
+                    
+                    //get the next engine and continue
+                    engine = engine.nextState();
+                    engine.init();
+                }
+                
+                accumTime = 0;
             }
             else {
                 
-                //get the next engine and continue
-                engine = engine.nextState();
-                engine.init();
+                accumTime -= frameLength;
             }
         }
-        
         
         //redraw background colour
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
