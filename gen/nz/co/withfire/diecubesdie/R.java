@@ -12,18 +12,19 @@ public final class R {
     }
     public static final class drawable {
         public static final int cube_armour=0x7f020000;
-        public static final int cube_carbon=0x7f020001;
-        public static final int cube_metal=0x7f020002;
-        public static final int cube_nano=0x7f020003;
-        public static final int cube_stone=0x7f020004;
-        public static final int cube_wood=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int menu_main_title=0x7f020007;
-        public static final int omicron_splash=0x7f020008;
-        public static final int splash_presents=0x7f020009;
-        public static final int terrian_plains_grass=0x7f02000a;
-        public static final int terrian_plains_wall=0x7f02000b;
-        public static final int with_fire_splash=0x7f02000c;
+        public static final int cube_brick=0x7f020001;
+        public static final int cube_carbon=0x7f020002;
+        public static final int cube_metal=0x7f020003;
+        public static final int cube_nano=0x7f020004;
+        public static final int cube_stone=0x7f020005;
+        public static final int cube_wood=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int menu_main_title=0x7f020008;
+        public static final int omicron_splash=0x7f020009;
+        public static final int splash_presents=0x7f02000a;
+        public static final int terrian_plains_grass_1=0x7f02000b;
+        public static final int terrian_plains_wall=0x7f02000c;
+        public static final int with_fire_splash=0x7f02000d;
     }
     public static final class id {
         public static final int menu_settings=0x7f080000;

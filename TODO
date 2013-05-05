@@ -4,32 +4,61 @@
 
 -convert tabs to spaces
 
+-fps control
+
 res {
 
     -fix terrain spelling
     
     -set plane squares to start up
+    
+    -make main menu items
+    
+    -re do grass at 1024 x 1024 (or bigger)
+    
+    -make terrian cliffs
 }
 
--engine {
+-menu {
+    
+    -has items that can be pressed {
+    
+        -play game
+        -store
+        -options
+        -more free games {
+        
+            -revmob
+        }
+        -exit?
+    }
+    
+    -cube animation in the background
+}
 
-    -needs to return a state saying that it is done
+-level {
 
+    -change camera based on input gestures
+
+}
+
+-store {
+    
+    -for sale {
+    
+        -gore mode
+        -unlock ruby awards
+        -different cube traps
+        
+        -cube skins {
+        
+            -googly eyes
+            -etc
+        }
+    }
 }
 
 -Vectors {
     
     -cross product for 3d and 4d vectors
-}
-
--GLTriangle {
-
-	-coloured and textured verison
-	
-	-can change the shader a triangle is using
-}
-
--Textures {
-
-    -loaded from png files
 }

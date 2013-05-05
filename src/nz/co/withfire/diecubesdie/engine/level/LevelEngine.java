@@ -32,6 +32,9 @@ public class LevelEngine implements Engine {
     //subset of entites that contains the drawables
     private List<Drawable> drawables = new ArrayList<Drawable>();
     
+    //TESTING
+    private float followCam = 0.0f;
+    
     //CONSTRUCTOR
     /**!Constructs a new Level engine
     @param context the android context
@@ -73,6 +76,9 @@ public class LevelEngine implements Engine {
     @Override
     public boolean execute() {
         
+        //TESTING
+        followCam += 0.043f;
+        
         //update the entities
         for (Entity e : entities) {
             
@@ -86,8 +92,14 @@ public class LevelEngine implements Engine {
     public void applyCamera(float[] viewMatrix) {
 
         //TESTING
-        //Matrix.translateM(viewMatrix, 0, 0.043f, 0.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, 0.0f, -0.05f, 0.05f);
+        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 6.0f);
+        Matrix.rotateM(viewMatrix, 0, 70, -1.0f, 0, 0.0f);
+        Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
+        
+       // Matrix.translateM(viewMatrix, 0, 0, -20.0f, 20.0f);
+        Matrix.translateM(viewMatrix, 0, followCam, 0.0f, 0.0f);
     }   
 
     @Override

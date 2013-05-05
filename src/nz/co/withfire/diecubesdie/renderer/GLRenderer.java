@@ -78,12 +78,8 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         float ratio = (float) width / height;
         Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 3.0f, 50);
         
-        //set the camera position
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 4.0f);
-        Matrix.rotateM(viewMatrix, 0, 45, -1.0f, 0, 0.0f);
-        Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
     }
     
     @Override
