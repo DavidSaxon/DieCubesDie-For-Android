@@ -44,7 +44,7 @@ public class Ground extends Drawable implements Entity {
         
         //shift to position
         Matrix.setIdentityM(tMatrix, 0);
-        Matrix.translateM(tMatrix, 0, 2 * pos.getX(), 0, 2 * pos.getY());
+        Matrix.translateM(tMatrix, 0, 8 * pos.getX(), 0, 8 * pos.getY());
         
         //multiply the matrix
         Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);

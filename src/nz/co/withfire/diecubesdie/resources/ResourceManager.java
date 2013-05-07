@@ -215,7 +215,7 @@ public class ResourceManager {
         ResourceGroup groups[] = {ResourceGroup.LEVEL,
                 ResourceGroup.CUBE};
         textures.put("wooden_cube",
-            new TextureResource(R.drawable.cube_brick,
+            new TextureResource(R.drawable.cube_wood,
             groups));
         }
         //Terrian
@@ -225,7 +225,7 @@ public class ResourceManager {
         ResourceGroup groups[] = {ResourceGroup.LEVEL,
                 ResourceGroup.TERRIAN, ResourceGroup.PLAINS};
         textures.put("plains_grass_tile",
-            new TextureResource(R.drawable.terrian_plains_grass_1,
+            new TextureResource(R.drawable.terrain_plains_grass_1,
             groups));
         }
         

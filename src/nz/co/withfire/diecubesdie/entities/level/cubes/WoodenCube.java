@@ -7,7 +7,11 @@
 package nz.co.withfire.diecubesdie.entities.level.cubes;
 
 import android.opengl.Matrix;
+import android.os.SystemClock;
+import android.util.Log;
+import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
+import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
 public class WoodenCube extends Cube {
@@ -40,16 +44,17 @@ public class WoodenCube extends Cube {
     @Override
     public void update() {
         
-        //TESTING
-        //pos.setX(pos.getX() - 0.01f);
+        float increase = 2.0f * FpsManager.getTimeScale();
         
-        if (rot < 89.5) {
+        //Log.v(ValuesUtil.TAG, "here");
         
-            rot += 2.0f;
+        if (rot < 90.0f) {
+        
+            rot += increase;
         }
         else {
             
-            rot = 0;
+            rot = rot - 90.0f + increase;
             pos.setX(pos.getX() - 1);
             initRot += 90;
         }

@@ -14,6 +14,7 @@ import javax.microedition.khronos.opengles.GL10;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
+import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
 import android.content.Context;
@@ -31,14 +32,8 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     
     //the current engine to use
     private Engine engine;
-    
-    //Fps managment
-    //the time the last frame started
-    private long startTime;
-    //the time accumulated since the last frame
-    private int accumTime = 0;
-    //the length of a frame in ms
-    private int frameLength = 33;
+    //the fps manager
+    private FpsManager fps = new FpsManager();
     
     //Matrix
     //the projection matrix
@@ -82,28 +77,17 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         
-        //set the frame start time and reset accum time
-        startTime = SystemClock.uptimeMillis();
-        accumTime = 0;
+        fps.zero();
     }
     
     @Override
     public void onDrawFrame(GL10 arg0) {
         
-        //fps control
-        long currentTime = SystemClock.uptimeMillis();
-        int frameTime = (int) (currentTime - startTime);
-        startTime = currentTime;
-        accumTime += frameTime;
+        //the amount of times we need to update
+        int updateAmount = fps.update();
         
-        //limit extra updates
-        if (accumTime > frameLength * 3) {
-            
-            accumTime = frameLength * 3;
-        }
-        
-        //update as many times as we need to (up to limit)
-        while (accumTime >= frameLength) {
+        //update as many times as we need to
+        for (int i = 0; i < updateAmount; ++i) {
             
             //executes the engine
             if (engine.execute()) {
@@ -120,11 +104,9 @@ public class GLRenderer implements GLSurfaceView.Renderer{
                     engine.init();
                 }
                 
-                accumTime = 0;
-            }
-            else {
-                
-                accumTime -= frameLength;
+                //zero the fps and exit
+                fps.zero();
+                break;
             }
         }
         

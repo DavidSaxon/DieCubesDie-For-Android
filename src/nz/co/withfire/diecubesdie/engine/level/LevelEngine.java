@@ -11,6 +11,7 @@ import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
+import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
@@ -61,7 +62,7 @@ public class LevelEngine implements Engine {
         drawables.add(testWoodenCube);
         
         //add ground
-        for (int i = -50; i < 4; ++i) {
+        for (int i = -20; i < 4; ++i) {
             for (int j = -1; j < 4; ++j) {
                 
                 Vector2d gPos = new Vector2d(i, j);
@@ -77,7 +78,7 @@ public class LevelEngine implements Engine {
     public boolean execute() {
         
         //TESTING
-        followCam += 0.043f;
+        followCam += (0.0445f * FpsManager.getTimeScale());
         
         //update the entities
         for (Entity e : entities) {
