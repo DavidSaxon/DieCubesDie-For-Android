@@ -29,7 +29,7 @@ public class WoodenCube extends Cube {
     //Matrix
     //the model view projection matrix
     private float[] mvpMatrix = new float[16];
-    //the translation matrix
+    //the transformation matrix
     private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
@@ -58,8 +58,6 @@ public class WoodenCube extends Cube {
             pos.setX(pos.getX() - 1);
             initRot += 90;
         }
-        
-        //TODO:
     }
     
     @Override
@@ -73,7 +71,6 @@ public class WoodenCube extends Cube {
         Matrix.translateM(tMatrix, 0, 1, 1, 0);
         Matrix.rotateM(tMatrix, 0, initRot, 0, 0, 1);
         
-        //Matrix.rotateM(tMatrix, 0, rot, 0, 0, 1);
         
         //multiply the matrix
         Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);

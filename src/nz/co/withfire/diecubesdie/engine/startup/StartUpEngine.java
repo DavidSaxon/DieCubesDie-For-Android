@@ -14,6 +14,7 @@ import android.content.Context;
 import android.util.Log;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
+import nz.co.withfire.diecubesdie.engine.menu.MainMenuEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.startup.Splash;
@@ -94,10 +95,8 @@ public class StartUpEngine implements Engine {
     @Override
     public Engine nextState() {
 
-        //for now go straight to level
-        //should go to menu
-        
-        return new LevelEngine(context, resources);
+        //go to the menu
+        return new MainMenuEngine(context, resources);
     }
 
     @Override

@@ -16,6 +16,7 @@ import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 import android.content.Context;
 import android.opengl.GLES20;
@@ -34,6 +35,10 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     private Engine engine;
     //the fps manager
     private FpsManager fps = new FpsManager();
+    
+    //the clear colour
+    private static Vector4d clearColour =
+        new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
     
     //Matrix
     //the projection matrix
@@ -122,13 +127,23 @@ public class GLRenderer implements GLSurfaceView.Renderer{
             d.draw(viewMatrix, projectionMatrix);
         }
     }
+    
+    /**@param clearColour the new clear colour*/
+    public static void setClearColour(Vector4d clearColour) {
+        
+        GLRenderer.clearColour.copy(clearColour);
+        
+        GLES20.glClearColor(clearColour.getX(), clearColour.getY(),
+            clearColour.getZ(), clearColour.getW());
+    }
 
     //PRIVATE METHODS
     /**Initialise openGL*/
     private void initGL() {
         
         //set the clear colour
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(clearColour.getX(), clearColour.getY(),
+            clearColour.getZ(), clearColour.getW());
         
         //enable depth testing
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);

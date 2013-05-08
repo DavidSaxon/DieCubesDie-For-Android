@@ -271,8 +271,28 @@ public class ResourceManager {
             "colour_no_lighting_fragment"));
         }
         
+        //MENU
+        //the ground in the menu
+        {
+        ResourceGroup groups[] = {ResourceGroup.MENU};
+        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
+        shapes.put("menu_ground", new ShapeResource(
+            R.raw.shape_menu_ground, groups,
+            col, "plain_colour_vertex",
+            "colour_no_lighting_fragment"));
+        }
+        //the cube in the menu
+        {
+        ResourceGroup groups[] = {ResourceGroup.MENU};
+        Vector4d col = new Vector4d(1.0f, 1.0f, 1.0f, 1.0f);
+        shapes.put("menu_cube", new ShapeResource(
+            R.raw.shape_menu_cube, groups,
+            col, "plain_colour_vertex",
+            "colour_no_lighting_fragment"));
+        }
+        
         //LEVEL
-        //Cube
+        //Cubes
         //wooden cube
         {
             ResourceGroup groups[] = {ResourceGroup.LEVEL,

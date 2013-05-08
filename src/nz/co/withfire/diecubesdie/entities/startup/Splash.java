@@ -23,8 +23,6 @@ public class Splash extends Drawable implements Entity {
     //Matrix
     //the model view projection matrix
     private float[] mvpMatrix = new float[16];
-    //the translation matrix
-    private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
     /**Creates a new splash screen
