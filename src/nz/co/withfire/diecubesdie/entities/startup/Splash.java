@@ -18,7 +18,7 @@ public class Splash extends Drawable implements Entity {
     //is true once the splash has finished loading
     private boolean fadeComplete = false;
     //the fade speed of the splash
-    private float fadeSpeed = 0.01f;
+    private float fadeSpeed = 0.5f;
     
     //Matrix
     //the model view projection matrix

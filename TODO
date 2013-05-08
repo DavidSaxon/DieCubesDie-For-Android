@@ -6,58 +6,54 @@
 
 -general {
 
+    -actual shape for the title
+    
+    -fix options text / all text should all be same size
+    
+    -add texture (black outline to menu cube)
+    
+    -create init functions for main menu engine
 }
 
--fps manager {
+-relative positions {
 
-    -controls all fps and holds variables
-
-    -monitors fps and tries to adjust to fps with best performance
-     (cap 60, limit 15?)
-     
-    -returns a scale that everything should base movement off
+    -smart functions for managing relative positions
 }
 
-entities {
+-key input {
 
-    -entities should have a getPausable() (for physics);
+    -different functions for getting input to the 
+}
 
+-collision detection {
+
+    -find if a button has been pressed
+    
+    -find where on the level grid has been pressed
 }
 
 res {
 
     -fix terrain spelling
     
-    -set plane squares to start up
+    -set plane squares name to start_up
     
-    -make main menu items
-    
-    -re do grass at 1024 x 1024 (or bigger)
-    
-    -make terrian cliffs
+    -make plains cliffs
 }
 
 -menu {
     
-    -has items that can be pressed {
-    
-        -play game
-        -store
-        -options
-        -more free games {
-        
-            -revmob
-        }
-        -exit?
-    }
-    
-    -cube animation in the background
+    -implement buttons + death animations
 }
 
 -level {
 
     -change camera based on input gestures
+}
 
+-fps manager {
+
+    -might need a limit point where it stops changing
 }
 
 -store {

@@ -20,14 +20,8 @@ import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 public class MenuGround extends Drawable implements Entity {
 
     //VARIABLES
-    //the move speed of the ground
-    private final float MOVE_SPEED = 0.5f / (90.0f / 2.0f);
-    
     //the shapes of the ground
     private Shape ground;
-    
-    //the position of the ground
-    private Vector2d pos = new Vector2d();
     
     //Matrix
     //the model view projection matrix
@@ -47,52 +41,13 @@ public class MenuGround extends Drawable implements Entity {
     @Override
     public void update() {
 
-        //move the ground
-        pos.setX(pos.getX() + MOVE_SPEED * FpsManager.getTimeScale());
-        
-        if (pos.getX() > 4.0f) {
-            
-            pos.setX(0.0f);
-        }
+        //do nothing
     }
     
     @Override
     public void draw(float viewMatrix[], float projectionMatrix[]) {
         
-    
-        //draw the centre ground
-        Matrix.setIdentityM(tMatrix, 0);
-        Matrix.translateM(tMatrix, 0, pos.getX(), pos.getY(), 0);
-        Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);
-        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, mvpMatrix, 0);
-        ground.draw(mvpMatrix);
-        
-        //draw the near left ground
-        Matrix.setIdentityM(tMatrix, 0);
-        Matrix.translateM(tMatrix, 0, pos.getX() + 4.0f, pos.getY(), 0);
-        Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);
-        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, mvpMatrix, 0);
-        ground.draw(mvpMatrix);
-        
-        //draw the far left ground
-        Matrix.setIdentityM(tMatrix, 0);
-        Matrix.translateM(tMatrix, 0, pos.getX() + 8.0f, pos.getY(), 0);
-        Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);
-        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, mvpMatrix, 0);
-        ground.draw(mvpMatrix);
-        
-        //draw the near right ground
-        Matrix.setIdentityM(tMatrix, 0);
-        Matrix.translateM(tMatrix, 0, pos.getX() - 4.0f, pos.getY(), 0);
-        Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);
-        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, mvpMatrix, 0);
-        ground.draw(mvpMatrix);
-        
-        //draw the far right ground
-        Matrix.setIdentityM(tMatrix, 0);
-        Matrix.translateM(tMatrix, 0, pos.getX() - 8.0f, pos.getY(), 0);
-        Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);
-        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, mvpMatrix, 0);
+        Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
         ground.draw(mvpMatrix);
     }
 
