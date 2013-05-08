@@ -18,9 +18,11 @@ import nz.co.withfire.diecubesdie.engine.menu.MainMenuEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.startup.Splash;
+import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 public class StartUpEngine implements Engine {
 
@@ -55,6 +57,9 @@ public class StartUpEngine implements Engine {
     
     @Override
     public void init() {
+        
+        //set the clear colour of the renderer
+        GLRenderer.setClearColour(new Vector4d(0, 0, 0, 1));
         
         //start loading
         load();

@@ -12,6 +12,7 @@ import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuCube;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuGround;
+import nz.co.withfire.diecubesdie.entities.main_menu.main.MainMenuTitle;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
@@ -47,7 +48,7 @@ public class MainMenuEngine implements Engine {
     public void init() {
 
         //set the colour of the renderer
-        GLRenderer.setClearColour(new Vector4d(0.1f, 0.1f, 0.1f, 1.0f));
+        GLRenderer.setClearColour(new Vector4d(0.25f, 0.25f, 0.5f, 1.0f));
         
         //add the needed entities
         //ground
@@ -58,6 +59,11 @@ public class MainMenuEngine implements Engine {
         MenuCube cube = new MenuCube(resources.getShape("menu_cube"));
         entities.add(cube);
         drawables.add(cube);
+        //title
+        MainMenuTitle title =
+            new MainMenuTitle(resources.getShape("main_title"));
+            entities.add(title);
+            drawables.add(title);
     }
 
     @Override

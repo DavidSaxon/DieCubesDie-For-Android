@@ -79,7 +79,6 @@ public class MenuCube extends Drawable implements Entity {
         Matrix.translateM(tMatrix, 0, 0.5f, 0.5f, 0);
         Matrix.rotateM(tMatrix, 0, sideRot, 0, 0, 1);
         
-        
         //multiply the matrix
         Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);
         Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, mvpMatrix, 0);

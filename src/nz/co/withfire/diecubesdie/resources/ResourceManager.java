@@ -208,12 +208,22 @@ public class ResourceManager {
                 groups));
         }
         
+        //MENU
+        //Main
+        //main title
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            textures.put("main_title",
+                new TextureResource(R.drawable.menu_main_title,
+                groups));
+        }
+        
         //LEVEL
         //Cubes
         //wooden cube
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                ResourceGroup.CUBE};
+                ResourceGroup.MENU, ResourceGroup.CUBE};
         textures.put("wooden_cube",
             new TextureResource(R.drawable.cube_wood,
             groups));
@@ -223,7 +233,8 @@ public class ResourceManager {
         //grass 1 tile
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                ResourceGroup.TERRIAN, ResourceGroup.PLAINS};
+                ResourceGroup.MENU, ResourceGroup.TERRIAN,
+                ResourceGroup.PLAINS};
         textures.put("plains_grass_tile",
             new TextureResource(R.drawable.terrain_plains_grass_1,
             groups));
@@ -272,23 +283,31 @@ public class ResourceManager {
         }
         
         //MENU
+        //Main Menu
+        //the title
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            shapes.put("main_title", new ShapeResource(
+                R.raw.shape_square_plane_textured, groups,
+                "main_title", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //Background
         //the ground in the menu
         {
-        ResourceGroup groups[] = {ResourceGroup.MENU};
-        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
-        shapes.put("menu_ground", new ShapeResource(
-            R.raw.shape_menu_ground, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            shapes.put("menu_ground", new ShapeResource(
+                R.raw.shape_menu_ground, groups,
+                "plains_grass_tile", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
         }
         //the cube in the menu
         {
-        ResourceGroup groups[] = {ResourceGroup.MENU};
-        Vector4d col = new Vector4d(1.0f, 1.0f, 1.0f, 1.0f);
-        shapes.put("menu_cube", new ShapeResource(
-            R.raw.shape_menu_cube, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            shapes.put("menu_cube", new ShapeResource(
+                R.raw.shape_menu_cube, groups,
+                "wooden_cube", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
         }
         
         //LEVEL

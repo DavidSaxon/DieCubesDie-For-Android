@@ -12,9 +12,11 @@ import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
+import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 public class LevelEngine implements Engine {
 
@@ -51,6 +53,10 @@ public class LevelEngine implements Engine {
     @Override
     public void init() {
 
+        //set the clear colour of the renderer
+        GLRenderer.setClearColour(new Vector4d(0, 0, 0, 1));
+        
+        //TODO: do this in the loader
         resources.loadTexturesFromGroup(ResourceGroup.LEVEL);
         resources.loadShapesFromGroup(ResourceGroup.LEVEL);
         
