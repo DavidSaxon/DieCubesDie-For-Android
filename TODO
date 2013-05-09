@@ -2,15 +2,9 @@
 | TODO |
 \++++++/
 
--convert tabs to spaces
-
 -general {
 
     -actual shape for the title
-    
-    -fix options text / all text should all be same size
-    
-    -add texture (black outline to menu cube)
     
     -create init functions for main menu engine
 }
@@ -34,14 +28,16 @@
 
 res {
 
-    -fix terrain spelling
-    
     -set plane squares name to start_up
+    
+    -make different dpi splash images
     
     -make plains cliffs
 }
 
 -menu {
+    
+    -create social button
     
     -implement buttons + death animations
 }

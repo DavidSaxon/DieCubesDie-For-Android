@@ -252,6 +252,35 @@ public class ResourceManager {
                 new TextureResource(R.drawable.menu_main_exit,
                 groups));
         }
+        //facebook button
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            textures.put("main_menu_facebook_button",
+                new TextureResource(R.drawable.menu_main_facebook,
+                groups));
+        }
+        //google plus button
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            textures.put("main_menu_googleplus_button",
+                new TextureResource(R.drawable.menu_main_googleplus,
+                groups));
+        }
+        //with fire button
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            textures.put("main_menu_withfire_button",
+                new TextureResource(R.drawable.menu_main_withfire,
+                groups));
+        }
+        //Background
+        //background cubs
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            textures.put("main_menu_cube",
+                new TextureResource(R.drawable.menu_main_cube,
+                groups));
+        }
         //LEVEL
         //Cubes
         //wooden cube
@@ -367,6 +396,30 @@ public class ResourceManager {
                 "main_menu_exit_button", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
         }
+        //facebook button
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            shapes.put("main_menu_facebook_button", new ShapeResource(
+                R.raw.shape_menu_social_button, groups,
+                "main_menu_facebook_button", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //google plus button
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            shapes.put("main_menu_googleplus_button", new ShapeResource(
+                R.raw.shape_menu_social_button, groups,
+                "main_menu_googleplus_button", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //with fire button
+        {
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            shapes.put("main_menu_withfire_button", new ShapeResource(
+                R.raw.shape_menu_withfire_button, groups,
+                "main_menu_withfire_button", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
         //Background
         //the ground in the menu
         {
@@ -380,14 +433,14 @@ public class ResourceManager {
         }
         //the cube in the menu
         {
-        ResourceGroup groups[] = {ResourceGroup.OMICRON,
-            ResourceGroup.WITH_FIRE};
-        Vector4d col = new Vector4d(0.8f, 0.8f, 0.8f, 1.0f);
-        shapes.put("menu_cube", new ShapeResource(
-            R.raw.shape_menu_cube, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
+            ResourceGroup groups[] = {ResourceGroup.MENU};
+            shapes.put("menu_cube", new ShapeResource(
+                R.raw.shape_menu_cube, groups,
+                "main_menu_cube", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
         }
+        
+        
         
         //LEVEL
         //Cubes

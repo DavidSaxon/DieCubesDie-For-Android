@@ -29,9 +29,9 @@ public class MainMenuEngine implements Engine {
     //the standard rgb values for the background colour
     private final float STD_COLOUR_VALUE = 0.2f;
     //the limit of background colour change
-    private final float COLOUR_CHANGE_LIMIT = 0.2f;
+    private final float COLOUR_CHANGE_LIMIT = 0.6f;
     //the rate at which the colour changes
-    private final float COLOUR_CHANGE_RATE = 0.003f;
+    private final float COLOUR_CHANGE_RATE = 0.005f;
     
     //the android context
     private final Context context;
@@ -100,7 +100,7 @@ public class MainMenuEngine implements Engine {
         //options button
         MainMenuButton optionsButton = new MainMenuButton(
                 resources.getShape("main_menu_options_button"),
-                new Vector2d(-1.2f, 0.225f));
+                new Vector2d(-1.2f, 0.25f));
         entities.add(optionsButton);
         drawables.add(optionsButton);
         //more button
@@ -115,6 +115,24 @@ public class MainMenuEngine implements Engine {
                 new Vector2d(-1.2f, -0.25f));
         entities.add(exitButton);
         drawables.add(exitButton);
+        //facebook button
+        MainMenuButton facebookButton = new MainMenuButton(
+                resources.getShape("main_menu_facebook_button"),
+                new Vector2d(1.4f, -0.7f));
+        entities.add(facebookButton);
+        drawables.add(facebookButton);
+        //google plus button
+        MainMenuButton googleplusButton = new MainMenuButton(
+            resources.getShape("main_menu_googleplus_button"),
+            new Vector2d(1.0f, -0.7f));
+        entities.add(googleplusButton);
+        drawables.add(googleplusButton);
+        //with fire button
+        MainMenuButton withfireButton = new MainMenuButton(
+            resources.getShape("main_menu_withfire_button"),
+            new Vector2d(-1.0f, -0.75f));
+        entities.add(withfireButton);
+        drawables.add(withfireButton);
     }
 
     @Override
