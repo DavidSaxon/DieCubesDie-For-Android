@@ -6,11 +6,13 @@ import java.util.List;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.input.TouchPoint;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuCube;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuGround;
@@ -19,6 +21,7 @@ import nz.co.withfire.diecubesdie.entities.main_menu.main.MainMenuTitle;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
+import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
@@ -46,6 +49,11 @@ public class MainMenuEngine implements Engine {
     
     //is true once the menu is complete
     private boolean complete = false;
+    
+    //is true if a touch point should be added
+    private volatile boolean addTouchPoint = false;
+    //the co-ordinates of the current touch point
+    private Vector2d touchPos = new Vector2d();
     
     //the back ground colour
     private Vector4d backgroundCol =
@@ -141,6 +149,9 @@ public class MainMenuEngine implements Engine {
         //change the background colour
         changeColour();
         
+        //process any touch events
+        processTouch();
+        
         //update the entities
         for (Entity e : entities) {
             
@@ -151,15 +162,34 @@ public class MainMenuEngine implements Engine {
     }
 
     @Override
-    public List<Drawable> getDrawables() {
-
-        return drawables;
-    }
-
-    @Override
     public void applyCamera(float[] viewMatrix) {
 
         //do nothing
+    }
+    
+    @Override
+    public void touchEvent(int event, Vector2d touchPos) {
+        
+        switch (event) {
+            
+            //the user has pressed down
+            case MotionEvent.ACTION_DOWN: {
+                
+                //request for a touch point to be added add a
+                //touch point to the menu
+                addTouchPoint = true;
+                
+                //set the co-ordantes from the event
+                this.touchPos.copy(touchPos);
+                break;
+            }
+        }
+    }
+    
+    @Override
+    public List<Drawable> getDrawables() {
+
+        return drawables;
     }
 
     @Override
@@ -175,6 +205,38 @@ public class MainMenuEngine implements Engine {
     }
 
     //PRIVATE METHODS
+    /**Process a touch point
+    @param viewMatrix the view Matrix*/
+    void processTouch() {
+        
+        //add a touch point if we need too
+        if (addTouchPoint) {
+            
+            //add the touch point
+            TouchPoint touchPoint;
+            
+            //add a debug touch point
+            if (ValuesUtil.DEBUG) {
+                
+                Log.v(ValuesUtil.TAG, "touch");
+                
+                 touchPoint = new TouchPoint(
+                     resources.getShape("debug_touchpoint"),
+                     touchPos);
+            }
+            //add a normal touch point
+            else {
+                
+                touchPoint = new TouchPoint(touchPos);
+            }
+            
+            entities.add(touchPoint);
+            drawables.add(touchPoint);
+            
+            addTouchPoint = false;
+        }
+    }
+    
     /**Updates the background colour*/
     private void changeColour() {
         

@@ -1,7 +1,7 @@
 /************************************************************************\
 | The initial activity of the game, loads up the base resources for game |
 |                                                                        |
-| @author David Saxon                                                    |
+| @author David Saxon                                                   |
 \************************************************************************/
 
 package nz.co.withfire.diecubesdie;
@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -77,5 +78,15 @@ class MainSurfaceView extends GLSurfaceView {
         
         //set the rendering mode
         setRenderMode(RENDERMODE_CONTINUOUSLY);
+    }
+    
+    //PUBLIC METHODS
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        
+        //pass the event on to the engine
+        renderer.touchEvent(e);
+        
+        return true;
     }
 }

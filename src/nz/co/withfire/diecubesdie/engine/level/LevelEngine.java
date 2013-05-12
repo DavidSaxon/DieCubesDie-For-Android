@@ -5,16 +5,21 @@ import java.util.List;
 
 import android.content.Context;
 import android.opengl.Matrix;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.input.TouchPoint;
 import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
+import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
@@ -34,6 +39,10 @@ public class LevelEngine implements Engine {
     private List<Entity> entities = new ArrayList<Entity>();
     //subset of entites that contains the drawables
     private List<Drawable> drawables = new ArrayList<Drawable>();
+    
+    //is true to add a touch point
+    private boolean addTouchPoint= false;
+    private Vector2d touchPos = new Vector2d();
     
     //TESTING
     private float followCam = 0.0f;
@@ -68,23 +77,26 @@ public class LevelEngine implements Engine {
         drawables.add(testWoodenCube);
         
         //add ground
-        for (int i = -20; i < 4; ++i) {
-            for (int j = -1; j < 4; ++j) {
-                
-                Vector2d gPos = new Vector2d(i, j);
-                Ground g = new Ground(gPos,
-                    resources.getShape("plains_grass_tile"));
-                //entities.add(g);
-                drawables.add(g);
-            }
-        }
+//        for (int i = -20; i < 4; ++i) {
+//            for (int j = -1; j < 4; ++j) {
+//                
+//                Vector2d gPos = new Vector2d(i, j);
+//                Ground g = new Ground(gPos,
+//                    resources.getShape("plains_grass_tile"));
+//                //entities.add(g);
+//                drawables.add(g);
+//            }
+//        }
     }
 
     @Override
     public boolean execute() {
         
         //TESTING
-        followCam += (0.0445f * FpsManager.getTimeScale());
+        //followCam += (0.0445f * FpsManager.getTimeScale());
+        
+        //process any touch input
+        processTouch();
         
         //update the entities
         for (Entity e : entities) {
@@ -101,13 +113,33 @@ public class LevelEngine implements Engine {
         //TESTING
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 6.0f);
+        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 25.0f);
         Matrix.rotateM(viewMatrix, 0, 70, -1.0f, 0, 0.0f);
         Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
         
        // Matrix.translateM(viewMatrix, 0, 0, -20.0f, 20.0f);
         Matrix.translateM(viewMatrix, 0, followCam, 0.0f, 0.0f);
-    }   
+    }
+    
+    @Override
+    public void touchEvent(int event, Vector2d touchPos) {
+        
+        switch (event) {
+        
+            //the user has pressed down
+            case MotionEvent.ACTION_DOWN: {
+                
+                //request for a touch point to be added add a
+                //touch point to the menu
+                addTouchPoint = true;
+                
+                //set the co-ordantes from the event
+                this.touchPos.copy(touchPos);
+                break;
+            }
+        }
+    }
+
 
     @Override
     public List<Drawable> getDrawables() {
@@ -126,5 +158,37 @@ public class LevelEngine implements Engine {
         // TODO Auto-generated method stub
         return false;
     }
-
+    
+    //PRIVATE METHODS
+    /**Process a touch point
+    @param viewMatrix the view Matrix*/
+    void processTouch() {
+        
+        //add a touch point if we need too
+        if (addTouchPoint) {
+            
+            //add the touch point
+            TouchPoint touchPoint;
+            
+            //add a debug touch point
+            if (ValuesUtil.DEBUG) {
+                
+                Log.v(ValuesUtil.TAG, "pos: " + touchPos);
+                
+                 touchPoint = new TouchPoint(
+                     resources.getShape("debug_touchpoint"),
+                     touchPos);
+            }
+            //add a normal touch point
+            else {
+                
+                touchPoint = new TouchPoint(touchPos);
+            }
+            
+            entities.add(touchPoint);
+            drawables.add(touchPoint);
+            
+            addTouchPoint = false;
+        }
+    }
 }

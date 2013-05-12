@@ -27,6 +27,7 @@ public class ResourceManager {
     //the different groups resources can be within
     public enum ResourceGroup {
         
+        DEBUG,
         OMICRON,
         WITH_FIRE,
         START_UP,
@@ -423,8 +424,7 @@ public class ResourceManager {
         //Background
         //the ground in the menu
         {
-        ResourceGroup groups[] = {ResourceGroup.OMICRON,
-            ResourceGroup.WITH_FIRE};
+        ResourceGroup groups[] = {ResourceGroup.MENU};
         Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
         shapes.put("menu_ground", new ShapeResource(
             R.raw.shape_menu_ground, groups,
@@ -463,6 +463,18 @@ public class ResourceManager {
                 R.raw.shape_terrian_ground_tile, groups,
                 "plains_grass_tile", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
+        }
+        
+        //DEBUG
+        //Touch
+        //debug touch point
+        {
+        ResourceGroup groups[] = {ResourceGroup.DEBUG};
+        Vector4d col = new Vector4d(0.0f, 1.0f, 0.0f, 1.0f);
+        shapes.put("debug_touchpoint", new ShapeResource(
+            R.raw.shape_debug_touchpoint, groups,
+            col, "plain_colour_vertex",
+            "colour_no_lighting_fragment"));
         }
     }
 }

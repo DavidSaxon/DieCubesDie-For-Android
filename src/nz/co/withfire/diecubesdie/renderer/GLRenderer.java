@@ -7,6 +7,7 @@
 package nz.co.withfire.diecubesdie.renderer;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -15,7 +16,9 @@ import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
+import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 import android.content.Context;
@@ -24,6 +27,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.MotionEvent;
 
 public class GLRenderer implements GLSurfaceView.Renderer{
 
@@ -39,6 +43,9 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     //the clear colour
     private static Vector4d clearColour =
         new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
+    
+    private  List<MotionEvent> touchEvents =
+        new CopyOnWriteArrayList<MotionEvent>();
     
     //Matrix
     //the projection matrix
@@ -71,7 +78,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
     
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-
+        
         //set the view port
         GLES20.glViewport(0, 0, width, height);
 
@@ -82,6 +89,10 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         
+        //set up the transformation utilities
+        TransformationsUtil.init(new Vector2d(width, height),
+            viewMatrix, projectionMatrix);
+        
         fps.zero();
     }
     
@@ -91,8 +102,27 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         //the amount of times we need to update
         int updateAmount = fps.update();
         
+        //reset the camera
+        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        
         //update as many times as we need to
         for (int i = 0; i < updateAmount; ++i) {
+            
+            //process the events and pass them to the engine
+            for (MotionEvent e : touchEvents) {
+                
+                //get the touch point
+                Vector2d touchPos = new Vector2d(e.getX(), e.getY());
+                
+                //convert to OpenGL co-ordinates
+                touchPos.copy(TransformationsUtil.screenPosToOpenGLPos(
+                    touchPos, viewMatrix, projectionMatrix));
+                
+                engine.touchEvent(e.getAction(), touchPos);
+            }
+            //clear the touch events
+            touchEvents.clear();
             
             //executes the engine
             if (engine.execute()) {
@@ -117,7 +147,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         
         //redraw background colour
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-
+        
         //apply the camera
         engine.applyCamera(viewMatrix);
         
@@ -126,6 +156,14 @@ public class GLRenderer implements GLSurfaceView.Renderer{
             
             d.draw(viewMatrix, projectionMatrix);
         }
+    }
+    
+    /**Inputs an event
+    @param event the input event*/
+    public void touchEvent(MotionEvent event) {
+        
+        //add to the list of touch events
+        touchEvents.add(event);
     }
     
     /**@param clearColour the new clear colour*/

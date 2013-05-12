@@ -158,4 +158,10 @@ public class Vector2d {
         
         this.y = y;
     }
+    
+    /**@return the vector as a string*/
+    public String toString() {
+        
+        return "(" + x + ", " + y + ")";
+    }
 }

@@ -187,4 +187,10 @@ public class Vector3d {
         
         this.z = z;
     }
+    
+    /**@return the vector as a string*/
+    public String toString() {
+        
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
 }

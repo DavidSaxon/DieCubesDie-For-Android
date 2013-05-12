@@ -12,6 +12,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.MotionEvent;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
 import nz.co.withfire.diecubesdie.engine.menu.MainMenuEngine;
@@ -22,6 +23,7 @@ import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 public class StartUpEngine implements Engine {
@@ -89,7 +91,13 @@ public class StartUpEngine implements Engine {
     public void applyCamera(float[] viewMatrix) {
 
         //do nothing
-    }    
+    }
+    
+    @Override
+    public void touchEvent(int event, Vector2d touchPos) {
+        
+        //do nothing
+    }
 
     @Override
     public List<Drawable> getDrawables() {
@@ -101,7 +109,8 @@ public class StartUpEngine implements Engine {
     public Engine nextState() {
 
         //go to the menu
-        return new MainMenuEngine(context, resources);
+        //return new MainMenuEngine(context, resources);
+        return new LevelEngine(context, resources);
     }
 
     @Override
@@ -177,6 +186,13 @@ public class StartUpEngine implements Engine {
             drawables.add(splash);
         }
         else if (loadCounter == 3) {
+            
+            if (ValuesUtil.DEBUG) {
+                
+                //load the debug resources
+                resources.loadTexturesFromGroup(ResourceGroup.DEBUG);
+                resources.loadShapesFromGroup(ResourceGroup.DEBUG);
+            }
             
             //we're done!
             complete = true;

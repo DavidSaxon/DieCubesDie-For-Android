@@ -214,4 +214,10 @@ public class Vector4d {
         
         this.w = w;
     }
+    
+    /**@return the vector as a string*/
+    public String toString() {
+        
+        return "(" + x + ", " + y + ", " + z + "," + w + ")";
+    }
 }
