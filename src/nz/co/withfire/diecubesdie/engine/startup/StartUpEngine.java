@@ -19,9 +19,11 @@ import nz.co.withfire.diecubesdie.engine.menu.MainMenuEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.startup.Splash;
+import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
@@ -36,9 +38,7 @@ public class StartUpEngine implements Engine {
     private ResourceManager resources;
     
     //The list of all entities
-    private List<Entity> entities = new ArrayList<Entity>();
-    //subset of entites that contains the drawables
-    private List<Drawable> drawables = new ArrayList<Drawable>();
+    private EntityList entities = new EntityList();
     
     //is true once start up has finished
     private boolean complete = false;
@@ -70,7 +70,6 @@ public class StartUpEngine implements Engine {
     @Override
     public boolean execute() {
         
-        
         //if the splash screen is done
         if (splash != null && splash.fadeFinished()) {
             
@@ -79,10 +78,7 @@ public class StartUpEngine implements Engine {
         }
         
         //update the entities
-        for (Entity e : entities) {
-            
-            e.update();
-        }
+        entities.update();
         
         return complete;
     }
@@ -100,17 +96,17 @@ public class StartUpEngine implements Engine {
     }
 
     @Override
-    public List<Drawable> getDrawables() {
+    public EntityList getEntities() {
         
-        return drawables;
+        return entities;
     }
     
     @Override
     public Engine nextState() {
 
         //go to the menu
-        //return new MainMenuEngine(context, resources);
-        return new LevelEngine(context, resources);
+        return new MainMenuEngine(context, resources);
+        //return new LevelEngine(context, resources);
     }
 
     @Override
@@ -145,7 +141,6 @@ public class StartUpEngine implements Engine {
                 resources.getShape("omicron_splash"),
                 resources.getShape("splash_fader")); 
             entities.add(splash);
-            drawables.add(splash);
         }
         else if (loadCounter == 1) {
             
@@ -155,7 +150,6 @@ public class StartUpEngine implements Engine {
             
             //remove the omicron splash screen
             entities.remove(splash);
-            drawables.remove(splash);
             
             //TODO:release the omicron resources
             
@@ -164,17 +158,30 @@ public class StartUpEngine implements Engine {
                 resources.getShape("with_fire_splash"),
                 resources.getShape("splash_fader"));
             entities.add(splash);
-            drawables.add(splash);
         }
         else if (loadCounter == 2) {
             
+            if (DebugUtil.DEBUG) {
+                
+                //load the debug resources
+                resources.loadTexturesFromGroup(ResourceGroup.DEBUG);
+                resources.loadShapesFromGroup(ResourceGroup.DEBUG);
+                
+                //set the debug bounding box shaders
+                DebugUtil.boundingVertexShader =
+                    resources.getShader("plain_colour_vertex");
+                
+                DebugUtil.boundingFragmentShader =
+                    resources.getShader("colour_no_lighting_fragment");
+            }
+            
             //load the menu resources
+            resources.loadBoundingsFromGroup(ResourceGroup.MENU);
             resources.loadTexturesFromGroup(ResourceGroup.MENU);
             resources.loadShapesFromGroup(ResourceGroup.MENU);
             
             //remove the with fire splash screen
             entities.remove(splash);
-            drawables.remove(splash);
             
             //TODO:release the with fire resources
             
@@ -183,16 +190,8 @@ public class StartUpEngine implements Engine {
                 resources.getShape("presents_splash"),
                 resources.getShape("splash_fader"));
             entities.add(splash);
-            drawables.add(splash);
         }
         else if (loadCounter == 3) {
-            
-            if (ValuesUtil.DEBUG) {
-                
-                //load the debug resources
-                resources.loadTexturesFromGroup(ResourceGroup.DEBUG);
-                resources.loadShapesFromGroup(ResourceGroup.DEBUG);
-            }
             
             //we're done!
             complete = true;

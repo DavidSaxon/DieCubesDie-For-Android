@@ -13,8 +13,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
-import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
-import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
@@ -25,7 +23,6 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -102,10 +99,6 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         //the amount of times we need to update
         int updateAmount = fps.update();
         
-        //reset the camera
-        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
-                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        
         //update as many times as we need to
         for (int i = 0; i < updateAmount; ++i) {
             
@@ -152,10 +145,14 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         engine.applyCamera(viewMatrix);
         
         //get the entities from the engine and draw them
-        for (Drawable d : engine.getDrawables()) {
-            
-            d.draw(viewMatrix, projectionMatrix);
-        }
+        //engine.getEntities().draw(viewMatrix, projectionMatrix);
+        
+        //reset the camera
+        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        
+        //draw the gui components
+        engine.getEntities().drawGUI(viewMatrix, projectionMatrix);
     }
     
     /**Inputs an event

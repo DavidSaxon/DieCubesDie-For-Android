@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import nz.co.withfire.diecubesdie.bounding.Bounding;
+import nz.co.withfire.diecubesdie.bounding.BoundingRect;
 import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleCol;
 import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleTex;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
@@ -301,5 +303,38 @@ public class ResourceUtil {
         
         return new GLTriangleCol(coords, colour,
                 vertexShader, fragmentShader);
+    }
+    
+    /**Loads a bounding box from a bd file
+    @param context the android context
+    @param resourceID the resource ID of the bd file*/
+    static public Bounding loadBounding(
+        final Context context, int resourceID) {
+        
+        //the bounding box to return
+        Bounding bounding = null;
+        
+        //open the file as a string
+        String file = resourceToString(context, resourceID);
+        
+        //load the file into a scanner
+        Scanner scanner = new Scanner(file);
+        
+        //read the first line to get the type of bounding box
+        String type = scanner.nextLine();
+        
+        //load a rectangle
+        if (type.equals("#RECT")) {
+            
+            //get the x and y dimensions of the rectangle
+            float dimX = Float.parseFloat(scanner.next());
+            float dimY = Float.parseFloat(scanner.next());
+            
+            //create the rectangle
+            bounding = new BoundingRect(new Vector2d(),
+                new Vector2d(dimX, dimY));
+        }
+        
+        return bounding;
     }
 }

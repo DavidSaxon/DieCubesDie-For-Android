@@ -7,12 +7,12 @@
 package nz.co.withfire.diecubesdie.entities.main_menu.main;
 
 import android.opengl.Matrix;
-import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class MainMenuTitle extends Drawable implements Entity {
+public class MainMenuTitle extends GUIDrawable implements Entity {
 
     //VARIABLES    
     //the shape of the title
@@ -47,7 +47,6 @@ public class MainMenuTitle extends Drawable implements Entity {
         
         Matrix.setIdentityM(tMatrix, 0);
         Matrix.translateM(tMatrix, 0, pos.getX(), pos.getY(), 0);
-        Matrix.scaleM(tMatrix, 0, 0.75f, 0.75f, 0.75f);
         
         //multiply the matrix
         Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);

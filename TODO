@@ -3,12 +3,13 @@
 \++++++/
 
 -general {
+    
+    -way to delete entities (entites have should remove field)
+}
 
-    -actual shape for the title
-    
-    -create init functions for main menu engine
-    
-    -way to delete entities
+-resource manager {
+
+    -add way to load all resource types from a group
 }
 
 -relative positions {
@@ -16,28 +17,36 @@
     -smart functions for managing relative positions
 }
 
--key input {
+-bounding box {
 
-    -different functions for getting input to the 
+    -need a resource for getting the bounding box from a shape?
+    -or a bounding box resources <-----
+    
+    -needs a draw method, can be passed static shaders
 }
 
--collision detection {
+-level navigation {
 
-    -find if a button has been pressed
+    -need to set up the level so it can handle multitouch
     
-    -find where on the level grid has been pressed
+    -be able to recognise gestures (swipe, pinch and twist)
+}
+
+-level grid {
+
+    -find where on the level grid the touch is
 }
 
 -entity list {
 
-    -need an entity list so we for drawables and transparents
-    
-    -also for collisions?
-    
-    -can be contained within engine
+    -entity list also need transparent drawables for
+     gui and normal
 }
 
 res {
+
+    -decide on with fire button for menu
+    -give the button different dpi images
 
     -set plane squares name to start_up
     

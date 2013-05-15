@@ -14,10 +14,12 @@ import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.input.TouchPoint;
 import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
+import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
@@ -36,9 +38,7 @@ public class LevelEngine implements Engine {
     private boolean complete = false;
     
     //The list of all entities
-    private List<Entity> entities = new ArrayList<Entity>();
-    //subset of entites that contains the drawables
-    private List<Drawable> drawables = new ArrayList<Drawable>();
+    private EntityList entities = new EntityList();
     
     //is true to add a touch point
     private boolean addTouchPoint= false;
@@ -74,7 +74,6 @@ public class LevelEngine implements Engine {
         WoodenCube testWoodenCube = new WoodenCube(
             resources.getShape("wooden_cube"));
         entities.add(testWoodenCube);
-        drawables.add(testWoodenCube);
         
         //add ground
 //        for (int i = -20; i < 4; ++i) {
@@ -83,8 +82,7 @@ public class LevelEngine implements Engine {
 //                Vector2d gPos = new Vector2d(i, j);
 //                Ground g = new Ground(gPos,
 //                    resources.getShape("plains_grass_tile"));
-//                //entities.add(g);
-//                drawables.add(g);
+//                entities.add(g);
 //            }
 //        }
     }
@@ -99,10 +97,7 @@ public class LevelEngine implements Engine {
         processTouch();
         
         //update the entities
-        for (Entity e : entities) {
-            
-            e.update();
-        }
+        entities.update();
 
         return complete;
     }
@@ -142,9 +137,9 @@ public class LevelEngine implements Engine {
 
 
     @Override
-    public List<Drawable> getDrawables() {
+    public EntityList getEntities() {
 
-        return drawables;
+        return entities;
     }
 
     @Override
@@ -171,7 +166,7 @@ public class LevelEngine implements Engine {
             TouchPoint touchPoint;
             
             //add a debug touch point
-            if (ValuesUtil.DEBUG) {
+            if (DebugUtil.DEBUG) {
                 
                 Log.v(ValuesUtil.TAG, "pos: " + touchPos);
                 
@@ -186,7 +181,6 @@ public class LevelEngine implements Engine {
             }
             
             entities.add(touchPoint);
-            drawables.add(touchPoint);
             
             addTouchPoint = false;
         }

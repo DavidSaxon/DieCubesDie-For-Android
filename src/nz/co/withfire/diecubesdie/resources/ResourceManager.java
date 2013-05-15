@@ -14,7 +14,9 @@ import android.opengl.GLES20;
 import android.util.Log;
 
 import nz.co.withfire.diecubesdie.R;
+import nz.co.withfire.diecubesdie.bounding.Bounding;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
+import nz.co.withfire.diecubesdie.resources.types.BoundingResource;
 import nz.co.withfire.diecubesdie.resources.types.ShapeResource;
 import nz.co.withfire.diecubesdie.resources.types.ShaderResource;
 import nz.co.withfire.diecubesdie.resources.types.TextureResource;
@@ -45,6 +47,9 @@ public class ResourceManager {
     //a map from labels to shader resources
     private Map<String, ShaderResource> shaders =
         new HashMap<String, ShaderResource>();
+    //a map from labels to bounding resources
+    private Map<String, BoundingResource> boundings =
+        new HashMap<String, BoundingResource>();
     //a map from labels to texture resources
     private Map<String, TextureResource> textures =
         new HashMap<String, TextureResource>();
@@ -70,6 +75,36 @@ public class ResourceManager {
         for (ShaderResource s : shaders.values()) {
             
             s.load(context);
+        }
+    }
+    
+    /**Loads all the bounding boxes into memory*/
+    public void loadAllBoundings() {
+        
+        for (BoundingResource b : boundings.values()) {
+            
+            b.load(context);
+        }
+    }
+    
+    /**Loads all the bounding boxes within the group into memory
+    @param group the group to load the boundings from*/
+    public void loadBoundingsFromGroup(ResourceGroup group) {
+        
+        for (BoundingResource b : boundings.values()) {
+            
+            ResourceGroup groups[] = b.getGroups();
+            
+            //check if it is within the group
+            for (int i = 0; i < groups.length; ++i) {
+                
+                if (groups[i] == group) {
+                    
+                    //load
+                    b.load(context);
+                    break;
+                }
+            }
         }
     }
     
@@ -145,6 +180,14 @@ public class ResourceManager {
         return shaders.get(key).getShader();
     }
     
+    /**Gets a bounding from the resource map
+    @param key the key of the bounding
+    @return the bounding*/
+    public Bounding getBounding(String key) {
+        
+        return boundings.get(key).getBounding();
+    }
+    
     /**Gets a texture from the resource map
     @param key the key of the texture
     @return the texture*/
@@ -178,6 +221,28 @@ public class ResourceManager {
         shaders.put("texture_no_lighting_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
                 R.raw.shader_fragment_texture_no_lighting));
+        
+        
+        
+        
+        
+        //----------BOUNDING BOXES----------
+        //MENU
+        //main menu button bounding box
+        {
+        ResourceGroup groups[] = {ResourceGroup.MENU};
+        boundings.put("main_menu_button",
+            new BoundingResource(R.raw.bounding_menu_main_button,
+            groups));
+        }
+        //social button bounding box
+        {
+        ResourceGroup groups[] = {ResourceGroup.MENU};
+        boundings.put("menu_social_button",
+            new BoundingResource(R.raw.bounding_menu_social_button,
+            groups));
+        }
+        
         
         
         
@@ -352,7 +417,7 @@ public class ResourceManager {
         {
             ResourceGroup groups[] = {ResourceGroup.MENU};
             shapes.put("main_title", new ShapeResource(
-                R.raw.shape_square_plane_textured, groups,
+                R.raw.shape_menu_main_title, groups,
                 "main_title", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
         }

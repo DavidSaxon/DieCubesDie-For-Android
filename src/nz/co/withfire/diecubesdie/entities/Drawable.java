@@ -1,3 +1,9 @@
+/********************************************\
+| Represents a game object that is drawable. |
+|                                            |
+| @author David Saxon                       |
+\********************************************/
+
 package nz.co.withfire.diecubesdie.entities;
 
 public class Drawable {
@@ -10,5 +16,4 @@ public class Drawable {
         
         //do nothing
     }
-    
 }

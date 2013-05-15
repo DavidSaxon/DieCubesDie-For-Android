@@ -7,13 +7,13 @@
 package nz.co.withfire.diecubesdie.entities.main_menu.back_ground;
 
 import android.opengl.Matrix;
-import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class MenuCube extends Drawable implements Entity {
+public class MenuCube extends GUIDrawable implements Entity {
 
     //VARIABLES
     //the roll speed of the cube

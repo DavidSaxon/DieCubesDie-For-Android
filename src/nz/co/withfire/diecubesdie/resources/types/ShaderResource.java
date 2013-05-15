@@ -14,7 +14,7 @@ import android.util.Log;
 public class ShaderResource {
 
     //VARIABLES
-    //the resource if of the shader
+    //the resource id of the shader
     private final int resourceID;
     //the shader type
     private final int shaderType;

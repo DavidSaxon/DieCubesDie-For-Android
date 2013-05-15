@@ -1,13 +1,13 @@
 package nz.co.withfire.diecubesdie.entities.startup;
 
 import android.opengl.Matrix;
-import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleCol;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
-public class Splash extends Drawable implements Entity {
+public class Splash extends GUIDrawable implements Entity {
 
     //VARIABLES
     //the shape of the splash screen

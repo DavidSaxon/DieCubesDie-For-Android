@@ -6,16 +6,15 @@
 
 package nz.co.withfire.diecubesdie.entities.input;
 
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.opengl.Matrix;
-import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
+import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class TouchPoint extends Drawable implements Entity {
+public class TouchPoint extends GUIDrawable implements Entity {
 
     //VARIABLES
     //the shape for the touch point (only in debug mode)
@@ -58,7 +57,7 @@ public class TouchPoint extends Drawable implements Entity {
     public void draw(float viewMatrix[], float projectionMatrix[]) {
         
         //only draw in debug mode
-        if (ValuesUtil.DEBUG) {
+        if (DebugUtil.DEBUG) {
 
             Matrix.setIdentityM(tMatrix, 0);
             Matrix.translateM(tMatrix, 0, pos.getX(), pos.getY(), 0);
