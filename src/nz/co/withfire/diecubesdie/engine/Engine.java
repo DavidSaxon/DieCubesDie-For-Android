@@ -39,7 +39,4 @@ public interface Engine {
     
     /**@return the next state to execute once this state has completed*/
     public Engine nextState();
-    
-    /**@return if the game should exit after this state has been completed*/
-    public boolean shouldExit();
 }

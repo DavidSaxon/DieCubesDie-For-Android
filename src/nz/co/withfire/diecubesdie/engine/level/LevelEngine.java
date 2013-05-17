@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
-import nz.co.withfire.diecubesdie.entities.input.TouchPoint;
+import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
 import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
@@ -66,8 +66,7 @@ public class LevelEngine implements Engine {
         GLRenderer.setClearColour(new Vector4d(0, 0, 0, 1));
         
         //TODO: do this in the loader
-        resources.loadTexturesFromGroup(ResourceGroup.LEVEL);
-        resources.loadShapesFromGroup(ResourceGroup.LEVEL);
+        resources.loadGroup(ResourceGroup.LEVEL);
         
         //TESTING
         //add a wooden cube
@@ -76,25 +75,25 @@ public class LevelEngine implements Engine {
         entities.add(testWoodenCube);
         
         //add ground
-//        for (int i = -20; i < 4; ++i) {
-//            for (int j = -1; j < 4; ++j) {
-//                
-//                Vector2d gPos = new Vector2d(i, j);
-//                Ground g = new Ground(gPos,
-//                    resources.getShape("plains_grass_tile"));
-//                entities.add(g);
-//            }
-//        }
+        for (int i = -20; i < 4; ++i) {
+            for (int j = -1; j < 4; ++j) {
+                
+                Vector2d gPos = new Vector2d(i, j);
+                Ground g = new Ground(gPos,
+                    resources.getShape("plains_grass_tile"));
+                entities.add(g);
+            }
+        }
     }
 
     @Override
     public boolean execute() {
         
         //TESTING
-        //followCam += (0.0445f * FpsManager.getTimeScale());
+        followCam += (0.0445f * FpsManager.getTimeScale());
         
         //process any touch input
-        processTouch();
+        //processTouch();
         
         //update the entities
         entities.update();
@@ -108,7 +107,7 @@ public class LevelEngine implements Engine {
         //TESTING
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 25.0f);
+        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 15.0f);
         Matrix.rotateM(viewMatrix, 0, 70, -1.0f, 0, 0.0f);
         Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
         
@@ -147,42 +146,36 @@ public class LevelEngine implements Engine {
         // TODO Auto-generated method stub
         return null;
     }
-
-    @Override
-    public boolean shouldExit() {
-        // TODO Auto-generated method stub
-        return false;
-    }
     
     //PRIVATE METHODS
     /**Process a touch point
     @param viewMatrix the view Matrix*/
     void processTouch() {
         
-        //add a touch point if we need too
-        if (addTouchPoint) {
-            
-            //add the touch point
-            TouchPoint touchPoint;
-            
-            //add a debug touch point
-            if (DebugUtil.DEBUG) {
-                
-                Log.v(ValuesUtil.TAG, "pos: " + touchPos);
-                
-                 touchPoint = new TouchPoint(
-                     resources.getShape("debug_touchpoint"),
-                     touchPos);
-            }
-            //add a normal touch point
-            else {
-                
-                touchPoint = new TouchPoint(touchPos);
-            }
-            
-            entities.add(touchPoint);
-            
-            addTouchPoint = false;
-        }
+//        //add a touch point if we need too
+//        if (addTouchPoint) {
+//            
+//            //add the touch point
+//            TouchPoint touchPoint;
+//            
+//            //add a debug touch point
+//            if (DebugUtil.DEBUG) {
+//                
+//                Log.v(ValuesUtil.TAG, "pos: " + touchPos);
+//                
+//                 touchPoint = new TouchPoint(
+//                     resources.getShape("debug_touchpoint"),
+//                     touchPos);
+//            }
+//            //add a normal touch point
+//            else {
+//                
+//                touchPoint = new TouchPoint(touchPos);
+//            }
+//            
+//            entities.add(touchPoint);
+//            
+//            addTouchPoint = false;
+//        }
     }
 }

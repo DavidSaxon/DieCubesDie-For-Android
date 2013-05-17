@@ -12,7 +12,7 @@ public class DebugUtil {
 
     //VARIABLES
     //is true when debug mode is active
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     
     //the shaders for bounding boxes
     public static int boundingVertexShader;

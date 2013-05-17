@@ -15,6 +15,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
@@ -26,7 +27,7 @@ public class MainActivity extends Activity {
     //the surface view of the activity
     private MainSurfaceView surfaceView;
     
-    //PUBLIC METHODS
+    //PROTECTED METHODS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         

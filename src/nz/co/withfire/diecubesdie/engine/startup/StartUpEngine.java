@@ -109,13 +109,6 @@ public class StartUpEngine implements Engine {
         //return new LevelEngine(context, resources);
     }
 
-    @Override
-    public boolean shouldExit() {
-        
-        //never exit from start up
-        return false;
-    }
-
     //PRIVATE FUNCTIONS
     /**Loads data in stages*/
     private void load() {
@@ -130,8 +123,7 @@ public class StartUpEngine implements Engine {
             resources.loadAllShaders();
             
             //load the omicron splash data
-            resources.loadTexturesFromGroup(ResourceGroup.OMICRON);
-            resources.loadShapesFromGroup(ResourceGroup.OMICRON);
+            resources.loadGroup(ResourceGroup.OMICRON);
             
             //load the start up music
             //TODO:
@@ -144,9 +136,11 @@ public class StartUpEngine implements Engine {
         }
         else if (loadCounter == 1) {
             
+            //load the resources that are required by all
+            resources.loadGroup(ResourceGroup.ALL);
+            
             //load the with fire resources
-            resources.loadTexturesFromGroup(ResourceGroup.WITH_FIRE);
-            resources.loadShapesFromGroup(ResourceGroup.WITH_FIRE);
+            resources.loadGroup(ResourceGroup.WITH_FIRE);
             
             //remove the omicron splash screen
             entities.remove(splash);
@@ -164,8 +158,7 @@ public class StartUpEngine implements Engine {
             if (DebugUtil.DEBUG) {
                 
                 //load the debug resources
-                resources.loadTexturesFromGroup(ResourceGroup.DEBUG);
-                resources.loadShapesFromGroup(ResourceGroup.DEBUG);
+                resources.loadGroup(ResourceGroup.DEBUG);
                 
                 //set the debug bounding box shaders
                 DebugUtil.boundingVertexShader =
@@ -176,9 +169,7 @@ public class StartUpEngine implements Engine {
             }
             
             //load the menu resources
-            resources.loadBoundingsFromGroup(ResourceGroup.MENU);
-            resources.loadTexturesFromGroup(ResourceGroup.MENU);
-            resources.loadShapesFromGroup(ResourceGroup.MENU);
+            resources.loadGroup(ResourceGroup.MENU);
             
             //remove the with fire splash screen
             entities.remove(splash);

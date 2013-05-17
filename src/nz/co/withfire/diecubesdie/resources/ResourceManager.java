@@ -30,6 +30,7 @@ public class ResourceManager {
     public enum ResourceGroup {
         
         DEBUG,
+        ALL,
         OMICRON,
         WITH_FIRE,
         START_UP,
@@ -68,6 +69,24 @@ public class ResourceManager {
     }
     
     //PUBLIC METHODS
+    /**Loads all of the resources into memory*/
+    public void loadAll() {
+        
+        loadAllShaders();
+        loadAllBoundings();
+        loadAllTextures();
+        loadAllShapes();
+    }
+    
+    /**Loads all of the resources from the group
+    @param group the group to load from*/
+    public void loadGroup(ResourceGroup group) {
+        
+        loadBoundingsFromGroup(group);
+        loadTexturesFromGroup(group);
+        loadShapesFromGroup(group);
+    }
+    
     /**Loads all of the shaders into memory*/
     public void loadAllShaders() {
         
@@ -227,6 +246,15 @@ public class ResourceManager {
         
         
         //----------BOUNDING BOXES----------
+        //GUI
+        //touch point bounding box
+        {
+        ResourceGroup groups[] = {ResourceGroup.ALL};
+        boundings.put("gui_touch_point",
+            new BoundingResource(R.raw.bounding_menu_main_button,
+            groups));
+        }
+        
         //MENU
         //main menu button bounding box
         {

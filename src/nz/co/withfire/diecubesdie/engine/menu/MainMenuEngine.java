@@ -9,22 +9,23 @@ import android.view.MotionEvent;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
-import nz.co.withfire.diecubesdie.entities.input.TouchPoint;
+import nz.co.withfire.diecubesdie.entities.gui.Button;
+import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuCube;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuGround;
-import nz.co.withfire.diecubesdie.entities.main_menu.main.MainMenuButton;
 import nz.co.withfire.diecubesdie.entities.main_menu.main.MainMenuTitle;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
+import nz.co.withfire.diecubesdie.utilities.CollisionUtil;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 public class MainMenuEngine implements Engine {
-
+    
     //VARIABLES
     //the standard rgb values for the background colour
     private final float STD_COLOUR_VALUE = 0.2f;
@@ -42,6 +43,8 @@ public class MainMenuEngine implements Engine {
     //The list of all entities
     private EntityList entities = new EntityList();
     
+    //the next state to move to once completed
+    private Engine nextState = null;
     //is true once the menu is complete
     private boolean complete = false;
     
@@ -58,16 +61,9 @@ public class MainMenuEngine implements Engine {
     //the change in back ground colour
     private float colourChange = 0.0f;
     
-    //we need to keep references to the buttons
-    //main menu buttons
-    private MainMenuButton playButton;
-    private MainMenuButton storeButton;
-    private MainMenuButton optionsButton;
-    private MainMenuButton moreButton;
-    private MainMenuButton exitButton;
-    private MainMenuButton facebookButton;
-    private MainMenuButton googleplusButton;
-    private MainMenuButton withfireButton;
+    //a list of all the buttons
+    private ArrayList<Button> buttons =
+        new ArrayList<Button>();
     
     //CONSTRUCTOR
     /**Creates a new main menu engine
@@ -142,13 +138,7 @@ public class MainMenuEngine implements Engine {
     @Override
     public Engine nextState() {
 
-        return new LevelEngine(context, resources);
-    }
-
-    @Override
-    public boolean shouldExit() {
-
-        return false;
+        return nextState;
     }
 
     //PRIVATE METHODS
@@ -167,20 +157,39 @@ public class MainMenuEngine implements Engine {
                 
                  touchPoint = new TouchPoint(
                      resources.getShape("debug_touchpoint"),
-                     touchPos);
+                     touchPos, resources.getBounding("gui_touch_point"));
             }
             //add a normal touch point
             else {
                 
-                touchPoint = new TouchPoint(touchPos);
+                touchPoint = new TouchPoint(touchPos,
+                    resources.getBounding("gui_touch_point"));
             }
             
-            entities.add(touchPoint);
+            //process any button presses
+            processButtonPress(
+                CollisionUtil.checkButtonCollisions(touchPoint, buttons));
             
             addTouchPoint = false;
         }
     }
     
+    /**Processes buttons presses
+    @param type the button type that has been pressed*/
+    private void processButtonPress(ValuesUtil.ButtonType type) {
+        
+        switch(type) {
+        
+            case PLAY: {
+                
+                //got to the level
+                nextState = new LevelEngine(context, resources);
+                complete = true;
+                break;
+            }
+        }
+    }
+
     /**Updates the background colour*/
     private void changeColour() {
         
@@ -241,52 +250,60 @@ public class MainMenuEngine implements Engine {
             new MainMenuTitle(resources.getShape("main_title"));
         entities.add(title);
         //play button
-        playButton = new MainMenuButton(
+        Button playButton = new Button(
             resources.getShape("main_menu_play_button"),
             new Vector2d(-1.2f, 0.75f),
-            resources.getBounding("main_menu_button"));
+            resources.getBounding("main_menu_button"),
+            ValuesUtil.ButtonType.PLAY);
         entities.add(playButton);
+        buttons.add(playButton);
         //store button
-        storeButton = new MainMenuButton(
-                resources.getShape("main_menu_store_button"),
-                new Vector2d(-1.2f, 0.5f),
-                resources.getBounding("main_menu_button"));
+        Button storeButton = new Button(
+            resources.getShape("main_menu_store_button"),
+            new Vector2d(-1.2f, 0.5f),
+            resources.getBounding("main_menu_button"),
+            ValuesUtil.ButtonType.STORE);
         entities.add(storeButton);
+        buttons.add(storeButton);
         //options button
-        optionsButton = new MainMenuButton(
-                resources.getShape("main_menu_options_button"),
-                new Vector2d(-1.2f, 0.25f),
-                resources.getBounding("main_menu_button"));
+        Button optionsButton = new Button(
+            resources.getShape("main_menu_options_button"),
+            new Vector2d(-1.2f, 0.25f),
+            resources.getBounding("main_menu_button"),
+            ValuesUtil.ButtonType.OPTIONS);
         entities.add(optionsButton);
+        buttons.add(optionsButton);
         //more button
-        moreButton = new MainMenuButton(
-                resources.getShape("main_menu_more_button"),
-                new Vector2d(-1.2f, 0.0f),
-                resources.getBounding("main_menu_button"));
+        Button moreButton = new Button(
+            resources.getShape("main_menu_more_button"),
+            new Vector2d(-1.2f, 0.0f),
+            resources.getBounding("main_menu_button"),
+            ValuesUtil.ButtonType.MORE);
         entities.add(moreButton);
-        //exit button
-        exitButton = new MainMenuButton(
-                resources.getShape("main_menu_exit_button"),
-                new Vector2d(-1.2f, -0.25f),
-                resources.getBounding("main_menu_button"));
-        entities.add(exitButton);
+        buttons.add(moreButton);
         //facebook button
-        facebookButton = new MainMenuButton(
-                resources.getShape("main_menu_facebook_button"),
-                new Vector2d(1.4f, -0.7f),
-                resources.getBounding("menu_social_button"));
+        Button facebookButton = new Button(
+            resources.getShape("main_menu_facebook_button"),
+            new Vector2d(1.4f, -0.7f),
+            resources.getBounding("menu_social_button"),
+            ValuesUtil.ButtonType.FACEBOOK);
         entities.add(facebookButton);
+        buttons.add(facebookButton);
         //google plus button
-        googleplusButton = new MainMenuButton(
+        Button googleplusButton = new Button(
             resources.getShape("main_menu_googleplus_button"),
             new Vector2d(1.0f, -0.7f),
-            resources.getBounding("menu_social_button"));
+            resources.getBounding("menu_social_button"),
+            ValuesUtil.ButtonType.GOOGLEPLUS);
         entities.add(googleplusButton);
+        buttons.add(googleplusButton);
         //with fire button
-        withfireButton = new MainMenuButton(
+        Button withfireButton = new Button(
             resources.getShape("main_menu_withfire_button"),
             new Vector2d(-1.2f, -0.7f),
-            resources.getBounding("menu_social_button"));
+            resources.getBounding("menu_social_button"),
+            ValuesUtil.ButtonType.WITH_FIRE);
         entities.add(withfireButton);
+        buttons.add(withfireButton);
     }
 }

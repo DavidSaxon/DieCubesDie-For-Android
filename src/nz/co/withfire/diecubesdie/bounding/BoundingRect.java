@@ -76,8 +76,6 @@ public class BoundingRect extends Bounding {
             colourBuffer.put(DebugUtil.boundingColour.toArray());
             colourBuffer.position(0);
             
-            Log.v(ValuesUtil.TAG, "rect: " + DebugUtil.boundingFragmentShader);
-            
             //create the openGL program
             program = GLES20.glCreateProgram();
             //attach the vertex shader to the program

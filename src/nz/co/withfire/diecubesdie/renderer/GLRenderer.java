@@ -20,6 +20,7 @@ import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 import android.content.Context;
+import android.content.Intent;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -119,20 +120,12 @@ public class GLRenderer implements GLSurfaceView.Renderer{
             
             //executes the engine
             if (engine.execute()) {
-                
-                //the current state is done
-                if (engine.shouldExit()) {
                     
-                    //TODO: exit the app
-                }
-                else {
-                    
-                    //get the next engine and continue
-                    engine = engine.nextState();
-                    engine.init();
-                }
+                //get the next engine and continue
+                engine = engine.nextState();
+                engine.init();
                 
-                //zero the fps and exit
+                //zero the fps
                 fps.zero();
                 break;
             }
@@ -145,7 +138,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         engine.applyCamera(viewMatrix);
         
         //get the entities from the engine and draw them
-        //engine.getEntities().draw(viewMatrix, projectionMatrix);
+        engine.getEntities().draw(viewMatrix, projectionMatrix);
         
         //reset the camera
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,

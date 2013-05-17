@@ -9,9 +9,12 @@ package nz.co.withfire.diecubesdie.entity_list;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.GUIDrawable;
+import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
 public class EntityList {
 
