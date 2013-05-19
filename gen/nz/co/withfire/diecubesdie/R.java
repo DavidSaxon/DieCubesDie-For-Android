@@ -54,16 +54,17 @@ public final class R {
         public static final int shader_vertex_plain_texture=0x7f040007;
         public static final int shape_cube_textured=0x7f040008;
         public static final int shape_debug_touchpoint=0x7f040009;
-        public static final int shape_menu_cube=0x7f04000a;
-        public static final int shape_menu_ground=0x7f04000b;
-        public static final int shape_menu_main_button=0x7f04000c;
-        public static final int shape_menu_main_title=0x7f04000d;
-        public static final int shape_menu_social_button=0x7f04000e;
-        public static final int shape_menu_withfire_button=0x7f04000f;
-        public static final int shape_small_square_plane_textured=0x7f040010;
-        public static final int shape_square_plane_coloured=0x7f040011;
-        public static final int shape_square_plane_textured=0x7f040012;
-        public static final int shape_terrian_ground_tile=0x7f040013;
+        public static final int shape_gui_overlay=0x7f04000a;
+        public static final int shape_menu_cube=0x7f04000b;
+        public static final int shape_menu_ground=0x7f04000c;
+        public static final int shape_menu_main_button=0x7f04000d;
+        public static final int shape_menu_main_title=0x7f04000e;
+        public static final int shape_menu_social_button=0x7f04000f;
+        public static final int shape_menu_withfire_button=0x7f040010;
+        public static final int shape_small_square_plane_textured=0x7f040011;
+        public static final int shape_square_plane_coloured=0x7f040012;
+        public static final int shape_square_plane_textured=0x7f040013;
+        public static final int shape_terrian_ground_tile=0x7f040014;
     }
     public static final class string {
         public static final int app_name=0x7f050000;

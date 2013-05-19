@@ -6,7 +6,12 @@
 
 package nz.co.withfire.diecubesdie;
 
+import com.revmob.RevMob;
+import com.revmob.RevMobAdsListener;
+import com.revmob.ads.link.RevMobLink;
+
 import nz.co.withfire.diecubesdie.engine.Engine;
+import nz.co.withfire.diecubesdie.engine.menu.MainMenuEngine;
 import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
@@ -39,11 +44,45 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
+        //set up revmob
+        RevMob revmob = RevMob.start(this, ValuesUtil.REVMOB_APP_ID);
+        RevMobAdsListener listener = new RevMobAdsListener() {
+            public void onRevMobAdReceived() {}
+            public void onRevMobAdNotReceived(String message) {}
+            public void onRevMobAdDisplayed() {}
+            public void onRevMobAdDismiss() {}
+            public void onRevMobAdClicked() {}
+        };
+        //create the link
+        MainMenuEngine.link = revmob.createAdLink(this, listener);
+        
         //set the display
         surfaceView = new MainSurfaceView(this);
         
         //set the content view to the display
         setContentView(surfaceView);
+    }
+    
+    @Override
+    protected void onResume() {
+        
+        //super call
+        super.onResume();
+        
+        //set up revmob
+        RevMob revmob = RevMob.session();
+        RevMobAdsListener listener = new RevMobAdsListener() {
+            public void onRevMobAdReceived() {}
+            public void onRevMobAdNotReceived(String message) {}
+            public void onRevMobAdDisplayed() {}
+            public void onRevMobAdDismiss() {}
+            public void onRevMobAdClicked() {}
+        };
+        //create the link
+        MainMenuEngine.link = revmob.createAdLink(this, listener);
+        
+        //tell the engine we have resumed
+        MainMenuEngine.resume = true;
     }
 }
 

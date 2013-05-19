@@ -3,6 +3,10 @@ package nz.co.withfire.diecubesdie.engine.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revmob.RevMob;
+import com.revmob.RevMobAdsListener;
+import com.revmob.ads.link.RevMobLink;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,6 +14,7 @@ import android.view.MotionEvent;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
 import nz.co.withfire.diecubesdie.entities.gui.Button;
+import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuCube;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuGround;
@@ -43,10 +48,17 @@ public class MainMenuEngine implements Engine {
     //The list of all entities
     private EntityList entities = new EntityList();
     
+    //the rev mob link
+    public static RevMobLink link = null;
+    
     //the next state to move to once completed
     private Engine nextState = null;
     //is true once the menu is complete
     private boolean complete = false;
+    //is true if the menu is paused
+    private boolean paused = false;
+    //is true if the app has just been resumed
+    public static boolean resume = false;
     
     //is true if a touch point should be added
     private volatile boolean addTouchPoint = false;
@@ -64,6 +76,8 @@ public class MainMenuEngine implements Engine {
     //a list of all the buttons
     private ArrayList<Button> buttons =
         new ArrayList<Button>();
+    //the overlay when going to an add
+    private Overlay pauseOverlay;
     
     //CONSTRUCTOR
     /**Creates a new main menu engine
@@ -90,15 +104,30 @@ public class MainMenuEngine implements Engine {
 
     @Override
     public boolean execute() {
-
-        //change the background colour
-        changeColour();
         
-        //process any touch events
-        processTouch();
+        //resume the menu
+        if (resume) {
+            
+            //remove the overlay
+            entities.remove(pauseOverlay);
+            
+            //unpause
+            paused = false;
+            
+            resume = false;
+        }
         
-        //update the entities
-        entities.update();
+        if (!paused) {
+        
+            //change the background colour
+            changeColour();
+            
+            //process any touch events
+            processTouch();
+            
+            //update the entities
+            entities.update();
+        }
         
         return complete;
     }
@@ -185,6 +214,20 @@ public class MainMenuEngine implements Engine {
                 //got to the level
                 nextState = new LevelEngine(context, resources);
                 complete = true;
+                break;
+            }
+            case MORE: {
+                
+                //pause the menu
+                paused = true;
+                
+                //add an overlay
+                pauseOverlay = new Overlay(resources.getShape("overlay"),
+                    new Vector2d());
+                entities.add(pauseOverlay);
+                
+                //open the rev mob link
+                link.open();
                 break;
             }
         }
