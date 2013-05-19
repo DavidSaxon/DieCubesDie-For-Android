@@ -403,11 +403,20 @@ public class ResourceManager {
         //----------SHAPES----------
         
         //GUI
-        //overlay
+        //transparent overlay
         {
         ResourceGroup groups[] = {ResourceGroup.ALL};
         Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 0.85f);
         shapes.put("overlay", new ShapeResource(
+            R.raw.shape_gui_overlay, groups,
+            col, "plain_colour_vertex",
+            "colour_no_lighting_fragment"));
+        }
+        //fade overlay
+        {
+        ResourceGroup groups[] = {ResourceGroup.ALL};
+        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
+        shapes.put("fade_overlay", new ShapeResource(
             R.raw.shape_gui_overlay, groups,
             col, "plain_colour_vertex",
             "colour_no_lighting_fragment"));

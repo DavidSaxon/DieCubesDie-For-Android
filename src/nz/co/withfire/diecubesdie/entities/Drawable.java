@@ -6,7 +6,7 @@
 
 package nz.co.withfire.diecubesdie.entities;
 
-public class Drawable {
+public class Drawable extends Entity {
 
     //PUBLIC METHODS    
     /**Draws the entity

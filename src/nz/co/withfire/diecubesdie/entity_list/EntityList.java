@@ -30,9 +30,22 @@ public class EntityList {
     /**Updates all the entities in the entity list*/
     public void update() {
         
+        //a list of entities to remove
+        ArrayList<Entity> removeList = new ArrayList<Entity>();
+        
+        //iterate over all the entities
         for (Entity e : entities) {
             
-            e.update();
+            //remove the entity
+            if (e.shouldRemove()) {
+                
+                removeList.add(e);
+            }
+            //update the entity
+            else {
+                
+                e.update();
+            }
         }
     }
 

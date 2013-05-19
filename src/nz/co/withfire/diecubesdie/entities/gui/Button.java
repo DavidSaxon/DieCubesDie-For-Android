@@ -16,7 +16,7 @@ import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class Button extends GUIDrawable implements Entity {
+public class Button extends GUIDrawable {
 
     //VARIABLES
     //the shape of the button

@@ -6,10 +6,19 @@
 
 package nz.co.withfire.diecubesdie.entities;
 
-public interface Entity {
+public abstract class Entity {
 
     //PUBLIC METHODS
     /**Updates the entity*/
-    public void update();
+    public void update() {
+        
+        //do nothing
+    }
+    
+    /**@return whether the entity should be removed*/
+    public boolean shouldRemove() {
+        
+        return false;
+    }
     
 }

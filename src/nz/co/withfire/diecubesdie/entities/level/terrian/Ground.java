@@ -6,7 +6,7 @@ import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class Ground extends Drawable implements Entity {
+public class Ground extends Drawable {
 
     //VARIABLES
     //the position

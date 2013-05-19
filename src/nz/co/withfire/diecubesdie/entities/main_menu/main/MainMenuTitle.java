@@ -12,7 +12,7 @@ import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class MainMenuTitle extends GUIDrawable implements Entity {
+public class MainMenuTitle extends GUIDrawable {
 
     //VARIABLES    
     //the shape of the title
@@ -36,12 +36,6 @@ public class MainMenuTitle extends GUIDrawable implements Entity {
     }
     
     //PUBLIC METHODS
-    @Override
-    public void update() {
-
-        //do nothing
-    }
-
     @Override
     public void draw(float viewMatrix[], float projectionMatrix[]) {
         

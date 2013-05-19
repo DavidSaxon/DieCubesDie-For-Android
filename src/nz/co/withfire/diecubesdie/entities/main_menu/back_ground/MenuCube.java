@@ -13,7 +13,7 @@ import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class MenuCube extends GUIDrawable implements Entity {
+public class MenuCube extends GUIDrawable {
 
     //VARIABLES
     //the roll speed of the cube

@@ -141,18 +141,22 @@ public class MainMenuEngine implements Engine {
     @Override
     public void touchEvent(int event, Vector2d touchPos) {
         
-        switch (event) {
-            
-            //the user has pressed down
-            case MotionEvent.ACTION_DOWN: {
+        //if we are paused ignore
+        if (!paused) {
+        
+            switch (event) {
                 
-                //request for a touch point to be added add a
-                //touch point to the menu
-                addTouchPoint = true;
-                
-                //set the co-ordantes from the event
-                this.touchPos.copy(touchPos);
-                break;
+                //the user has pressed down
+                case MotionEvent.ACTION_DOWN: {
+                    
+                    //request for a touch point to be added add a
+                    //touch point to the menu
+                    addTouchPoint = true;
+                    
+                    //set the co-ordantes from the event
+                    this.touchPos.copy(touchPos);
+                    break;
+                }
             }
         }
     }
@@ -223,7 +227,7 @@ public class MainMenuEngine implements Engine {
                 
                 //add an overlay
                 pauseOverlay = new Overlay(resources.getShape("overlay"),
-                    new Vector2d());
+                    new Vector2d(), false);
                 entities.add(pauseOverlay);
                 
                 //open the rev mob link
@@ -348,5 +352,8 @@ public class MainMenuEngine implements Engine {
             ValuesUtil.ButtonType.WITH_FIRE);
         entities.add(withfireButton);
         buttons.add(withfireButton);
+        //the fade in overlay
+        entities.add(new Overlay(resources.getShape("fade_overlay"),
+            new Vector2d(), true));
     }
 }

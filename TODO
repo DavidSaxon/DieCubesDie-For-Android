@@ -2,12 +2,6 @@
 | TODO |
 \++++++/
 
--general {
-    
-    -way to delete entities (entities have should remove field)
-}
-
-
 -relative positions {
 
     -smart functions for managing relative positions

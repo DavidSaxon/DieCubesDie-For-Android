@@ -7,7 +7,7 @@ import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleCol;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
-public class Splash extends GUIDrawable implements Entity {
+public class Splash extends GUIDrawable {
 
     //VARIABLES
     //the shape of the splash screen

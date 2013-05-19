@@ -15,7 +15,7 @@ import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class TouchPoint extends GUIDrawable implements Entity {
+public class TouchPoint extends GUIDrawable {
 
     //VARIABLES
     //the shape for the touch point (only in debug mode)

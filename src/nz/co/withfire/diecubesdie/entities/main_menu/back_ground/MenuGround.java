@@ -13,7 +13,7 @@ import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 
-public class MenuGround extends GUIDrawable implements Entity {
+public class MenuGround extends GUIDrawable {
 
     //VARIABLES
     //the shapes of the ground
@@ -33,13 +33,7 @@ public class MenuGround extends GUIDrawable implements Entity {
         this.ground = ground;
     }
     
-    //PUBLIC METHODS
-    @Override
-    public void update() {
-
-        //do nothing
-    }
-    
+    //PUBLIC METHODS    
     @Override
     public void draw(float viewMatrix[], float projectionMatrix[]) {
         
