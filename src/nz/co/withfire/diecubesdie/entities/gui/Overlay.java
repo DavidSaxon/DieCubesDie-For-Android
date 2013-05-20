@@ -9,6 +9,7 @@ package nz.co.withfire.diecubesdie.entities.gui;
 import android.opengl.Matrix;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.GUIDrawable;
+import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleCol;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
@@ -46,6 +47,11 @@ public class Overlay extends GUIDrawable {
         this.overlay = (GLTriangleCol) overlay;
         this.pos.copy(pos);
         this.fade = fade;
+        if (this.fade) {
+            
+            this.overlay.getColour().setW(fadeAmount);
+        }
+        
     }
     
     //PUBLIC METHODS
@@ -56,7 +62,7 @@ public class Overlay extends GUIDrawable {
         if (fade && fadeAmount > 0.0f) {
             
             overlay.getColour().setW(fadeAmount);
-            fadeAmount -= FADE_SPEED;
+            fadeAmount -= FADE_SPEED * FpsManager.getTimeScale();
         }
     }
 

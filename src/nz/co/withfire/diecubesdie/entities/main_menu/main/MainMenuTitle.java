@@ -10,6 +10,7 @@ import android.opengl.Matrix;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
+import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
 public class MainMenuTitle extends GUIDrawable {
@@ -19,7 +20,7 @@ public class MainMenuTitle extends GUIDrawable {
     private Shape title;
     
     //the position of the title
-    private Vector2d pos = new Vector2d(1.125f, 0.295f);
+    private Vector2d pos = new Vector2d();
     
     //Matrix
     //the model view projection matrix
@@ -33,6 +34,10 @@ public class MainMenuTitle extends GUIDrawable {
     public MainMenuTitle(Shape title) {
         
         this.title = title;
+        //set the position
+        pos.copy(TransformationsUtil.getOpenGLDim());
+        pos.setX(-pos.getX() - 0.62f);
+        pos.setY(-pos.getY() - 0.70f);
     }
     
     //PUBLIC METHODS

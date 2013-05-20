@@ -19,12 +19,15 @@ import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuCube;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuGround;
 import nz.co.withfire.diecubesdie.entities.main_menu.main.MainMenuTitle;
+import nz.co.withfire.diecubesdie.entities.main_menu.transitions.MenuSpikes;
+import nz.co.withfire.diecubesdie.entities.main_menu.transitions.MenuTransition;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.utilities.CollisionUtil;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
+import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
@@ -76,8 +79,10 @@ public class MainMenuEngine implements Engine {
     //a list of all the buttons
     private ArrayList<Button> buttons =
         new ArrayList<Button>();
-    //the overlay when going to an add
+    //the overlay when paused
     private Overlay pauseOverlay;
+    //the current transition
+    private MenuTransition transition = null;
     
     //CONSTRUCTOR
     /**Creates a new main menu engine
@@ -124,6 +129,12 @@ public class MainMenuEngine implements Engine {
             
             //process any touch events
             processTouch();
+            
+            //check if there is a transition running and if it's done
+            if (transition != null && transition.complete()) {
+                
+                complete = true;
+            }
             
             //update the entities
             entities.update();
@@ -217,7 +228,9 @@ public class MainMenuEngine implements Engine {
                 
                 //got to the level
                 nextState = new LevelEngine(context, resources);
-                complete = true;
+                //add the spike transition
+                transition = new MenuSpikes(resources.getShape("menu_spikes"));
+                entities.add(transition);
                 break;
             }
             case MORE: {
@@ -279,7 +292,7 @@ public class MainMenuEngine implements Engine {
     }
     
     /**Creates and adds the entities needed for the background*/
-    public void initBackground() {
+    private void initBackground() {
         
         //ground
         MenuGround ground = new MenuGround(resources.getShape("menu_ground"));
@@ -290,16 +303,20 @@ public class MainMenuEngine implements Engine {
     }
     
     /**Creates and adds the entities needed for the main menu*/
-    public void initMainMenu() {
+    private void initMainMenu() {
         
         //title
         MainMenuTitle title =
             new MainMenuTitle(resources.getShape("main_title"));
         entities.add(title);
+        
+        //calculate the x position of buttons
+        float buttonXPos = TransformationsUtil.getOpenGLDim().getX() + 0.6f;
+        
         //play button
         Button playButton = new Button(
             resources.getShape("main_menu_play_button"),
-            new Vector2d(-1.2f, 0.75f),
+            new Vector2d(buttonXPos, 0.65f),
             resources.getBounding("main_menu_button"),
             ValuesUtil.ButtonType.PLAY);
         entities.add(playButton);
@@ -307,7 +324,7 @@ public class MainMenuEngine implements Engine {
         //store button
         Button storeButton = new Button(
             resources.getShape("main_menu_store_button"),
-            new Vector2d(-1.2f, 0.5f),
+            new Vector2d(buttonXPos, 0.4f),
             resources.getBounding("main_menu_button"),
             ValuesUtil.ButtonType.STORE);
         entities.add(storeButton);
@@ -315,7 +332,7 @@ public class MainMenuEngine implements Engine {
         //options button
         Button optionsButton = new Button(
             resources.getShape("main_menu_options_button"),
-            new Vector2d(-1.2f, 0.25f),
+            new Vector2d(buttonXPos, 0.15f),
             resources.getBounding("main_menu_button"),
             ValuesUtil.ButtonType.OPTIONS);
         entities.add(optionsButton);
@@ -323,15 +340,19 @@ public class MainMenuEngine implements Engine {
         //more button
         Button moreButton = new Button(
             resources.getShape("main_menu_more_button"),
-            new Vector2d(-1.2f, 0.0f),
+            new Vector2d(buttonXPos, -0.10f),
             resources.getBounding("main_menu_button"),
             ValuesUtil.ButtonType.MORE);
         entities.add(moreButton);
         buttons.add(moreButton);
+        
+        //calculate the social buttons base x position
+        float socialXPos = -TransformationsUtil.getOpenGLDim().getX() - 0.37f;
+        
         //facebook button
         Button facebookButton = new Button(
             resources.getShape("main_menu_facebook_button"),
-            new Vector2d(1.4f, -0.7f),
+            new Vector2d(socialXPos, -0.7f),
             resources.getBounding("menu_social_button"),
             ValuesUtil.ButtonType.FACEBOOK);
         entities.add(facebookButton);
@@ -339,7 +360,7 @@ public class MainMenuEngine implements Engine {
         //google plus button
         Button googleplusButton = new Button(
             resources.getShape("main_menu_googleplus_button"),
-            new Vector2d(1.0f, -0.7f),
+            new Vector2d(socialXPos - 0.4f, -0.7f),
             resources.getBounding("menu_social_button"),
             ValuesUtil.ButtonType.GOOGLEPLUS);
         entities.add(googleplusButton);
@@ -347,7 +368,7 @@ public class MainMenuEngine implements Engine {
         //with fire button
         Button withfireButton = new Button(
             resources.getShape("main_menu_withfire_button"),
-            new Vector2d(-1.2f, -0.7f),
+            new Vector2d(-socialXPos + 0.4f, -0.7f),
             resources.getBounding("menu_social_button"),
             ValuesUtil.ButtonType.WITH_FIRE);
         entities.add(withfireButton);

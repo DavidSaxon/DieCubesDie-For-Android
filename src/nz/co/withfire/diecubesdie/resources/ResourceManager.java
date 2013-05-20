@@ -551,7 +551,16 @@ public class ResourceManager {
                 "main_menu_cube", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
         }
-        
+        //Transitions
+        //spikes
+        {
+        ResourceGroup groups[] = {ResourceGroup.MENU};
+        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
+        shapes.put("menu_spikes", new ShapeResource(
+            R.raw.shape_menu_spikes, groups,
+            col, "plain_colour_vertex",
+            "colour_no_lighting_fragment"));
+        }
         
         
         //LEVEL

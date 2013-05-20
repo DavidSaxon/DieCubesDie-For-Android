@@ -16,6 +16,8 @@ public class TransformationsUtil {
     private static Vector2d screenDim = new Vector2d();
     //the openGL view port dimensions
     private static Vector2d openGLDim = new Vector2d();
+    //the scale amounts
+    private static Vector2d scale = new Vector2d();
     
     //PUBLIC FUNCTIONS
     /**Initialise the need values for the transformation utilities
@@ -30,6 +32,10 @@ public class TransformationsUtil {
         //set the opengl dimensions
         openGLDim.copy(screenPosToOpenGLPos(screenDim,
             viewMatrix, projectionMatrix));
+        
+        //get the scaling amounts
+        scale.setX(-(openGLDim.getX() / ValuesUtil.NATURAL_SCREEN_SIZE.getX()));
+        scale.setY(-(openGLDim.getY() / ValuesUtil.NATURAL_SCREEN_SIZE.getY()));
     }
     
     /**Converts screen position to the equivlent OpenGL position
@@ -82,5 +88,26 @@ public class TransformationsUtil {
         openGLPos.setY(outPoint[1] / outPoint[3]);
         
         return openGLPos;
+    }
+    
+    /**Get the scaled position of the give position
+    @param pos the position to scale
+    @return the new scaled position*/
+    public static Vector2d scaleToScreen(Vector2d pos) {
+        
+        return new Vector2d(pos.getX() * scale.getX(),
+            pos.getY() * scale.getY());
+    }
+    
+    /**@return the OpenGL perspective dimensions*/
+    public static Vector2d getOpenGLDim() {
+        
+        return openGLDim;
+    }
+    
+    /**@return the screen dimensions*/
+    public static Vector2d getScreenDim() {
+        
+        return screenDim;
     }
 }

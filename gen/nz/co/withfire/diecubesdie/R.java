@@ -60,11 +60,12 @@ public final class R {
         public static final int shape_menu_main_button=0x7f04000d;
         public static final int shape_menu_main_title=0x7f04000e;
         public static final int shape_menu_social_button=0x7f04000f;
-        public static final int shape_menu_withfire_button=0x7f040010;
-        public static final int shape_small_square_plane_textured=0x7f040011;
-        public static final int shape_square_plane_coloured=0x7f040012;
-        public static final int shape_square_plane_textured=0x7f040013;
-        public static final int shape_terrian_ground_tile=0x7f040014;
+        public static final int shape_menu_spikes=0x7f040010;
+        public static final int shape_menu_withfire_button=0x7f040011;
+        public static final int shape_small_square_plane_textured=0x7f040012;
+        public static final int shape_square_plane_coloured=0x7f040013;
+        public static final int shape_square_plane_textured=0x7f040014;
+        public static final int shape_terrian_ground_tile=0x7f040015;
     }
     public static final class string {
         public static final int app_name=0x7f050000;

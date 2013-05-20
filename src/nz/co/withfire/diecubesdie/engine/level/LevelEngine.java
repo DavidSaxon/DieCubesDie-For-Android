@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
 import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
@@ -84,6 +85,10 @@ public class LevelEngine implements Engine {
                 entities.add(g);
             }
         }
+        
+        //the fade in overlay
+        entities.add(new Overlay(resources.getShape("fade_overlay"),
+            new Vector2d(), true));
     }
 
     @Override

@@ -24,10 +24,10 @@ public class GLTriangleTex implements Shape {
     private final int coordsPerTex = 2;
     //the stride of a vertex
     private final int vertexStride = 
-        coordsPerVertex * ValuesUtil.sizeOfFloat;
+        coordsPerVertex * ValuesUtil.FLOAT_SIZE;
     //the stride of a colour
     private final int texStride =
-            coordsPerTex * ValuesUtil.sizeOfFloat;
+            coordsPerTex * ValuesUtil.FLOAT_SIZE;
     
     //the number of vertex points the triangle has
     private int vertexCount;
@@ -74,7 +74,7 @@ public class GLTriangleTex implements Shape {
         
         //initialise the byte buffer for the vertex buffer
         ByteBuffer bb = ByteBuffer.allocateDirect(
-            coords.length * ValuesUtil.sizeOfFloat);
+            coords.length * ValuesUtil.FLOAT_SIZE);
         bb.order(ByteOrder.nativeOrder());
         
         //initialise the vertex buffer and insert the co-ordinates
@@ -84,7 +84,7 @@ public class GLTriangleTex implements Shape {
         
         //Initialise the byte buffer for the texture coords
         ByteBuffer tb = ByteBuffer.allocateDirect(
-            texCoords.length * ValuesUtil.sizeOfFloat);
+            texCoords.length * ValuesUtil.FLOAT_SIZE);
         tb.order(ByteOrder.nativeOrder());
         
         //initialise the texture buffer and insert the co-ordinates

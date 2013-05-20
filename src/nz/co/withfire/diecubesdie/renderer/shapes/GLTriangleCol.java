@@ -25,10 +25,10 @@ public class GLTriangleCol implements Shape {
     private final int colValsPerVertex = 4;
     //the stride of a vertex
     private final int vertexStride = 
-        coordsPerVertex * ValuesUtil.sizeOfFloat;
+        coordsPerVertex * ValuesUtil.FLOAT_SIZE;
     //the stride of a colour
     private final int colourStride =
-        colValsPerVertex * ValuesUtil.sizeOfFloat;
+        colValsPerVertex * ValuesUtil.FLOAT_SIZE;
     
     //the number of vertex points the triangle has
     private int vertexCount;
@@ -70,7 +70,7 @@ public class GLTriangleCol implements Shape {
         
         //initialise the byte buffer for the vertex buffer
         ByteBuffer bb = ByteBuffer.allocateDirect(
-            coords.length * ValuesUtil.sizeOfFloat);
+            coords.length * ValuesUtil.FLOAT_SIZE);
         bb.order(ByteOrder.nativeOrder());
         
         //initialise the vertex buffer and insert the co-ordinates
@@ -80,7 +80,7 @@ public class GLTriangleCol implements Shape {
         
         //initialise the byte buffer for the colour buffer
         ByteBuffer cb = ByteBuffer.allocateDirect(
-            4 * ValuesUtil.sizeOfFloat);
+            4 * ValuesUtil.FLOAT_SIZE);
         cb.order(ByteOrder.nativeOrder());
         
         //initialise the vertex buffer and insert the co-ordinates
@@ -153,7 +153,7 @@ public class GLTriangleCol implements Shape {
         
         //initialise the byte buffer for the colour buffer
         ByteBuffer cb = ByteBuffer.allocateDirect(
-            4 * ValuesUtil.sizeOfFloat);
+            4 * ValuesUtil.FLOAT_SIZE);
         cb.order(ByteOrder.nativeOrder());
         
         //initialise the vertex buffer and insert the co-ordinates
