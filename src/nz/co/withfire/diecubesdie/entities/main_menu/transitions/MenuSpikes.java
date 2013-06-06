@@ -21,10 +21,6 @@ public class MenuSpikes extends MenuTransition {
     
     //the move speed of the spikes
     private final float MOVE_SPEED = 0.06f;
-    //the acceleration speed of the spikes
-    private final float ACC_SPEED = 0.005f;
-    //the current speed of the spikes
-    private float currentSpeed = MOVE_SPEED;
     
     //the current position of the left spikes
     private Vector2d leftPos =
@@ -32,11 +28,6 @@ public class MenuSpikes extends MenuTransition {
     //the current position of the right spikes
     private Vector2d rightPos =
         new Vector2d(TransformationsUtil.getOpenGLDim().getX() - 1.5f, 0.0f);
-    
-    //is true if the spikes are bouncing back
-    private boolean back = false;
-    //the force that the spikes bounce back with
-    private float backForce = 1.0f;
     
     //is true once the transition is complete
     private boolean complete = false;
@@ -59,58 +50,20 @@ public class MenuSpikes extends MenuTransition {
     @Override
     public void update() {
         
-        //increase the move speed of the spikes
-        currentSpeed += ACC_SPEED;
-        //cap at the top speed
-        if (currentSpeed > MOVE_SPEED) {
+        //move the spikes
+        if (rightPos.getX() < RIGHT_END_POS.getX()) {
             
-            currentSpeed = MOVE_SPEED;
-        }
-        
-        
-        if (!back) {
-            
-            //move the spikes
-            if (rightPos.getX() < RIGHT_END_POS.getX()) {
-                
-                leftPos.setX(leftPos.getX() -
-                    currentSpeed * FpsManager.getTimeScale());
-                rightPos.setX(rightPos.getX() +
-                    currentSpeed * FpsManager.getTimeScale());
-            }
-            else {
-                
-                //bounce back
-                if (backForce > 0.4f) {
-                    
-                    //bounce back
-                    back = true;
-                    backForce = backForce / 2.0f;
-                    currentSpeed = MOVE_SPEED / 3.0f;
-                }
-                //we are done
-                else {
-                    
-                    leftPos.copy(LEFT_END_POS);
-                    rightPos.copy(RIGHT_END_POS);
-                    complete = true;
-                }
-            }
+            leftPos.setX(leftPos.getX() -
+                MOVE_SPEED * FpsManager.getTimeScale());
+            rightPos.setX(rightPos.getX() +
+                MOVE_SPEED * FpsManager.getTimeScale());
         }
         else {
-            
-            if (rightPos.getX() > -backForce + RIGHT_END_POS.getX()) {
                 
-                leftPos.setX(leftPos.getX() +
-                    currentSpeed * FpsManager.getTimeScale());
-                rightPos.setX(rightPos.getX() -
-                    currentSpeed * FpsManager.getTimeScale());
-            }
-            else {
-                
-                back = false;
-                currentSpeed = 0.0f;
-            }
+            //we are done
+            leftPos.copy(LEFT_END_POS);
+            rightPos.copy(RIGHT_END_POS);
+            complete = true;
         }
     }
 

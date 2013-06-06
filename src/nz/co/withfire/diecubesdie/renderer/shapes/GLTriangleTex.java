@@ -41,7 +41,7 @@ public class GLTriangleTex implements Shape {
     
     //the co-ordinates of the triangle
     private float coords[];
-    //thetexture co-ordinates of the triangle
+    //the texture co-ordinates of the triangle
     private float texCoords[];
     
     //the texture of the triangle
@@ -136,9 +136,7 @@ public class GLTriangleTex implements Shape {
         //get a handle to the texture coord data
         int texCoordHandle = GLES20.glGetAttribLocation(program, "a_texCoord");
         
-        //pass in the texture information    
-        
-        
+        //pass in the texture information
         texBuffer.position(0);
         GLES20.glVertexAttribPointer(texCoordHandle, coordsPerTex,
             GLES20.GL_FLOAT, false, texStride, texBuffer);

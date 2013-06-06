@@ -12,6 +12,7 @@ import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleCol;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
+import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
@@ -23,6 +24,15 @@ public class Overlay extends GUIDrawable {
     
     //the position of the overlay
     private Vector2d pos = new Vector2d();
+    
+    //text the overlay should display
+    private String text;
+    //the text object for the text
+    private Text textObject;
+    //the size of the text
+    private final float TEXT_SIZE = 0.12f;
+    //the alignment of text
+    private final Text.Align align = Text.Align.CENTRE;
     
     //is true if the overlay should fade
     private boolean fade;
@@ -41,8 +51,9 @@ public class Overlay extends GUIDrawable {
     /**Creates a new overlay
     @param overlay the shape for the overlay
     @param pos the position of the overlay
+    @param text text the overlay should display
     @param fade is true if the overlay should fade*/
-    public Overlay(Shape overlay, Vector2d pos, boolean fade) {
+    public Overlay(Shape overlay, Vector2d pos, String text, boolean fade) {
         
         this.overlay = (GLTriangleCol) overlay;
         this.pos.copy(pos);
@@ -52,6 +63,12 @@ public class Overlay extends GUIDrawable {
             this.overlay.getColour().setW(fadeAmount);
         }
         
+        //create the text object
+        if (text != null) {
+            
+            Vector2d textPos = new Vector2d(0.0f, TEXT_SIZE * 0.5f);
+            textObject = new Text(textPos, TEXT_SIZE, align, text);
+        }
     }
     
     //PUBLIC METHODS
@@ -78,6 +95,12 @@ public class Overlay extends GUIDrawable {
         
         //draw the cube
         overlay.draw(mvpMatrix);
+        
+        //draw the text
+        if (textObject != null) {
+            
+            textObject.draw(viewMatrix, projectionMatrix);
+        }
     }
     
     @Override

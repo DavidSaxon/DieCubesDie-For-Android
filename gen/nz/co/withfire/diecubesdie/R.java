@@ -32,7 +32,8 @@ public final class R {
         public static final int splash_presents=0x7f020012;
         public static final int terrain_plains_grass_1=0x7f020013;
         public static final int terrain_plains_wall=0x7f020014;
-        public static final int with_fire_splash=0x7f020015;
+        public static final int text=0x7f020015;
+        public static final int with_fire_splash=0x7f020016;
     }
     public static final class id {
         public static final int menu_settings=0x7f080000;

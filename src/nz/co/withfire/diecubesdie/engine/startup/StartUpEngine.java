@@ -21,6 +21,7 @@ import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.startup.Splash;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
+import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
@@ -138,6 +139,13 @@ public class StartUpEngine implements Engine {
             
             //load the resources that are required by all
             resources.loadGroup(ResourceGroup.ALL);
+            
+            //set the font texture
+            Text.texture = resources.getTexture("text");
+            //set the shaders
+            Text.vertexShader = resources.getShader("plain_texture_vertex");
+            Text.fragmentShader =
+                resources.getShader("texture_no_lighting_fragment");
             
             //load the with fire resources
             resources.loadGroup(ResourceGroup.WITH_FIRE);

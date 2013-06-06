@@ -240,7 +240,7 @@ public class MainMenuEngine implements Engine {
                 
                 //add an overlay
                 pauseOverlay = new Overlay(resources.getShape("overlay"),
-                    new Vector2d(), false);
+                    new Vector2d(), "PLEASE WAIT", false);
                 entities.add(pauseOverlay);
                 
                 //open the rev mob link
@@ -375,6 +375,6 @@ public class MainMenuEngine implements Engine {
         buttons.add(withfireButton);
         //the fade in overlay
         entities.add(new Overlay(resources.getShape("fade_overlay"),
-            new Vector2d(), true));
+            new Vector2d(), null, true));
     }
 }

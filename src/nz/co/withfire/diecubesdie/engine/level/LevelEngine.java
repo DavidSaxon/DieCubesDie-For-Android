@@ -88,7 +88,7 @@ public class LevelEngine implements Engine {
         
         //the fade in overlay
         entities.add(new Overlay(resources.getShape("fade_overlay"),
-            new Vector2d(), true));
+            new Vector2d(), null, true));
     }
 
     @Override

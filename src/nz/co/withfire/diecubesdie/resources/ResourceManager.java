@@ -278,6 +278,14 @@ public class ResourceManager {
         
         //----------TEXTURES----------
         
+        //TEXT
+        //all text
+        {
+        ResourceGroup groups[] = {ResourceGroup.ALL};
+        textures.put("text",
+            new TextureResource(R.drawable.text,
+            groups));
+        }
         //START UP
         //omicron splash screen
         {
