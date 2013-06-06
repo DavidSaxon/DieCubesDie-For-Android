@@ -25,6 +25,9 @@ public class ValuesUtil {
     public static final Vector2d NATURAL_SCREEN_SIZE  =
         new Vector2d(1.77777777f, 1.0f);
     
+    //connection time-out duration for internet actions (in ms)
+    public static int TIME_OUT = 20000;
+    
     //ENUMERATORS
     //the different kind of buttons
     public enum ButtonType {

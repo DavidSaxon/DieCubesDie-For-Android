@@ -108,4 +108,10 @@ public class Overlay extends GUIDrawable {
         
         return fadeAmount <= 0.0f;
     }
+    
+    /**@param text the new text for the overlay*/
+    public void setText(String text) {
+        
+        textObject.setText(text);
+    }
 }

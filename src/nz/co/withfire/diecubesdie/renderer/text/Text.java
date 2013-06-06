@@ -122,9 +122,65 @@ public class Text {
         }
     }
     
+    /**@return the position of the text*/
+    public Vector2d getPos() {
+        
+        return pos;
+    }
+    
+    /**@return the size of the text*/
+    public float getSize() {
+        
+        return size;
+    }
+    
+    /**@return the alignment of the text*/
+    public Align getAlign() {
+        
+        return alignment;
+    }
+    
+    /**@return the text string*/
+    public String toString() {
+        
+        return text;
+    }
+    
+    /**@param pos the new position for the text*/
+    public void setPos(Vector2d pos) {
+        
+        this.pos.copy(pos);
+        buildText();
+    }
+    
+    /**@param size the new size of the text*/
+    public void setSize(float size) {
+        
+        this.size = size;
+        buildText();
+    }
+    
+    /**@param alignment the new alignment for the text*/
+    public void setAlignment(Align alignment) {
+        
+        this.alignment = alignment;
+        buildText();
+    }
+    
+    /**@param text the new text string*/
+    public void setText(String text) {
+        
+        this.text = text;
+        buildText();
+    }
+    
     //PRIVATE METHODS
     /**Builds the shapes and the positions for the text*/
     private void buildText() {
+        
+        //clear any current data
+        letterShapes.clear();
+        letterPositions.clear();
         
         //read the string with a scanner
         Scanner scan = new Scanner(text);

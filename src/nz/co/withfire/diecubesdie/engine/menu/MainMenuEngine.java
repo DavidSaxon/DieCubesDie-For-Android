@@ -8,6 +8,7 @@ import com.revmob.RevMobAdsListener;
 import com.revmob.ads.link.RevMobLink;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -42,6 +43,9 @@ public class MainMenuEngine implements Engine {
     //the rate at which the colour changes
     private final float COLOUR_CHANGE_RATE = 0.005f;
     
+    //the amount of time a connection time out messahe is displayed for
+    private final int TIME_OUT_DISPLAY_DURATION = 3000;
+    
     //the android context
     private final Context context;
     
@@ -62,6 +66,15 @@ public class MainMenuEngine implements Engine {
     private boolean paused = false;
     //is true if the app has just been resumed
     public static boolean resume = false;
+    
+    //is true if we are attempting an internet connection
+    private boolean attemptingConnection = false;
+    //the time we started the current connection attempt
+    private long connectionTime = 0;
+    //is true if we are displaying the connection timed out message
+    private boolean timedOut = false;
+    //the when the connection display message was first being displayed
+    private long timeOutStart = 0;
     
     //is true if a touch point should be added
     private volatile boolean addTouchPoint = false;
@@ -138,6 +151,25 @@ public class MainMenuEngine implements Engine {
             
             //update the entities
             entities.update();
+        }
+        else {
+            
+            if (attemptingConnection) {
+                
+                //check for time out
+                if (connectionTime + ValuesUtil.TIME_OUT
+                    < SystemClock.uptimeMillis()) {
+                    
+                    //time out the connection
+                    timeOut();
+                }
+            }
+            else if (timedOut && timeOutStart +
+                TIME_OUT_DISPLAY_DURATION < SystemClock.uptimeMillis()) {
+                
+                //end the time out
+                endTimeOut();
+            }
         }
         
         return complete;
@@ -243,11 +275,38 @@ public class MainMenuEngine implements Engine {
                     new Vector2d(), "PLEASE WAIT", false);
                 entities.add(pauseOverlay);
                 
+                //begin a connection attempt
+                beginConnectionAttempt();
+                
                 //open the rev mob link
                 link.open();
                 break;
             }
         }
+    }
+    
+    /**Begins a connection attempt*/
+    private void beginConnectionAttempt() {
+        
+        connectionTime = SystemClock.uptimeMillis();
+        attemptingConnection = true;
+    }
+    
+    /**Times out an attempted connection*/
+    private void timeOut() {
+        
+        pauseOverlay.setText("CONNECTION TIMED OUT");
+        timedOut = true;
+        timeOutStart = SystemClock.uptimeMillis();
+        attemptingConnection = false;
+    }
+    
+    /**Ends a time out*/
+    private void endTimeOut() {
+        
+        entities.remove(pauseOverlay);
+        timedOut = false;
+        paused = false;
     }
 
     /**Updates the background colour*/
