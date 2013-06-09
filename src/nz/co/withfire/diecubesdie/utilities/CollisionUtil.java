@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import android.util.Log;
 import nz.co.withfire.diecubesdie.bounding.Bounding;
 import nz.co.withfire.diecubesdie.bounding.BoundingRect;
-import nz.co.withfire.diecubesdie.entities.gui.Button;
 import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
+import nz.co.withfire.diecubesdie.entities.gui.button.Button;
+import nz.co.withfire.diecubesdie.entities.gui.button.ImageButton;
 
 public class CollisionUtil {
 

@@ -41,4 +41,15 @@ public class ValuesUtil {
         GOOGLEPLUS,
         WITH_FIRE
     }
+    
+    //the different level areas
+    public enum LevelArea {
+        
+        PLAINS,
+        MOUNTAINS,
+        CITY,
+        DESERT,
+        JUNGLE,
+        STRONGHOLD
+    }
 }

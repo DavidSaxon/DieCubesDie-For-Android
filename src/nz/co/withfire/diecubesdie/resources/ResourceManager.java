@@ -35,6 +35,7 @@ public class ResourceManager {
         WITH_FIRE,
         START_UP,
         MENU,
+        LEVEL_SELECT,
         LEVEL,
         CUBE,
         TERRIAN,
@@ -183,6 +184,8 @@ public class ResourceManager {
                 
                 if (groups[i] == group) {
                     
+                    Log.v(ValuesUtil.TAG, "load");
+                    
                     //load
                     s.load(context, this);
                     break;
@@ -319,41 +322,6 @@ public class ResourceManager {
                 new TextureResource(R.drawable.menu_main_title,
                 groups));
         }
-        //play button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_play_button",
-                new TextureResource(R.drawable.menu_main_play,
-                groups));
-        }
-        //store button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_store_button",
-                new TextureResource(R.drawable.menu_main_store,
-                groups));
-        }
-        //options button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_options_button",
-                new TextureResource(R.drawable.menu_main_options,
-                groups));
-        }
-        //more button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_more_button",
-                new TextureResource(R.drawable.menu_main_more,
-                groups));
-        }
-        //exit button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_exit_button",
-                new TextureResource(R.drawable.menu_main_exit,
-                groups));
-        }
         //facebook button
         {
             ResourceGroup groups[] = {ResourceGroup.MENU};
@@ -381,6 +349,56 @@ public class ResourceManager {
             ResourceGroup groups[] = {ResourceGroup.MENU};
             textures.put("main_menu_cube",
                 new TextureResource(R.drawable.menu_main_cube,
+                groups));
+        }
+        //LEVEL SELECT
+        //background
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            textures.put("level_select_background",
+                new TextureResource(R.drawable.menu_levelselect_sky,
+                groups));
+        }
+        //plains level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            textures.put("level_select_plains_1",
+                new TextureResource(R.drawable.menu_levelselect_plains_1,
+                groups));
+        }
+        //mountains level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            textures.put("level_select_mountains_1",
+                new TextureResource(R.drawable.menu_levelselect_mountains_1,
+                groups));
+        }
+        //city level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            textures.put("level_select_city_1",
+                new TextureResource(R.drawable.menu_levelselect_city_1,
+                groups));
+        }
+        //desert level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            textures.put("level_select_desert_1",
+                new TextureResource(R.drawable.menu_levelselect_desert_1,
+                groups));
+        }
+        //desert level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            textures.put("level_select_jungle_1",
+                new TextureResource(R.drawable.menu_levelselect_jungle_1,
+                groups));
+        }
+        //stronghold level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            textures.put("level_select_stronghold_1",
+                new TextureResource(R.drawable.menu_levelselect_stronghold_1,
                 groups));
         }
         //LEVEL
@@ -477,46 +495,6 @@ public class ResourceManager {
                 "texture_no_lighting_fragment"));
         }
         //Buttons
-        //play button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_menu_play_button", new ShapeResource(
-                R.raw.shape_menu_main_button, groups,
-                "main_menu_play_button", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //store button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_menu_store_button", new ShapeResource(
-                R.raw.shape_menu_main_button, groups,
-                "main_menu_store_button", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //options button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_menu_options_button", new ShapeResource(
-                R.raw.shape_menu_main_button, groups,
-                "main_menu_options_button", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //more button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_menu_more_button", new ShapeResource(
-                R.raw.shape_menu_main_button, groups,
-                "main_menu_more_button", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //exit button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_menu_exit_button", new ShapeResource(
-                R.raw.shape_menu_main_button, groups,
-                "main_menu_exit_button", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
         //facebook button
         {
             ResourceGroup groups[] = {ResourceGroup.MENU};
@@ -570,6 +548,63 @@ public class ResourceManager {
             "colour_no_lighting_fragment"));
         }
         
+        //LEVEL SELECT
+        //background
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            shapes.put("level_select_background", new ShapeResource(
+                R.raw.shape_menu_levelselect_background, groups,
+                "level_select_background", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //plains level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            shapes.put("level_select_plains_1", new ShapeResource(
+                R.raw.shape_menu_levelselect_planetgrid, groups,
+                "level_select_plains_1", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //mountains level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            shapes.put("level_select_mountains_1", new ShapeResource(
+                R.raw.shape_menu_levelselect_planetgrid, groups,
+                "level_select_mountains_1", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //city level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            shapes.put("level_select_city_1", new ShapeResource(
+                R.raw.shape_menu_levelselect_planetgrid, groups,
+                "level_select_city_1", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //desert level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            shapes.put("level_select_desert_1", new ShapeResource(
+                R.raw.shape_menu_levelselect_planetgrid, groups,
+                "level_select_desert_1", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //jungle level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            shapes.put("level_select_jungle_1", new ShapeResource(
+                R.raw.shape_menu_levelselect_planetgrid, groups,
+                "level_select_jungle_1", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
+        //stronghold level 1
+        {
+            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+            shapes.put("level_select_stronghold_1", new ShapeResource(
+                R.raw.shape_menu_levelselect_planetgrid, groups,
+                "level_select_stronghold_1", "plain_texture_vertex",
+                "texture_no_lighting_fragment"));
+        }
         
         //LEVEL
         //Cubes

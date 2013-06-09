@@ -1,41 +1,24 @@
-/****************************\
-| A button on the main menu. |
-|                            |
-| @author David Saxon       |
-\****************************/
+/*******************************\
+| A button on that uses an image|
+|                               |
+| @author David Saxon          |
+\*******************************/
 
-package nz.co.withfire.diecubesdie.entities.gui;
+package nz.co.withfire.diecubesdie.entities.gui.button;
 
 import android.opengl.Matrix;
 import nz.co.withfire.diecubesdie.bounding.Bounding;
-import nz.co.withfire.diecubesdie.engine.menu.MainMenuEngine;
-import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.GUIDrawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
-public class Button extends GUIDrawable {
+public class ImageButton extends Button {
 
     //VARIABLES
     //the shape of the button
     private Shape button;
-    
-    //the position of the button
-    private Vector2d pos = new Vector2d();
-    
-    //the bounding box of the button
-    private Bounding bounding;
-    
-    //the button type this is
-    private ValuesUtil.ButtonType type;
-    
-    //Matrix
-    //the model view projection matrix
-    private float[] mvpMatrix = new float[16];
-    //the transformation matrix
-    private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
     /**Creates a new main menu button
@@ -43,7 +26,7 @@ public class Button extends GUIDrawable {
     @param pos the position of the button
     @param bounding the bounding box of the button
     @param type the type of button this is*/
-    public Button(Shape button, Vector2d pos,
+    public ImageButton(Shape button, Vector2d pos,
         Bounding bounding, ValuesUtil.ButtonType type) {
         
         this.button = button;
@@ -56,11 +39,6 @@ public class Button extends GUIDrawable {
     }
     
     //PUBLIC METHODS
-    @Override
-    public void update() {
-
-    }
-
     @Override
     public void draw(float viewMatrix[], float projectionMatrix[]) {
         
@@ -79,20 +57,5 @@ public class Button extends GUIDrawable {
             
             bounding.draw(mvpMatrix);
         }
-    }
-    
-    /**@return the bounding box of the button*/
-    public Bounding getBounding() {
-        
-        //set the position of the bounding box before returning it
-        bounding.setPos(pos);
-        
-        return bounding;
-    }
-    
-    /**@return the type of button this is*/
-    public ValuesUtil.ButtonType getType() {
-        
-        return type;
     }
 }

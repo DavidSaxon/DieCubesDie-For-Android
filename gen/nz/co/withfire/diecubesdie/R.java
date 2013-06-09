@@ -18,22 +18,24 @@ public final class R {
         public static final int cube_nano=0x7f020004;
         public static final int cube_wood=0x7f020005;
         public static final int ic_launcher=0x7f020006;
-        public static final int menu_main_cube=0x7f020007;
-        public static final int menu_main_exit=0x7f020008;
-        public static final int menu_main_facebook=0x7f020009;
-        public static final int menu_main_googleplus=0x7f02000a;
-        public static final int menu_main_more=0x7f02000b;
-        public static final int menu_main_options=0x7f02000c;
-        public static final int menu_main_play=0x7f02000d;
-        public static final int menu_main_store=0x7f02000e;
-        public static final int menu_main_title=0x7f02000f;
-        public static final int menu_main_withfire=0x7f020010;
-        public static final int omicron_splash=0x7f020011;
-        public static final int splash_presents=0x7f020012;
-        public static final int terrain_plains_grass_1=0x7f020013;
-        public static final int terrain_plains_wall=0x7f020014;
-        public static final int text=0x7f020015;
-        public static final int with_fire_splash=0x7f020016;
+        public static final int menu_levelselect_city_1=0x7f020007;
+        public static final int menu_levelselect_desert_1=0x7f020008;
+        public static final int menu_levelselect_jungle_1=0x7f020009;
+        public static final int menu_levelselect_mountains_1=0x7f02000a;
+        public static final int menu_levelselect_plains_1=0x7f02000b;
+        public static final int menu_levelselect_sky=0x7f02000c;
+        public static final int menu_levelselect_stronghold_1=0x7f02000d;
+        public static final int menu_main_cube=0x7f02000e;
+        public static final int menu_main_facebook=0x7f02000f;
+        public static final int menu_main_googleplus=0x7f020010;
+        public static final int menu_main_title=0x7f020011;
+        public static final int menu_main_withfire=0x7f020012;
+        public static final int omicron_splash=0x7f020013;
+        public static final int splash_presents=0x7f020014;
+        public static final int terrain_plains_grass_1=0x7f020015;
+        public static final int terrain_plains_wall=0x7f020016;
+        public static final int text=0x7f020017;
+        public static final int with_fire_splash=0x7f020018;
     }
     public static final class id {
         public static final int menu_settings=0x7f080000;
@@ -58,15 +60,16 @@ public final class R {
         public static final int shape_gui_overlay=0x7f04000a;
         public static final int shape_menu_cube=0x7f04000b;
         public static final int shape_menu_ground=0x7f04000c;
-        public static final int shape_menu_main_button=0x7f04000d;
-        public static final int shape_menu_main_title=0x7f04000e;
-        public static final int shape_menu_social_button=0x7f04000f;
-        public static final int shape_menu_spikes=0x7f040010;
-        public static final int shape_menu_withfire_button=0x7f040011;
-        public static final int shape_small_square_plane_textured=0x7f040012;
-        public static final int shape_square_plane_coloured=0x7f040013;
-        public static final int shape_square_plane_textured=0x7f040014;
-        public static final int shape_terrian_ground_tile=0x7f040015;
+        public static final int shape_menu_levelselect_background=0x7f04000d;
+        public static final int shape_menu_levelselect_planetgrid=0x7f04000e;
+        public static final int shape_menu_main_title=0x7f04000f;
+        public static final int shape_menu_social_button=0x7f040010;
+        public static final int shape_menu_spikes=0x7f040011;
+        public static final int shape_menu_withfire_button=0x7f040012;
+        public static final int shape_small_square_plane_textured=0x7f040013;
+        public static final int shape_square_plane_coloured=0x7f040014;
+        public static final int shape_square_plane_textured=0x7f040015;
+        public static final int shape_terrian_ground_tile=0x7f040016;
     }
     public static final class string {
         public static final int app_name=0x7f050000;

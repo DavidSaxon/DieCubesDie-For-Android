@@ -36,8 +36,8 @@ public class MainMenuTitle extends GUIDrawable {
         this.title = title;
         //set the position
         pos.copy(TransformationsUtil.getOpenGLDim());
-        pos.setX(-pos.getX() - 0.62f);
-        pos.setY(-pos.getY() - 0.70f);
+        pos.setX(-pos.getX() - TransformationsUtil.scaleToScreen(0.62f));
+        pos.setY(-pos.getY() - TransformationsUtil.scaleToScreen(0.70f));
     }
     
     //PUBLIC METHODS

@@ -13,7 +13,6 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleTex;
-import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
@@ -237,8 +236,6 @@ public class Text {
                 //calculate the texture position for the character
                 float texXPos = charPosX * charSize;
                 float texYPos = charPosY * charSize;
-                
-                Log.v(ValuesUtil.TAG, "" + charPosX);
                 
                 //create the texture co-ordinates                
                 float[] texCoords = {

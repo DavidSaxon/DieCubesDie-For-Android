@@ -22,8 +22,6 @@ public class MenuGround extends GUIDrawable {
     //Matrix
     //the model view projection matrix
     private float[] mvpMatrix = new float[16];
-    //the transformation matrix
-    private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
     /**Creates a new menu ground
@@ -40,5 +38,4 @@ public class MenuGround extends GUIDrawable {
         Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
         ground.draw(mvpMatrix);
     }
-
 }

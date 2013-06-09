@@ -2,19 +2,7 @@
 | TODO |
 \++++++/
 
--shapes {
-
-    -animation (changes texture down through the image)
-    
-    -can read animation block sizes from texture coords
-}
-
--font renderer {
-
-    -can draw font based on given string
-    
-    -can scale font
-}
+-fix shader names
 
 -menu {
 
@@ -23,16 +11,21 @@
     -button changes
 }
 
--level navigation {
+-menu navigation {
 
-    -need to set up the level so it can handle multitouch
-    
-    -be able to recognise gestures (swipe, pinch and twist)
+    -swipe to scroll
 }
 
 -level grid {
 
     -find where on the level grid the touch is
+}
+
+-level navigation {
+
+    -need to set up the level so it can handle multitouch
+    
+    -be able to recognise gestures (swipe, pinch and twist)
 }
 
 -entity list {
@@ -51,6 +44,13 @@ res {
     -make different dpi splash images
     
     -make plains cliffs
+}
+
+-shapes {
+
+    -animation (changes texture down through the image)
+    
+    -can read animation block sizes from texture coords
 }
 
 -fps manager {

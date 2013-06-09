@@ -14,9 +14,12 @@ import android.view.MotionEvent;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
-import nz.co.withfire.diecubesdie.entities.gui.Button;
+import nz.co.withfire.diecubesdie.engine.level_select.LevelSelectEngine;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
+import nz.co.withfire.diecubesdie.entities.gui.button.Button;
+import nz.co.withfire.diecubesdie.entities.gui.button.ImageButton;
+import nz.co.withfire.diecubesdie.entities.gui.button.TextButton;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuCube;
 import nz.co.withfire.diecubesdie.entities.main_menu.back_ground.MenuGround;
 import nz.co.withfire.diecubesdie.entities.main_menu.main.MainMenuTitle;
@@ -25,6 +28,7 @@ import nz.co.withfire.diecubesdie.entities.main_menu.transitions.MenuTransition;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
+import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.utilities.CollisionUtil;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
@@ -43,7 +47,7 @@ public class MainMenuEngine implements Engine {
     //the rate at which the colour changes
     private final float COLOUR_CHANGE_RATE = 0.005f;
     
-    //the amount of time a connection time out messahe is displayed for
+    //the amount of time a connection time out message is displayed for
     private final int TIME_OUT_DISPLAY_DURATION = 3000;
     
     //the android context
@@ -62,6 +66,8 @@ public class MainMenuEngine implements Engine {
     private Engine nextState = null;
     //is true once the menu is complete
     private boolean complete = false;
+    //is true if we should complete next cycle
+    private boolean completeNext = false;
     //is true if the menu is paused
     private boolean paused = false;
     //is true if the app has just been resumed
@@ -123,6 +129,12 @@ public class MainMenuEngine implements Engine {
     @Override
     public boolean execute() {
         
+        //engine is complete
+        if (completeNext) {
+            
+            complete = true;
+        }
+        
         //resume the menu
         if (resume) {
             
@@ -144,9 +156,14 @@ public class MainMenuEngine implements Engine {
             processTouch();
             
             //check if there is a transition running and if it's done
-            if (transition != null && transition.complete()) {
+            if (transition != null && transition.complete()
+                && !completeNext) {
                 
-                complete = true;
+                //add the loading overlay
+                entities.add(new Overlay(resources.getShape("overlay"),
+                        new Vector2d(), "LOADING", false));
+                
+                completeNext = true;
             }
             
             //update the entities
@@ -259,7 +276,7 @@ public class MainMenuEngine implements Engine {
             case PLAY: {
                 
                 //got to the level
-                nextState = new LevelEngine(context, resources);
+                nextState = new LevelSelectEngine(context, resources);
                 //add the spike transition
                 transition = new MenuSpikes(resources.getShape("menu_spikes"));
                 entities.add(transition);
@@ -370,64 +387,79 @@ public class MainMenuEngine implements Engine {
         entities.add(title);
         
         //calculate the x position of buttons
-        float buttonXPos = TransformationsUtil.getOpenGLDim().getX() + 0.6f;
+        float buttonXPos = TransformationsUtil.getOpenGLDim().getX() +
+            TransformationsUtil.scaleToScreen(0.6f);
         
         //play button
-        Button playButton = new Button(
-            resources.getShape("main_menu_play_button"),
-            new Vector2d(buttonXPos, 0.65f),
+        TextButton playButton = new TextButton(
+            new Text(new Vector2d(buttonXPos,
+                TransformationsUtil.scaleToScreen(0.65f)),
+                TransformationsUtil.scaleToScreen(0.12f),
+                Text.Align.CENTRE, "PLAY"),
             resources.getBounding("main_menu_button"),
             ValuesUtil.ButtonType.PLAY);
         entities.add(playButton);
         buttons.add(playButton);
         //store button
-        Button storeButton = new Button(
-            resources.getShape("main_menu_store_button"),
-            new Vector2d(buttonXPos, 0.4f),
+        TextButton storeButton = new TextButton(
+            new Text(new Vector2d(buttonXPos,
+                TransformationsUtil.scaleToScreen(0.40f)), 
+                TransformationsUtil.scaleToScreen(0.12f),
+                Text.Align.CENTRE, "STORE"),
             resources.getBounding("main_menu_button"),
             ValuesUtil.ButtonType.STORE);
         entities.add(storeButton);
         buttons.add(storeButton);
         //options button
-        Button optionsButton = new Button(
-            resources.getShape("main_menu_options_button"),
-            new Vector2d(buttonXPos, 0.15f),
+        TextButton optionsButton = new TextButton(
+            new Text(new Vector2d(buttonXPos,
+                TransformationsUtil.scaleToScreen(0.15f)), 
+                TransformationsUtil.scaleToScreen(0.12f),
+                Text.Align.CENTRE, "OPTIONS"),
             resources.getBounding("main_menu_button"),
             ValuesUtil.ButtonType.OPTIONS);
         entities.add(optionsButton);
         buttons.add(optionsButton);
         //more button
-        Button moreButton = new Button(
-            resources.getShape("main_menu_more_button"),
-            new Vector2d(buttonXPos, -0.10f),
+        TextButton moreButton = new TextButton(
+            new Text(new Vector2d(buttonXPos,
+                TransformationsUtil.scaleToScreen(-0.10f)),
+                TransformationsUtil.scaleToScreen(0.12f),
+                Text.Align.CENTRE, "MORE"),
             resources.getBounding("main_menu_button"),
             ValuesUtil.ButtonType.MORE);
         entities.add(moreButton);
         buttons.add(moreButton);
         
         //calculate the social buttons base x position
-        float socialXPos = -TransformationsUtil.getOpenGLDim().getX() - 0.37f;
+        float socialXPos = -TransformationsUtil.getOpenGLDim().getX() -
+            TransformationsUtil.scaleToScreen(0.37f);
         
         //facebook button
-        Button facebookButton = new Button(
+        ImageButton facebookButton = new ImageButton(
             resources.getShape("main_menu_facebook_button"),
-            new Vector2d(socialXPos, -0.7f),
+            new Vector2d(socialXPos,
+            TransformationsUtil.scaleToScreen(-0.7f)),
             resources.getBounding("menu_social_button"),
             ValuesUtil.ButtonType.FACEBOOK);
         entities.add(facebookButton);
         buttons.add(facebookButton);
         //google plus button
-        Button googleplusButton = new Button(
+        ImageButton googleplusButton = new ImageButton(
             resources.getShape("main_menu_googleplus_button"),
-            new Vector2d(socialXPos - 0.4f, -0.7f),
+            new Vector2d(socialXPos -
+            TransformationsUtil.scaleToScreen(0.4f),
+            TransformationsUtil.scaleToScreen(-0.7f)),
             resources.getBounding("menu_social_button"),
             ValuesUtil.ButtonType.GOOGLEPLUS);
         entities.add(googleplusButton);
         buttons.add(googleplusButton);
         //with fire button
-        Button withfireButton = new Button(
+        ImageButton withfireButton = new ImageButton(
             resources.getShape("main_menu_withfire_button"),
-            new Vector2d(-socialXPos + 0.4f, -0.7f),
+            new Vector2d(-socialXPos +
+            TransformationsUtil.scaleToScreen(0.4f),
+            TransformationsUtil.scaleToScreen(-0.7f)),
             resources.getBounding("menu_social_button"),
             ValuesUtil.ButtonType.WITH_FIRE);
         entities.add(withfireButton);

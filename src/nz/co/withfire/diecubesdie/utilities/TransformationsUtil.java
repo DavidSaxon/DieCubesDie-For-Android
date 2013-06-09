@@ -90,7 +90,20 @@ public class TransformationsUtil {
         return openGLPos;
     }
     
-    /**Get the scaled position of the give position
+    /**Get the scaled position of the given scalar
+    @param scalar the scalar to scale
+    @return the new scaled scalar*/
+    public static float scaleToScreen(float scalar) {
+        
+        if (scale.getX() < scale.getY()) {
+            
+            return scalar * scale.getX();
+        }
+        
+        return scalar * scale.getY();
+    }
+    
+    /**Get the scaled position of the given position
     @param pos the position to scale
     @return the new scaled position*/
     public static Vector2d scaleToScreen(Vector2d pos) {
