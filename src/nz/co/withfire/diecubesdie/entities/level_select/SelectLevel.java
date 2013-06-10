@@ -11,16 +11,23 @@ import android.util.Log;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 
 public class SelectLevel extends Drawable {
 
     //VARIABLES
+    //the width of a level selector
+    public static final float WIDTH = 0.5f;
+    
     //the shape for the select level
     private Shape shape;
     
     //the position
     private Vector3d pos = new Vector3d();
+    
+    //the centre position of the selector
+    private Vector2d centrePos = new Vector2d();
     
     //the rotation of the select level
     private Vector3d rot = new Vector3d();
@@ -48,15 +55,17 @@ public class SelectLevel extends Drawable {
     @param shape the shape for the select level
     @param shaders the fragment shaders
     @param pos the position of the select level
+    @param centrePos the centre pos
     @param rot the rotation of the select level
     @param locked if the level is locked*/
     public SelectLevel(Shape shape, int shaders[], Vector3d pos,
-        Vector3d rot, boolean locked) {
+        Vector2d centrePos, Vector3d rot, boolean locked) {
         
         //set variables
         this.shape = shape;
         this.shaders = shaders;
         this.pos.copy(pos);
+        this.centrePos.copy(centrePos);
         this.rot.copy(rot);
         this.locked = locked;
     }
@@ -72,6 +81,8 @@ public class SelectLevel extends Drawable {
         
         //apply transformations
         Matrix.setIdentityM(tMatrix, 0);
+        
+        Matrix.translateM(tMatrix, 0, centrePos.getX(), 0.0f, 0.0f);
         
         Matrix.rotateM(tMatrix, 0, turnRot.getY(), 0, 1.0f, 0);
         Matrix.rotateM(tMatrix, 0, turnRot.getX(), 1.0f, 0, 0);
@@ -104,8 +115,6 @@ public class SelectLevel extends Drawable {
     private void setShader() {
         
         if (!locked && !selected) {
-            
-            Log.v(ValuesUtil.TAG, "here");
             
             shape.setFragmentShader(shaders[0]);
         }

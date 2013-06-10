@@ -7,12 +7,15 @@
 package nz.co.withfire.diecubesdie.engine.level_select;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
+import nz.co.withfire.diecubesdie.entities.gui.GUIText;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.level_select.Background;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
+import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
@@ -40,6 +43,9 @@ public class LevelSelectEngine implements Engine {
     //the level selector
     private LevelSelector selector;
     
+    //the information text
+    private GUIText infoText;
+    
     //CONSTRUCTOR
     /**Creates a new level select engine
     @param context the android context
@@ -61,8 +67,6 @@ public class LevelSelectEngine implements Engine {
         //load the level select resources
         resources.loadGroup(ResourceGroup.LEVEL_SELECT);
         
-        Log.v(ValuesUtil.TAG, "Load complete");
-        
         addInitObjects();
     }
     
@@ -79,9 +83,7 @@ public class LevelSelectEngine implements Engine {
 
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, 0.0f, 0.1f, 2.0f);
-        Matrix.rotateM(viewMatrix, 0, 15, -1.0f, 0, 0.0f);
-        Matrix.rotateM(viewMatrix, 0, 0, 0, -1.0f, 0.0f);
+        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 2.0f);
     }
 
     @Override
@@ -112,6 +114,30 @@ public class LevelSelectEngine implements Engine {
         
         //create a new level selector
         selector = new LevelSelector(resources, entities);
+        
+        //add the title
+        float titleSize = TransformationsUtil.scaleToScreen(0.13f);
+        Vector2d titlePos = new Vector2d(
+            (TransformationsUtil.getOpenGLDim().getX() +
+            TransformationsUtil.scaleToScreen(0.02f)),
+            -TransformationsUtil.getOpenGLDim().getY() - titleSize -
+            TransformationsUtil.scaleToScreen(0.1f));
+        entities.add(new GUIText(titlePos, titleSize,
+            Text.Align.RIGHT, "LEVEL SELECT"));
+        
+        //add the info text
+        float infoSize = TransformationsUtil.scaleToScreen(0.07f);
+        Vector2d infoPos = new Vector2d(
+            (TransformationsUtil.getOpenGLDim().getX() +
+            TransformationsUtil.scaleToScreen(0.08f)),
+            TransformationsUtil.scaleToScreen(0.25f));
+        infoText = new GUIText(infoPos, infoSize, Text.Align.RIGHT,
+            "TAP A GRID SQUARE\nTO SELECT A LEVEL\n" +
+            "SWIPE LEFT OR RIGHT\n" +
+            "TO SWITCH AREA");
+        infoText.setFragmentShader(
+            resources.getShader("texture_quater_dim_fragment"));
+        entities.add(infoText);
         
         //the fade in overlay
         entities.add(new Overlay(resources.getShape("fade_overlay"),

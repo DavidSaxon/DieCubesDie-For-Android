@@ -14,7 +14,9 @@ import android.util.Log;
 import nz.co.withfire.diecubesdie.entities.level_select.SelectLevel;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
+import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 
 public class LevelSelector {
@@ -33,6 +35,9 @@ public class LevelSelector {
     
     //a list of list of the select levels
     private List<List<SelectLevel>> selectLevels;
+    
+    //the position of the level selector
+    private Vector2d pos = new Vector2d();
     
     //CONSTRUCTOR
     /**Creates a new level selector
@@ -54,6 +59,11 @@ public class LevelSelector {
     //PRIVATE METHODS
     /**Initialises the level selector*/
     private void init() {
+        
+        //calculate the centre of the level selector
+        pos.setX((-TransformationsUtil.getOpenGLDim().getX() -
+            (SelectLevel.WIDTH * 2.0f)) +
+            TransformationsUtil.scaleToScreen(0.4f));
         
         //the rotation for each area
         Vector3d rotations[] = {new Vector3d(), new Vector3d(0.0f, 90.0f, 0.0f),
@@ -79,23 +89,22 @@ public class LevelSelector {
             ArrayList<SelectLevel> area = new ArrayList<SelectLevel>();
             
             //add the selects to the area
-            for (float x = -1.0f; x < 1.0f; x += 0.5f) {
-                for (float y = -1.0f; y < 1.0f; y += 0.5f) {
+            for (float x = 1.0f; x > -1.0f; x -= SelectLevel.WIDTH) {
+                for (float y = 1.0f; y > -1.0f; y -= SelectLevel.WIDTH) {
                     
                     //TESTING
                     boolean locked = true;
-                    if (x <= -0.9f) {
+                    if (x >= 0.9f && y >= 0.9f) {
                         
                         locked = false;
                     }
                     
-                    Log.v(ValuesUtil.TAG, locked + "");
-                    
                     //create a new select level
                     SelectLevel selectLevel = new SelectLevel(
                         resources.getShape(shapes[i]), shaders,
-                        new Vector3d(x + 0.25f, y + 0.25f, -2.5f),
-                        rotations[i], locked);
+                        new Vector3d(x - SelectLevel.WIDTH / 2.0f,
+                            y - SelectLevel.WIDTH / 2.0f, -2.5f),
+                        pos, rotations[i], locked);
                     entities.add(selectLevel);
                     area.add(selectLevel);
                 }

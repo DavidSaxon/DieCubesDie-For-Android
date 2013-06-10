@@ -173,6 +173,18 @@ public class Text {
         buildText();
     }
     
+    /**@param shader the new fragment shader to use*/
+    public void setFragmentShader(int shader) {
+        
+        fragmentShader = shader;
+        
+        //iterate over the letters and change their shaders
+        for (GLTriangleTex s : letterShapes) {
+            
+            s.setFragmentShader(fragmentShader);
+        }
+    }
+    
     //PRIVATE METHODS
     /**Builds the shapes and the positions for the text*/
     private void buildText() {

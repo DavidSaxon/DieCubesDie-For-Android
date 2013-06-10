@@ -4,11 +4,13 @@
 
 -GROUP RESOURCES INTO CLASSES
 
+-String from resources
+
 -menu {
 
     -add death animations for transitions
     
-    -button changes
+    -give buttons backgrounds
 }
 
 -menu navigation {

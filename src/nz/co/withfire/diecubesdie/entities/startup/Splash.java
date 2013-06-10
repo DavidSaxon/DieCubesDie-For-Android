@@ -18,7 +18,7 @@ public class Splash extends GUIDrawable {
     //is true once the splash has finished loading
     private boolean fadeComplete = false;
     //the fade speed of the splash
-    private final float FADE_SPEED = 0.5f;
+    private final float FADE_SPEED = 0.01f;
     
     //Matrix
     //the model view projection matrix

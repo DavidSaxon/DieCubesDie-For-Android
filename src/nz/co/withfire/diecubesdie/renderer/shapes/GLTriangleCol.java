@@ -137,6 +137,12 @@ public class GLTriangleCol implements Shape {
     }
     
     @Override
+    public int getFragmentShader() {
+        
+        return fragmentShader;
+    }
+    
+    @Override
     public void setFragmentShader(int shader) {
         
         //detach the current shader

@@ -13,6 +13,9 @@ public interface Shape {
     @param mvpMatrix the model view projection matrix*/
     public void draw(float[] mvpMatrix);
     
+    /**@return the current fragment shader*/
+    public int getFragmentShader();
+    
     /**Sets the new fragment shader for the shape
     @param shader the new fragment shader*/
     public void setFragmentShader(int shader);

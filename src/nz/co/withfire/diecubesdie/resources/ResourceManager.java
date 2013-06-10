@@ -184,8 +184,6 @@ public class ResourceManager {
                 
                 if (groups[i] == group) {
                     
-                    Log.v(ValuesUtil.TAG, "load");
-                    
                     //load
                     s.load(context, this);
                     break;
@@ -251,7 +249,13 @@ public class ResourceManager {
                 R.raw.shader_fragment_texture_black_to_white));
         shaders.put("texture_dim_btw_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_dim_btw));
+                R.raw.shader_fragment_texture_dim_btw));
+        shaders.put("texture_half_dim_fragment",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_texture_half_dim));
+        shaders.put("texture_quater_dim_fragment",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_texture_quater_dim));
         
         
         
