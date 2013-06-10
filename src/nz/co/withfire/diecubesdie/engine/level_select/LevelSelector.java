@@ -9,9 +9,12 @@ package nz.co.withfire.diecubesdie.engine.level_select;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 import nz.co.withfire.diecubesdie.entities.level_select.SelectLevel;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
+import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 
 public class LevelSelector {
@@ -62,6 +65,12 @@ public class LevelSelector {
             "level_select_city_1", "level_select_desert_1",
             "level_select_jungle_1", "level_select_stronghold_1"
         };
+        //the shaders
+        int shaders[] = {resources.getShader("texture_no_lighting_fragment"),
+            resources.getShader("texture_black_to_white_fragment"),
+            resources.getShader("texture_dim_fragment"),
+            resources.getShader("texture_dim_btw_fragment")
+        };
         
         //add all the select levels
         for (int i = 0; i < NUMBER_OF_AREAS; ++i) {
@@ -73,11 +82,20 @@ public class LevelSelector {
             for (float x = -1.0f; x < 1.0f; x += 0.5f) {
                 for (float y = -1.0f; y < 1.0f; y += 0.5f) {
                     
+                    //TESTING
+                    boolean locked = true;
+                    if (x <= -0.9f) {
+                        
+                        locked = false;
+                    }
+                    
+                    Log.v(ValuesUtil.TAG, locked + "");
+                    
                     //create a new select level
                     SelectLevel selectLevel = new SelectLevel(
-                        resources.getShape(shapes[i]),
+                        resources.getShape(shapes[i]), shaders,
                         new Vector3d(x + 0.25f, y + 0.25f, -2.5f),
-                        rotations[i]);
+                        rotations[i], locked);
                     entities.add(selectLevel);
                     area.add(selectLevel);
                 }

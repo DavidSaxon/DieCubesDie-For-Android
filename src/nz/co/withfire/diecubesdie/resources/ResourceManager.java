@@ -243,7 +243,15 @@ public class ResourceManager {
         shaders.put("texture_no_lighting_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
                 R.raw.shader_fragment_texture_no_lighting));
-        
+        shaders.put("texture_dim_fragment",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_texture_dim));
+        shaders.put("texture_black_to_white_fragment",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_texture_black_to_white));
+        shaders.put("texture_dim_btw_fragment",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_dim_btw));
         
         
         

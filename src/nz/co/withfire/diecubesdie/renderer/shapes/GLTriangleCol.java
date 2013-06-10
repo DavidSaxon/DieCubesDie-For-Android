@@ -38,7 +38,7 @@ public class GLTriangleCol implements Shape {
     //the colour buffer
     private FloatBuffer colourBuffer;
     //the OpenGL program
-    private final int program;
+    private int program;
     
     //the co-ordinates of the triangle
     private float coords[];
@@ -134,6 +134,21 @@ public class GLTriangleCol implements Shape {
 
         //disable the vertex and colour arrays
         GLES20.glDisableVertexAttribArray(positionHandle);
+    }
+    
+    @Override
+    public void setFragmentShader(int shader) {
+        
+        //detach the current shader
+        GLES20.glDetachShader(program, this.fragmentShader);
+        
+        //set the new shader
+        this.fragmentShader = shader;
+        
+        //attach the new shader
+        GLES20.glAttachShader(program, this.fragmentShader);
+        //create openGL program executables
+        GLES20.glLinkProgram(program);
     }
     
     /**@return the colour of the triangle*/
