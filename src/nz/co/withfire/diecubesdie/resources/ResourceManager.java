@@ -16,6 +16,10 @@ import android.util.Log;
 import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.bounding.Bounding;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
+import nz.co.withfire.diecubesdie.resources.packs.DebugPack;
+import nz.co.withfire.diecubesdie.resources.packs.GUIPack;
+import nz.co.withfire.diecubesdie.resources.packs.ShaderPack;
+import nz.co.withfire.diecubesdie.resources.packs.StartUpPack;
 import nz.co.withfire.diecubesdie.resources.types.BoundingResource;
 import nz.co.withfire.diecubesdie.resources.types.ShapeResource;
 import nz.co.withfire.diecubesdie.resources.types.ShaderResource;
@@ -30,7 +34,7 @@ public class ResourceManager {
     public enum ResourceGroup {
         
         DEBUG,
-        ALL,
+        GUI,
         OMICRON,
         WITH_FIRE,
         START_UP,
@@ -224,107 +228,77 @@ public class ResourceManager {
         return shapes.get(key).getShape();
     }
     
+    /**Adds a shader resources
+    @param key the shader key
+    @param shader the shader resource to add*/
+    public void addShader(String key, ShaderResource shader) {
+        
+        //check to make sure the map doesn't contain the key
+        if (shaders.containsKey(key)) {
+            
+            Log.v(ValuesUtil.TAG, "Invalid shader key");
+            throw new RuntimeException("Invalid shader key");
+        }
+        
+        shaders.put(key, shader);
+    }
+    
+    /**Adds a bounding resource
+    @param key the resource key
+    @param bounding the bounding resource*/
+    public void addBounding(String key, BoundingResource bounding) {
+        
+        //check to make sure the map doesn't contain the key
+        if (boundings.containsKey(key)) {
+            
+            Log.v(ValuesUtil.TAG, "Invalid bounding key");
+            throw new RuntimeException("Invalid bounding key");
+        }
+        
+        boundings.put(key, bounding);
+    }
+    
+    /**Adds a texture resource
+    @param key the resource key
+    @param texture the texture resource*/
+    public void addTexture(String key, TextureResource texture) {
+        
+        //check to make sure the map doesn't contain the key
+        if (textures.containsKey(key)) {
+            
+            Log.v(ValuesUtil.TAG, "Invalid texture key");
+            throw new RuntimeException("Invalid texture key");
+        }
+        
+        textures.put(key, texture);
+    }
+    
+    /**Adds a shape resource
+    @param key the resource key
+    @param shape the shape resource*/
+    public void addShape(String key, ShapeResource shape) {
+        
+        //check to make sure the map doesn't contain the key
+        if (shapes.containsKey(key)) {
+            
+            Log.v(ValuesUtil.TAG, "Invalid shape key");
+            throw new RuntimeException("Invalid shape key");
+        }
+        
+        shapes.put(key, shape);
+    }
+    
     //PRIVATE METHODS
     /**Initialises all the resource maps, but does not load any resources*/
     private void init() {
         
-        //----------SHADERS----------
-        shaders.put("plain_colour_vertex",
-            new ShaderResource(GLES20.GL_VERTEX_SHADER,
-            R.raw.shader_vertex_plain_colour));
-        shaders.put("colour_no_lighting_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_colour_no_lighting));
-        shaders.put("plain_texture_vertex",
-                new ShaderResource(GLES20.GL_VERTEX_SHADER,
-                R.raw.shader_vertex_plain_texture));
-        shaders.put("texture_no_lighting_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_no_lighting));
-        shaders.put("texture_dim_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_dim));
-        shaders.put("texture_black_to_white_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_black_to_white));
-        shaders.put("texture_dim_btw_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_dim_btw));
-        shaders.put("texture_half_dim_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_half_dim));
-        shaders.put("texture_quater_dim_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_quater_dim));
-        
-        
-        
-        
-        //----------BOUNDING BOXES----------
-        //GUI
-        //touch point bounding box
-        {
-        ResourceGroup groups[] = {ResourceGroup.ALL};
-        boundings.put("gui_touch_point",
-            new BoundingResource(R.raw.bounding_menu_main_button,
-            groups));
-        }
-        
-        //MENU
-        //main menu button bounding box
-        {
-        ResourceGroup groups[] = {ResourceGroup.MENU};
-        boundings.put("main_menu_button",
-            new BoundingResource(R.raw.bounding_menu_main_button,
-            groups));
-        }
-        //social button bounding box
-        {
-        ResourceGroup groups[] = {ResourceGroup.MENU};
-        boundings.put("menu_social_button",
-            new BoundingResource(R.raw.bounding_menu_social_button,
-            groups));
-        }
-        
-        
-        
-        
-        
+        //build the resource packs
+        ShaderPack.build(this);
+        DebugPack.build(this);
+        GUIPack.build(this);
+        StartUpPack.build(this);
         
         //----------TEXTURES----------
-        
-        //TEXT
-        //all text
-        {
-        ResourceGroup groups[] = {ResourceGroup.ALL};
-        textures.put("text",
-            new TextureResource(R.drawable.text,
-            groups));
-        }
-        //START UP
-        //omicron splash screen
-        {
-        ResourceGroup groups[] = {ResourceGroup.OMICRON};
-        textures.put("omicron_splash",
-            new TextureResource(R.drawable.omicron_splash,
-            groups));
-        }
-        //with fire splash screen
-        {
-        ResourceGroup groups[] = {ResourceGroup.WITH_FIRE};
-        textures.put("with_fire_splash",
-            new TextureResource(R.drawable.with_fire_splash,
-            groups));
-        }
-        //presents splash screen
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU,
-                    ResourceGroup.START_UP};
-            textures.put("presents_splash",
-                new TextureResource(R.drawable.splash_presents,
-                groups));
-        }
-        
         //MENU
         //Main
         //main title
@@ -439,62 +413,6 @@ public class ResourceManager {
         
         
         //----------SHAPES----------
-        
-        //GUI
-        //transparent overlay
-        {
-        ResourceGroup groups[] = {ResourceGroup.ALL};
-        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 0.85f);
-        shapes.put("overlay", new ShapeResource(
-            R.raw.shape_gui_overlay, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
-        }
-        //fade overlay
-        {
-        ResourceGroup groups[] = {ResourceGroup.ALL};
-        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
-        shapes.put("fade_overlay", new ShapeResource(
-            R.raw.shape_gui_overlay, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
-        }
-        //START UP
-        //omicron splash screen
-        {
-        ResourceGroup groups[] = {ResourceGroup.OMICRON};
-        shapes.put("omicron_splash", new ShapeResource(
-            R.raw.shape_square_plane_textured, groups,
-            "omicron_splash", "plain_texture_vertex",
-            "texture_no_lighting_fragment"));
-        }
-        //with fire splash screen
-        {
-            ResourceGroup groups[] = {ResourceGroup.WITH_FIRE};
-            shapes.put("with_fire_splash", new ShapeResource(
-                R.raw.shape_square_plane_textured, groups,
-                "with_fire_splash", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //presents splash screen
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU,
-                    ResourceGroup.START_UP};
-            shapes.put("presents_splash", new ShapeResource(
-                R.raw.shape_small_square_plane_textured, groups,
-                "presents_splash", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //splash screen fader
-        {
-        ResourceGroup groups[] = {ResourceGroup.OMICRON,
-            ResourceGroup.WITH_FIRE};
-        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
-        shapes.put("splash_fader", new ShapeResource(
-            R.raw.shape_square_plane_coloured, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
-        }
         
         //MENU
         //Main Menu
@@ -639,18 +557,6 @@ public class ResourceManager {
                 R.raw.shape_terrian_ground_tile, groups,
                 "plains_grass_tile", "plain_texture_vertex",
                 "texture_no_lighting_fragment"));
-        }
-        
-        //DEBUG
-        //Touch
-        //debug touch point
-        {
-        ResourceGroup groups[] = {ResourceGroup.DEBUG};
-        Vector4d col = new Vector4d(0.0f, 1.0f, 0.0f, 1.0f);
-        shapes.put("debug_touchpoint", new ShapeResource(
-            R.raw.shape_debug_touchpoint, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
         }
     }
 }

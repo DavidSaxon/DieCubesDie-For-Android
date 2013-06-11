@@ -138,7 +138,7 @@ public class StartUpEngine implements Engine {
         else if (loadCounter == 1) {
             
             //load the resources that are required by all
-            resources.loadGroup(ResourceGroup.ALL);
+            resources.loadGroup(ResourceGroup.GUI);
             
             //set the font texture
             Text.texture = resources.getTexture("text");

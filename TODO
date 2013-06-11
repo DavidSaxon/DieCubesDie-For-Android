@@ -18,6 +18,11 @@
     -swipe to scroll
 }
 
+-menu {
+
+    -optimise planet not have all sides in memory at a time
+}
+
 -level grid {
 
     -find where on the level grid the touch is

@@ -26,7 +26,7 @@ public class ValuesUtil {
         new Vector2d(1.77777777f, 1.0f);
     
     //connection time-out duration for internet actions (in ms)
-    public static int TIME_OUT = 20000;
+    public static int TIME_OUT = 40000;
     
     //ENUMERATORS
     //the different kind of buttons
