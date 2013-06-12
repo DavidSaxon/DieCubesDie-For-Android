@@ -290,7 +290,8 @@ public class MainMenuEngine implements Engine {
                 
                 //add an overlay
                 pauseOverlay = new Overlay(resources.getShape("overlay"),
-                    new Vector2d(), "PLEASE WAIT", false);
+                    new Vector2d(),
+                    context.getString(R.string.connection_message), false);
                 entities.add(pauseOverlay);
                 
                 //begin a connection attempt
@@ -313,7 +314,8 @@ public class MainMenuEngine implements Engine {
     /**Times out an attempted connection*/
     private void timeOut() {
         
-        pauseOverlay.setText("CONNECTION TIMED OUT");
+        pauseOverlay.setText(
+            context.getString(R.string.time_out_message));
         timedOut = true;
         timeOutStart = SystemClock.uptimeMillis();
         attemptingConnection = false;

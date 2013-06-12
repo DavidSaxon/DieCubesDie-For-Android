@@ -2,9 +2,12 @@
 | TODO |
 \++++++/
 
--GROUP RESOURCES INTO CLASSES
+-gesture reader {
 
--String from resources
+    -can be told which gestures to look for
+    
+    -returns information about the current gesture
+}
 
 -menu {
 
@@ -13,12 +16,7 @@
     -give buttons backgrounds
 }
 
--menu navigation {
-
-    -swipe to scroll
-}
-
--menu {
+-level select {
 
     -optimise planet not have all sides in memory at a time
 }
@@ -41,28 +39,13 @@
      gui and normal
 }
 
-res {
+resources {
 
-    -decide on with fire button for menu
-    -give the button different dpi images
+    -higher res text texture
 
     -set plane squares name to start_up
     
     -make different dpi splash images
-    
-    -make plains cliffs
-}
-
--shapes {
-
-    -animation (changes texture down through the image)
-    
-    -can read animation block sizes from texture coords
-}
-
--fps manager {
-
-    -might need a limit point where it stops changing
 }
 
 -store {
@@ -84,4 +67,14 @@ res {
 -Vectors {
     
     -cross product for 3d and 4d vectors
+}
+
+-shape {
+
+    -texture animations?
+}
+
+-fps manager {
+
+    -might need a limit point where it stops changing
 }

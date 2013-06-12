@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="level_select_title">LEVEL SELECT</string>
+    <string name="level_select_info">TAP A GRID SQUARE\n
+        TO SELECT A LEVEL\nSWIPE LEFT OR RIGHT\n
+        TO SWITCH AREA</string>
+
+</resources>

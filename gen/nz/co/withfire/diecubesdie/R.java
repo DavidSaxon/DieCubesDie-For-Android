@@ -75,12 +75,16 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int connection_message=0x7f040009;
+        public static final int level_select_info=0x7f040003;
+        public static final int level_select_title=0x7f040002;
         public static final int menu_settings=0x7f040001;
-        public static final int more_button=0x7f040006;
-        public static final int options_button=0x7f040005;
-        public static final int play_button=0x7f040002;
-        public static final int progress_button=0x7f040004;
-        public static final int store_button=0x7f040003;
+        public static final int more_button=0x7f040008;
+        public static final int options_button=0x7f040007;
+        public static final int play_button=0x7f040004;
+        public static final int progress_button=0x7f040006;
+        public static final int store_button=0x7f040005;
+        public static final int time_out_message=0x7f04000a;
     }
     public static final class style {
         /** 

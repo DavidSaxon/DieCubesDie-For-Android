@@ -6,6 +6,7 @@
 
 package nz.co.withfire.diecubesdie.engine.level_select;
 
+import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.gui.GUIText;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
@@ -123,7 +124,7 @@ public class LevelSelectEngine implements Engine {
             -TransformationsUtil.getOpenGLDim().getY() - titleSize -
             TransformationsUtil.scaleToScreen(0.1f));
         entities.add(new GUIText(titlePos, titleSize,
-            Text.Align.RIGHT, "LEVEL SELECT"));
+            Text.Align.RIGHT, context.getString(R.string.level_select_title)));
         
         //add the info text
         float infoSize = TransformationsUtil.scaleToScreen(0.07f);
@@ -132,9 +133,7 @@ public class LevelSelectEngine implements Engine {
             TransformationsUtil.scaleToScreen(0.08f)),
             TransformationsUtil.scaleToScreen(0.25f));
         infoText = new GUIText(infoPos, infoSize, Text.Align.RIGHT,
-            "TAP A GRID SQUARE\nTO SELECT A LEVEL\n" +
-            "SWIPE LEFT OR RIGHT\n" +
-            "TO SWITCH AREA");
+            context.getString(R.string.level_select_info));
         infoText.setFragmentShader(
             resources.getShader("texture_quater_dim_fragment"));
         entities.add(infoText);
