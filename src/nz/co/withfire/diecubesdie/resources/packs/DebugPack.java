@@ -24,7 +24,7 @@ public class DebugPack {
         {
         ResourceGroup groups[] = {ResourceGroup.DEBUG};
         Vector4d col = new Vector4d(0.0f, 1.0f, 0.0f, 1.0f);
-        resources.addShape("debug_touchpoint", new ShapeResource(
+        resources.add("debug_touchpoint", new ShapeResource(
             R.raw.shape_debug_touchpoint, groups,
             col, "plain_colour_vertex",
             "colour_no_lighting_fragment"));

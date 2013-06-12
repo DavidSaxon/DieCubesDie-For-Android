@@ -15,7 +15,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
-import nz.co.withfire.diecubesdie.engine.menu.MainMenuEngine;
+import nz.co.withfire.diecubesdie.engine.main_menu.MainMenuEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.startup.Splash;

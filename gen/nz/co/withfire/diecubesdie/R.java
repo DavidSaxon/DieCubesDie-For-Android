@@ -38,48 +38,49 @@ public final class R {
         public static final int with_fire_splash=0x7f020018;
     }
     public static final class id {
-        public static final int menu_settings=0x7f080000;
-    }
-    public static final class layout {
-        public static final int activity_main=0x7f030000;
+        public static final int menu_settings=0x7f070000;
     }
     public static final class menu {
-        public static final int activity_main=0x7f070000;
+        public static final int activity_main=0x7f060000;
     }
     public static final class raw {
-        public static final int bounding_gui_touch_point=0x7f040000;
-        public static final int bounding_menu_main_button=0x7f040001;
-        public static final int bounding_menu_social_button=0x7f040002;
-        public static final int music_intro_menu=0x7f040003;
-        public static final int shader_fragment_colour_no_lighting=0x7f040004;
-        public static final int shader_fragment_texture_black_to_white=0x7f040005;
-        public static final int shader_fragment_texture_dim=0x7f040006;
-        public static final int shader_fragment_texture_dim_btw=0x7f040007;
-        public static final int shader_fragment_texture_half_dim=0x7f040008;
-        public static final int shader_fragment_texture_no_lighting=0x7f040009;
-        public static final int shader_fragment_texture_quater_dim=0x7f04000a;
-        public static final int shader_vertex_plain_colour=0x7f04000b;
-        public static final int shader_vertex_plain_texture=0x7f04000c;
-        public static final int shape_cube_textured=0x7f04000d;
-        public static final int shape_debug_touchpoint=0x7f04000e;
-        public static final int shape_gui_overlay=0x7f04000f;
-        public static final int shape_menu_cube=0x7f040010;
-        public static final int shape_menu_ground=0x7f040011;
-        public static final int shape_menu_levelselect_background=0x7f040012;
-        public static final int shape_menu_levelselect_planetgrid=0x7f040013;
-        public static final int shape_menu_main_title=0x7f040014;
-        public static final int shape_menu_social_button=0x7f040015;
-        public static final int shape_menu_spikes=0x7f040016;
-        public static final int shape_menu_withfire_button=0x7f040017;
-        public static final int shape_small_square_plane_textured=0x7f040018;
-        public static final int shape_square_plane_coloured=0x7f040019;
-        public static final int shape_square_plane_textured=0x7f04001a;
-        public static final int shape_terrian_ground_tile=0x7f04001b;
+        public static final int bounding_gui_touch_point=0x7f030000;
+        public static final int bounding_menu_main_button=0x7f030001;
+        public static final int bounding_menu_social_button=0x7f030002;
+        public static final int music_intro_menu=0x7f030003;
+        public static final int shader_fragment_colour_no_lighting=0x7f030004;
+        public static final int shader_fragment_texture_black_to_white=0x7f030005;
+        public static final int shader_fragment_texture_dim=0x7f030006;
+        public static final int shader_fragment_texture_dim_btw=0x7f030007;
+        public static final int shader_fragment_texture_half_dim=0x7f030008;
+        public static final int shader_fragment_texture_no_lighting=0x7f030009;
+        public static final int shader_fragment_texture_quater_dim=0x7f03000a;
+        public static final int shader_vertex_plain_colour=0x7f03000b;
+        public static final int shader_vertex_plain_texture=0x7f03000c;
+        public static final int shape_cube_textured=0x7f03000d;
+        public static final int shape_debug_touchpoint=0x7f03000e;
+        public static final int shape_gui_overlay=0x7f03000f;
+        public static final int shape_menu_cube=0x7f030010;
+        public static final int shape_menu_ground=0x7f030011;
+        public static final int shape_menu_levelselect_background=0x7f030012;
+        public static final int shape_menu_levelselect_planetgrid=0x7f030013;
+        public static final int shape_menu_main_title=0x7f030014;
+        public static final int shape_menu_social_button=0x7f030015;
+        public static final int shape_menu_spikes=0x7f030016;
+        public static final int shape_menu_withfire_button=0x7f030017;
+        public static final int shape_small_square_plane_textured=0x7f030018;
+        public static final int shape_square_plane_coloured=0x7f030019;
+        public static final int shape_square_plane_textured=0x7f03001a;
+        public static final int shape_terrian_ground_tile=0x7f03001b;
     }
     public static final class string {
-        public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050001;
-        public static final int menu_settings=0x7f050002;
+        public static final int app_name=0x7f040000;
+        public static final int menu_settings=0x7f040001;
+        public static final int more_button=0x7f040006;
+        public static final int options_button=0x7f040005;
+        public static final int play_button=0x7f040002;
+        public static final int progress_button=0x7f040004;
+        public static final int store_button=0x7f040003;
     }
     public static final class style {
         /** 
@@ -103,10 +104,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f050000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
+        public static final int AppTheme=0x7f050001;
     }
 }

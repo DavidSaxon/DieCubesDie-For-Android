@@ -35,6 +35,7 @@ public class ValuesUtil {
         NONE,
         PLAY,
         STORE,
+        PROGRESS,
         OPTIONS,
         MORE,
         FACEBOOK,

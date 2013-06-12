@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="play_button">PLAY</string>
+    <string name="store_button">STORE</string>
+    <string name="progress_button">PROGRESS</string>
+    <string name="options_button">OPTIONS</string>
+    <string name="more_button">MORE</string>
+
+</resources>

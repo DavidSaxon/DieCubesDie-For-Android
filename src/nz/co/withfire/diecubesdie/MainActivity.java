@@ -11,7 +11,7 @@ import com.revmob.RevMobAdsListener;
 import com.revmob.ads.link.RevMobLink;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
-import nz.co.withfire.diecubesdie.engine.menu.MainMenuEngine;
+import nz.co.withfire.diecubesdie.engine.main_menu.MainMenuEngine;
 import nz.co.withfire.diecubesdie.engine.startup.StartUpEngine;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;

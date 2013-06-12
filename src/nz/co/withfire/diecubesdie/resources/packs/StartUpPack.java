@@ -25,14 +25,14 @@ public class StartUpPack {
         //main menu button bounding box
         {
         ResourceGroup groups[] = {ResourceGroup.MENU};
-        resources.addBounding("main_menu_button",
+        resources.add("main_menu_button",
             new BoundingResource(R.raw.bounding_menu_main_button,
             groups));
         }
         //social button bounding box
         {
         ResourceGroup groups[] = {ResourceGroup.MENU};
-        resources.addBounding("menu_social_button",
+        resources.add("menu_social_button",
             new BoundingResource(R.raw.bounding_menu_social_button,
             groups));
         }
@@ -41,14 +41,14 @@ public class StartUpPack {
         //omicron splash screen
         {
         ResourceGroup groups[] = {ResourceGroup.OMICRON};
-        resources.addTexture("omicron_splash",
+        resources.add("omicron_splash",
             new TextureResource(R.drawable.omicron_splash,
             groups));
         }
         //with fire splash screen
         {
         ResourceGroup groups[] = {ResourceGroup.WITH_FIRE};
-        resources.addTexture("with_fire_splash",
+        resources.add("with_fire_splash",
             new TextureResource(R.drawable.with_fire_splash,
             groups));
         }
@@ -56,7 +56,7 @@ public class StartUpPack {
         {
         ResourceGroup groups[] = {ResourceGroup.MENU,
                 ResourceGroup.START_UP};
-        resources.addTexture("presents_splash",
+        resources.add("presents_splash",
             new TextureResource(R.drawable.splash_presents,
             groups));
         }
@@ -65,7 +65,7 @@ public class StartUpPack {
         //omicron splash screen
         {
         ResourceGroup groups[] = {ResourceGroup.OMICRON};
-        resources.addShape("omicron_splash", new ShapeResource(
+        resources.add("omicron_splash", new ShapeResource(
             R.raw.shape_square_plane_textured, groups,
             "omicron_splash", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
@@ -73,7 +73,7 @@ public class StartUpPack {
         //with fire splash screen
         {
         ResourceGroup groups[] = {ResourceGroup.WITH_FIRE};
-        resources.addShape("with_fire_splash", new ShapeResource(
+        resources.add("with_fire_splash", new ShapeResource(
             R.raw.shape_square_plane_textured, groups,
             "with_fire_splash", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
@@ -82,7 +82,7 @@ public class StartUpPack {
         {
         ResourceGroup groups[] = {ResourceGroup.MENU,
                 ResourceGroup.START_UP};
-        resources.addShape("presents_splash", new ShapeResource(
+        resources.add("presents_splash", new ShapeResource(
             R.raw.shape_small_square_plane_textured, groups,
             "presents_splash", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
@@ -92,7 +92,7 @@ public class StartUpPack {
         ResourceGroup groups[] = {ResourceGroup.OMICRON,
             ResourceGroup.WITH_FIRE};
         Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
-        resources.addShape("splash_fader", new ShapeResource(
+        resources.add("splash_fader", new ShapeResource(
             R.raw.shape_square_plane_coloured, groups,
             col, "plain_colour_vertex",
             "colour_no_lighting_fragment"));

@@ -18,6 +18,10 @@ import nz.co.withfire.diecubesdie.bounding.Bounding;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.resources.packs.DebugPack;
 import nz.co.withfire.diecubesdie.resources.packs.GUIPack;
+import nz.co.withfire.diecubesdie.resources.packs.LevelPack;
+import nz.co.withfire.diecubesdie.resources.packs.LevelSelectPack;
+import nz.co.withfire.diecubesdie.resources.packs.MainMenuPack;
+import nz.co.withfire.diecubesdie.resources.packs.PlainsPack;
 import nz.co.withfire.diecubesdie.resources.packs.ShaderPack;
 import nz.co.withfire.diecubesdie.resources.packs.StartUpPack;
 import nz.co.withfire.diecubesdie.resources.types.BoundingResource;
@@ -231,7 +235,7 @@ public class ResourceManager {
     /**Adds a shader resources
     @param key the shader key
     @param shader the shader resource to add*/
-    public void addShader(String key, ShaderResource shader) {
+    public void add(String key, ShaderResource shader) {
         
         //check to make sure the map doesn't contain the key
         if (shaders.containsKey(key)) {
@@ -246,7 +250,7 @@ public class ResourceManager {
     /**Adds a bounding resource
     @param key the resource key
     @param bounding the bounding resource*/
-    public void addBounding(String key, BoundingResource bounding) {
+    public void add(String key, BoundingResource bounding) {
         
         //check to make sure the map doesn't contain the key
         if (boundings.containsKey(key)) {
@@ -261,7 +265,7 @@ public class ResourceManager {
     /**Adds a texture resource
     @param key the resource key
     @param texture the texture resource*/
-    public void addTexture(String key, TextureResource texture) {
+    public void add(String key, TextureResource texture) {
         
         //check to make sure the map doesn't contain the key
         if (textures.containsKey(key)) {
@@ -276,7 +280,7 @@ public class ResourceManager {
     /**Adds a shape resource
     @param key the resource key
     @param shape the shape resource*/
-    public void addShape(String key, ShapeResource shape) {
+    public void add(String key, ShapeResource shape) {
         
         //check to make sure the map doesn't contain the key
         if (shapes.containsKey(key)) {
@@ -297,266 +301,9 @@ public class ResourceManager {
         DebugPack.build(this);
         GUIPack.build(this);
         StartUpPack.build(this);
-        
-        //----------TEXTURES----------
-        //MENU
-        //Main
-        //main title
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_title",
-                new TextureResource(R.drawable.menu_main_title,
-                groups));
-        }
-        //facebook button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_facebook_button",
-                new TextureResource(R.drawable.menu_main_facebook,
-                groups));
-        }
-        //google plus button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_googleplus_button",
-                new TextureResource(R.drawable.menu_main_googleplus,
-                groups));
-        }
-        //with fire button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_withfire_button",
-                new TextureResource(R.drawable.menu_main_withfire,
-                groups));
-        }
-        //Background
-        //background cubs
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            textures.put("main_menu_cube",
-                new TextureResource(R.drawable.menu_main_cube,
-                groups));
-        }
-        //LEVEL SELECT
-        //background
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            textures.put("level_select_background",
-                new TextureResource(R.drawable.menu_levelselect_sky,
-                groups));
-        }
-        //plains level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            textures.put("level_select_plains_1",
-                new TextureResource(R.drawable.menu_levelselect_plains_1,
-                groups));
-        }
-        //mountains level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            textures.put("level_select_mountains_1",
-                new TextureResource(R.drawable.menu_levelselect_mountains_1,
-                groups));
-        }
-        //city level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            textures.put("level_select_city_1",
-                new TextureResource(R.drawable.menu_levelselect_city_1,
-                groups));
-        }
-        //desert level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            textures.put("level_select_desert_1",
-                new TextureResource(R.drawable.menu_levelselect_desert_1,
-                groups));
-        }
-        //desert level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            textures.put("level_select_jungle_1",
-                new TextureResource(R.drawable.menu_levelselect_jungle_1,
-                groups));
-        }
-        //stronghold level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            textures.put("level_select_stronghold_1",
-                new TextureResource(R.drawable.menu_levelselect_stronghold_1,
-                groups));
-        }
-        //LEVEL
-        //Cubes
-        //wooden cube
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                ResourceGroup.MENU, ResourceGroup.CUBE};
-        textures.put("wooden_cube",
-            new TextureResource(R.drawable.cube_wood,
-            groups));
-        }
-        //Terrian
-        //Planes
-        //grass 1 tile
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                ResourceGroup.MENU, ResourceGroup.TERRIAN,
-                ResourceGroup.PLAINS};
-        textures.put("plains_grass_tile",
-            new TextureResource(R.drawable.terrain_plains_grass_1,
-            groups));
-        }
-        
-        
-        
-        
-        //----------SHAPES----------
-        
-        //MENU
-        //Main Menu
-        //the title
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_title", new ShapeResource(
-                R.raw.shape_menu_main_title, groups,
-                "main_title", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //Buttons
-        //facebook button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_menu_facebook_button", new ShapeResource(
-                R.raw.shape_menu_social_button, groups,
-                "main_menu_facebook_button", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //google plus button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_menu_googleplus_button", new ShapeResource(
-                R.raw.shape_menu_social_button, groups,
-                "main_menu_googleplus_button", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //with fire button
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("main_menu_withfire_button", new ShapeResource(
-                R.raw.shape_menu_withfire_button, groups,
-                "main_menu_withfire_button", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //Background
-        //the ground in the menu
-        {
-        ResourceGroup groups[] = {ResourceGroup.MENU};
-        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
-        shapes.put("menu_ground", new ShapeResource(
-            R.raw.shape_menu_ground, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
-        }
-        //the cube in the menu
-        {
-            ResourceGroup groups[] = {ResourceGroup.MENU};
-            shapes.put("menu_cube", new ShapeResource(
-                R.raw.shape_menu_cube, groups,
-                "main_menu_cube", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //Transitions
-        //spikes
-        {
-        ResourceGroup groups[] = {ResourceGroup.MENU};
-        Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
-        shapes.put("menu_spikes", new ShapeResource(
-            R.raw.shape_menu_spikes, groups,
-            col, "plain_colour_vertex",
-            "colour_no_lighting_fragment"));
-        }
-        
-        //LEVEL SELECT
-        //background
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            shapes.put("level_select_background", new ShapeResource(
-                R.raw.shape_menu_levelselect_background, groups,
-                "level_select_background", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //plains level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            shapes.put("level_select_plains_1", new ShapeResource(
-                R.raw.shape_menu_levelselect_planetgrid, groups,
-                "level_select_plains_1", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //mountains level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            shapes.put("level_select_mountains_1", new ShapeResource(
-                R.raw.shape_menu_levelselect_planetgrid, groups,
-                "level_select_mountains_1", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //city level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            shapes.put("level_select_city_1", new ShapeResource(
-                R.raw.shape_menu_levelselect_planetgrid, groups,
-                "level_select_city_1", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //desert level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            shapes.put("level_select_desert_1", new ShapeResource(
-                R.raw.shape_menu_levelselect_planetgrid, groups,
-                "level_select_desert_1", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //jungle level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            shapes.put("level_select_jungle_1", new ShapeResource(
-                R.raw.shape_menu_levelselect_planetgrid, groups,
-                "level_select_jungle_1", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //stronghold level 1
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-            shapes.put("level_select_stronghold_1", new ShapeResource(
-                R.raw.shape_menu_levelselect_planetgrid, groups,
-                "level_select_stronghold_1", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        
-        //LEVEL
-        //Cubes
-        //wooden cube
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                    ResourceGroup.CUBE};
-            shapes.put("wooden_cube", new ShapeResource(
-                R.raw.shape_cube_textured, groups,
-                "wooden_cube", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
-        //Terrain
-        //Plains
-        //plains grass tile
-        {
-            ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                    ResourceGroup.CUBE};
-            shapes.put("plains_grass_tile", new ShapeResource(
-                R.raw.shape_terrian_ground_tile, groups,
-                "plains_grass_tile", "plain_texture_vertex",
-                "texture_no_lighting_fragment"));
-        }
+        MainMenuPack.build(this);
+        LevelSelectPack.build(this);
+        LevelPack.build(this);
+        PlainsPack.build(this);
     }
 }

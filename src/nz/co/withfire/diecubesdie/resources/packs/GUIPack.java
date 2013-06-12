@@ -25,7 +25,7 @@ public class GUIPack {
         //touch point bounding box
         {
         ResourceGroup groups[] = {ResourceGroup.GUI};
-        resources.addBounding("gui_touch_point",
+        resources.add("gui_touch_point",
             new BoundingResource(R.raw.bounding_menu_main_button,
             groups));
         }
@@ -34,7 +34,7 @@ public class GUIPack {
         //text
         {
         ResourceGroup groups[] = {ResourceGroup.GUI};
-        resources.addTexture("text",
+        resources.add("text",
             new TextureResource(R.drawable.text,
             groups));
         }
@@ -44,7 +44,7 @@ public class GUIPack {
         {
         ResourceGroup groups[] = {ResourceGroup.GUI};
         Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 0.85f);
-        resources.addShape("overlay", new ShapeResource(
+        resources.add("overlay", new ShapeResource(
             R.raw.shape_gui_overlay, groups,
             col, "plain_colour_vertex",
             "colour_no_lighting_fragment"));
@@ -53,7 +53,7 @@ public class GUIPack {
         {
         ResourceGroup groups[] = {ResourceGroup.GUI};
         Vector4d col = new Vector4d(0.0f, 0.0f, 0.0f, 1.0f);
-        resources.addShape("fade_overlay", new ShapeResource(
+        resources.add("fade_overlay", new ShapeResource(
             R.raw.shape_gui_overlay, groups,
             col, "plain_colour_vertex",
             "colour_no_lighting_fragment"));
