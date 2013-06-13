@@ -17,7 +17,7 @@ import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
 import nz.co.withfire.diecubesdie.engine.level_select.LevelSelectEngine;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
-import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
+import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
 import nz.co.withfire.diecubesdie.entities.gui.button.Button;
 import nz.co.withfire.diecubesdie.entities.gui.button.ImageButton;
 import nz.co.withfire.diecubesdie.entities.gui.button.TextButton;
@@ -244,19 +244,19 @@ public class MainMenuEngine implements Engine {
         if (addTouchPoint) {
             
             //add the touch point
-            TouchPoint touchPoint;
+            TapPoint touchPoint;
             
             //add a debug touch point
             if (DebugUtil.DEBUG) {
                 
-                 touchPoint = new TouchPoint(
+                 touchPoint = new TapPoint(
                      resources.getShape("debug_touchpoint"),
                      touchPos, resources.getBounding("gui_touch_point"));
             }
             //add a normal touch point
             else {
                 
-                touchPoint = new TouchPoint(touchPos,
+                touchPoint = new TapPoint(touchPos,
                     resources.getBounding("gui_touch_point"));
             }
             

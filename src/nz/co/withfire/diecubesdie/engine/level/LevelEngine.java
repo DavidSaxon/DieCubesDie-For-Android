@@ -12,7 +12,7 @@ import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
-import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
+import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
 import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;

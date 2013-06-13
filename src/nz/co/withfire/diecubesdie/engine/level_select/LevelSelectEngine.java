@@ -16,6 +16,7 @@ import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.touch_control.TouchTracker;
 import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
@@ -35,6 +36,10 @@ public class LevelSelectEngine implements Engine {
     
     //the list of all entities
     private EntityList entities = new EntityList();
+    
+    //the gesture reader
+    private TouchTracker touchTracker =
+        new TouchTracker();
     
     //the next state to move to once completed
     private Engine nextState = null;
@@ -76,6 +81,9 @@ public class LevelSelectEngine implements Engine {
         
         entities.update();
         
+        //read the touch points
+        processTouch();
+        
         return complete;
     }
 
@@ -90,7 +98,7 @@ public class LevelSelectEngine implements Engine {
     @Override
     public void touchEvent(int event, Vector2d touchPos) {
 
-        //do nothing
+        touchTracker.inputEvent(event, touchPos);
     }
 
     @Override
@@ -106,6 +114,12 @@ public class LevelSelectEngine implements Engine {
     }
     
     //PRIVATE METHODS
+    /**Process touch input*/
+    private void processTouch() {
+        
+        //iterate over the current touch points
+    }
+    
     /**Adds the initial objects*/
     private void addInitObjects() {
         

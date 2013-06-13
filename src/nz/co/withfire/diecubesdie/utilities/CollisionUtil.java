@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import android.util.Log;
 import nz.co.withfire.diecubesdie.bounding.Bounding;
 import nz.co.withfire.diecubesdie.bounding.BoundingRect;
-import nz.co.withfire.diecubesdie.entities.gui.TouchPoint;
+import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
 import nz.co.withfire.diecubesdie.entities.gui.button.Button;
 import nz.co.withfire.diecubesdie.entities.gui.button.ImageButton;
 
@@ -38,7 +38,7 @@ public class CollisionUtil {
     @param the buttons
     @return the button type a collision has occured with*/
     public static ValuesUtil.ButtonType checkButtonCollisions(
-        TouchPoint touchPoint, ArrayList<Button> buttons) {
+        TapPoint touchPoint, ArrayList<Button> buttons) {
         
         //create an array that stores the collision value for each button
         float[] values = new float[buttons.size()];
