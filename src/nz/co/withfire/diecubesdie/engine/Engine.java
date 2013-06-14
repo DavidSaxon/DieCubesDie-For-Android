@@ -31,8 +31,10 @@ public interface Engine {
     public void applyCamera(float[] viewMatrix);
     
     /**Inputs a motion event into the engine
-    @param event the motion event*/
-    public void touchEvent(int event, Vector2d touchPos);
+    @param event the motion event type
+    @param index the event index
+    @param touchPos the position*/
+    public void touchEvent(int event, int index, Vector2d touchPos);
     
     /**@return the entity list*/
     public EntityList getEntities();

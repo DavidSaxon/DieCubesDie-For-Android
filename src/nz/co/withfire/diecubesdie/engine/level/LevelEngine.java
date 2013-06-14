@@ -121,7 +121,7 @@ public class LevelEngine implements Engine {
     }
     
     @Override
-    public void touchEvent(int event, Vector2d touchPos) {
+    public void touchEvent(int event, int index, Vector2d touchPos) {
         
         switch (event) {
         

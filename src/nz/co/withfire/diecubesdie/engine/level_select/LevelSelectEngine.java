@@ -12,6 +12,9 @@ import nz.co.withfire.diecubesdie.entities.gui.GUIText;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.level_select.Background;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
+import nz.co.withfire.diecubesdie.gesture.GestureWatcher;
+import nz.co.withfire.diecubesdie.gesture.gestures.Gesture;
+import nz.co.withfire.diecubesdie.gesture.gestures.Tap;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
@@ -37,9 +40,8 @@ public class LevelSelectEngine implements Engine {
     //the list of all entities
     private EntityList entities = new EntityList();
     
-    //the gesture reader
-    private TouchTracker touchTracker =
-        new TouchTracker();
+    //the gesture watcher
+    private GestureWatcher gestureWatcher = new GestureWatcher();
     
     //the next state to move to once completed
     private Engine nextState = null;
@@ -96,9 +98,9 @@ public class LevelSelectEngine implements Engine {
     }
 
     @Override
-    public void touchEvent(int event, Vector2d touchPos) {
+    public void touchEvent(int event, int index, Vector2d touchPos) {
 
-        touchTracker.inputEvent(event, touchPos);
+        gestureWatcher.inputEvent(event, index, touchPos);
     }
 
     @Override
@@ -117,7 +119,14 @@ public class LevelSelectEngine implements Engine {
     /**Process touch input*/
     private void processTouch() {
         
-        //iterate over the current touch points
+        //update the gesture watcher
+        Gesture gesture = gestureWatcher.getGesture();
+
+        //check to see what kind of gesture this is
+        if (gesture instanceof Tap) {
+            
+            Log.v(ValuesUtil.TAG, "tap at " + ((Tap) gesture).getPos());
+        }
     }
     
     /**Adds the initial objects*/

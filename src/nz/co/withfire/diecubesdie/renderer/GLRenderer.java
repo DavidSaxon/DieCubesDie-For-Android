@@ -113,7 +113,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
                 touchPos.copy(TransformationsUtil.screenPosToOpenGLPos(
                     touchPos, viewMatrix, projectionMatrix));
                 
-                engine.touchEvent(e.getAction(), touchPos);
+                engine.touchEvent(e.getAction(), e.getActionIndex() ,touchPos);
             }
             //clear the touch events
             touchEvents.clear();

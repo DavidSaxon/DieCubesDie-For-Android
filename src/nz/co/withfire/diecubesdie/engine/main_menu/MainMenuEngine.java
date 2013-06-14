@@ -200,7 +200,7 @@ public class MainMenuEngine implements Engine {
     }
     
     @Override
-    public void touchEvent(int event, Vector2d touchPos) {
+    public void touchEvent(int event, int index, Vector2d touchPos) {
         
         //if we are paused ignore
         if (!paused) {

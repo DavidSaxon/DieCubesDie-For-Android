@@ -7,6 +7,7 @@
 package nz.co.withfire.diecubesdie.touch_control;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
@@ -18,12 +19,11 @@ import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 public class TouchTracker {
     
     //VARIABLES
-    //the max distance that two points can be consider the same
-    private final float SAME_DISTANCE = 5.0f;
+    //current points
+    private TouchPoint points[] = new TouchPoint[2];
     
-    //the list of current touch points
-    private List<TouchPoint> touchPoints =
-        new ArrayList<TouchPoint>();
+    //next points
+    private TouchPoint nextPoints[] = new TouchPoint[2];
     
     //CONSTRUCTOR
     /**Creates a new gesture reader
@@ -36,109 +36,94 @@ public class TouchTracker {
     /**Updates the tracker by removing finished and read points*/
     public void update() {
         
-        List<TouchPoint> removeList = new ArrayList<TouchPoint>();
-        for (TouchPoint t : touchPoints) {
+        for (int i = 0; i < points.length; ++i) {
             
-            //add the point to be removed
-            if (t.finished()) {
+            if (points[i] != null && points[i].readingDone()) {
                 
-                removeList.add(t);
+                points[i] = nextPoints[i];
+                nextPoints[i] = null;
             }
         }
-        
-        //remove the points
-        touchPoints.remove(removeList);
     }
     
     /**Pass in a touch event
     @param eventType the event type
+    @param index the index of the event
     @param pos the position of the event*/
-    public void inputEvent(int eventType, Vector2d pos) {
-        
-        if (eventType == MotionEvent.ACTION_DOWN) {
+    public void inputEvent(int eventType, int index, Vector2d pos) {
+
+        //we only care about 2 points so ignore others
+        if (index < 2) {
             
-            //add a new touch point
-            touchPoints.add(new TouchPoint(pos));
-        }
-        else if (eventType == MotionEvent.ACTION_MOVE) {
-            
-            //search for the same point
-            TouchPoint point = samePointSearch(pos);
-            
-            //no same point
-            if (point == null) {
+            //press down
+            if (eventType == MotionEvent.ACTION_DOWN ||
+                eventType == MotionEvent.ACTION_POINTER_DOWN ||
+                eventType == MotionEvent.ACTION_POINTER_1_DOWN) {
                 
-                //add a new touch point
-                touchPoints.add(new TouchPoint(pos));
-            }
-            else {
-                
-                //update the point
-                point.setCurrentPos(pos);
-            }
-        }
-        else if (eventType == MotionEvent.ACTION_UP) {
-            
-            //search for the same point
-            TouchPoint point = samePointSearch(pos);
-            
-            //no same point
-            if (point == null) {
-                
-                //uh oh this shouldn't happen
-                Log.v(ValuesUtil.TAG, "Trying to remove null touch point");
-                
-                //as a safety measure finish all current points
-                for (TouchPoint t : touchPoints) {
+                if (points[index] == null) {
                     
-                    t.finish();
+                    //create a new touch point
+                    points[index] = new TouchPoint(pos);
+                }
+                else {
+                    
+                    //store this new point
+                    nextPoints[index] = new TouchPoint(pos);
+                    //finish the current point
+                    points[index].finish();
                 }
             }
-            else {
+            //move
+            if (eventType == MotionEvent.ACTION_MOVE) {
                 
-                //finish this point
-                point.finish();
+                //update the points position
+                if (nextPoints[index] == null) {
+                    
+                    if (points[index] != null) {
+                        
+                        points[index].setCurrentPos(pos);
+                    }
+                    else {
+                        
+                        points[index] = new TouchPoint(pos);
+                    }
+                }
+                else {
+                    
+                    nextPoints[index].setCurrentPos(pos);
+                }
+            } 
+            else if (eventType == MotionEvent.ACTION_UP ||
+                eventType == MotionEvent.ACTION_POINTER_UP ||
+                eventType == MotionEvent.ACTION_POINTER_1_UP) {
+                
+                //finish the point
+                if (nextPoints[index] == null) {
+                    
+                    if (points[index] != null) {
+                        
+                        points[index].setCurrentPos(pos);
+                        points[index].finish();
+                    }
+                }
+                else {
+                    
+                    nextPoints[index].setCurrentPos(pos);
+                    nextPoints[index].finish();
+                }
             }
         }
     }
     
-    /**@return the list of touchPoints*/
-    public List<TouchPoint> getTouchPoints() {
+    /**@return the first touch point*/
+    public TouchPoint getPoint1() {
         
-        return touchPoints;
+        return points[0];
     }
     
-    //PRIVATE METHODS
-    /**Finds the given position is part of a current touch point
-    @param pos the position of the touch
-    @return the touch point this is part of, null if not part of any
-    current touch point*/
-    private TouchPoint samePointSearch(Vector2d pos) {
+    /**@return the second touch point*/
+    public TouchPoint getPoint2() {
         
-        if (touchPoints.isEmpty()) {
-            
-            return null;
-        }
-        
-        //iterate over the current touch points and find the closest
-        TouchPoint closest = null;
-        float distance = 0.0f;
-        for (TouchPoint t : touchPoints) {
-            
-            //if this is the first point or the current closest
-            if (closest == null || (!closest.finished() && 
-                pos.distance(t.getCurrentPos()) < distance)) {
-                
-                closest = t;
-            }
-        }
-        
-        //check if the closest is close enough to be consider the same point
-        if (closest != null && distance <= SAME_DISTANCE) {
-            
-            return closest;
-        }
-        
-        return null;
+        return points[1];
     }
 }

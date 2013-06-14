@@ -1,9 +1,8 @@
-/**********************************************************************\
-| Stores where a finger point is on the screen and where it's previous |
-| position was.                                                        |
-|                                                                      |
-| @author David Saxon                                                 |
-\**********************************************************************/
+/******************************************************\
+| Stores data about about a touch point on the screen. |
+|                                                      |
+| @author David Saxon                                 |
+\******************************************************/
 
 package nz.co.withfire.diecubesdie.touch_control;
 
@@ -17,12 +16,11 @@ public class TouchPoint {
     //the first position of the touch point
     private Vector2d originalPos = new Vector2d();
     
-    //is true if the touch point is being read
-    private boolean read = false;
-    //is true if the touch point has finished being read
-    private boolean readDone = false;
     //is true if the touch point has finished
     private boolean finished = false;
+    
+    //is true if reading has been completed
+    private boolean readDone = false;
     
     //CONSTRUCTOR
     /**Creates a new touch point
@@ -40,22 +38,16 @@ public class TouchPoint {
         currentPos.copy(pos);
     }
     
-    /**The touch point is now being read*/
-    public void read() {
-        
-        read = true;
-    }
-    
-    /**Touch point reading has been completed*/
-    public void readDone() {
-        
-        readDone = true;
-    }
-    
-    /**Sets the touch point as finished*/
+    /**Finishes the touch point*/
     public void finish() {
         
         finished = true;
+    }
+    
+    /**Finishes reading*/
+    public void readDone() {
+        
+        readDone = true;
     }
     
     /**@return the current position*/
@@ -69,12 +61,6 @@ public class TouchPoint {
         
         return originalPos;
     }
-
-    /**@return if the touch point is being read*/
-    public boolean isBeingRead() {
-        
-        return read;
-    }
     
     /**@return if the touch point has finished*/
     public boolean finished() {
@@ -82,9 +68,9 @@ public class TouchPoint {
         return finished;
     }
     
-    /**@return if the touch point should be removed*/
-    public boolean shouldRemove() {
+    /**@return if reading is done*/
+    public boolean readingDone() {
         
-        return finished && readDone;
+        return readDone;
     }
 }
