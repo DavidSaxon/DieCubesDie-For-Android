@@ -14,6 +14,7 @@ import nz.co.withfire.diecubesdie.entities.level_select.Background;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.gesture.GestureWatcher;
 import nz.co.withfire.diecubesdie.gesture.gestures.Gesture;
+import nz.co.withfire.diecubesdie.gesture.gestures.Swipe;
 import nz.co.withfire.diecubesdie.gesture.gestures.Tap;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.renderer.text.Text;
@@ -43,13 +44,16 @@ public class LevelSelectEngine implements Engine {
     //the gesture watcher
     private GestureWatcher gestureWatcher = new GestureWatcher();
     
+    //the level selector
+    private LevelSelector selector;
+    
     //the next state to move to once completed
     private Engine nextState = null;
     //is true once the menu is complete
     private boolean complete = false;
     
-    //the level selector
-    private LevelSelector selector;
+    //the last swipe point
+    private Vector2d lastSwipe;
     
     //the information text
     private GUIText infoText;
@@ -122,10 +126,36 @@ public class LevelSelectEngine implements Engine {
         //update the gesture watcher
         Gesture gesture = gestureWatcher.getGesture();
 
+        //remove the last swipe point (only a swipe can save it!)
+        Vector2d lastSwipeStore = lastSwipe;
+        lastSwipe = null;
+        
         //check to see what kind of gesture this is
         if (gesture instanceof Tap) {
             
             Log.v(ValuesUtil.TAG, "tap at " + ((Tap) gesture).getPos());
+        }
+        else if (gesture instanceof Swipe) {
+            
+            Swipe swipe = (Swipe) gesture;
+            
+            if (lastSwipeStore == null) {
+                
+                //TODO: request rotate here
+                
+                lastSwipeStore = new Vector2d(swipe.getPos());
+            }
+            
+            //rotate the level selector
+            selector.rotate((40.0f * (swipe.getPos().getX() -
+                    lastSwipeStore.getX())));
+            
+            //restore the last swipe if we havn't finished
+            if (!swipe.finished()) {
+                
+                lastSwipe = swipe.getPos();
+            }
+            
         }
     }
     

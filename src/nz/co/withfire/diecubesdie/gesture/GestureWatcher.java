@@ -12,6 +12,7 @@ import java.util.List;
 import android.util.Log;
 
 import nz.co.withfire.diecubesdie.gesture.gestures.Gesture;
+import nz.co.withfire.diecubesdie.gesture.gestures.Swipe;
 import nz.co.withfire.diecubesdie.gesture.gestures.Tap;
 import nz.co.withfire.diecubesdie.touch_control.TouchPoint;
 import nz.co.withfire.diecubesdie.touch_control.TouchTracker;
@@ -79,6 +80,10 @@ public class GestureWatcher {
             
             gesture = checkTap();
         }
+        if (gesture == null && !pinch) {
+            
+            gesture = checkSwipe();
+        }
         
         //mark any finish touch points and clear them
         if (point1 != null && point1.finished()) {
@@ -133,10 +138,43 @@ public class GestureWatcher {
             if (point1.getOriginalPos().distance(point1.getCurrentPos()) <=
                     TAP_DISTANCE) {
                 
-                Log.v(ValuesUtil.TAG, "distance: " + point1.getOriginalPos().distance(point1.getCurrentPos()));
-                
                 //we have found a tap
                 return new Tap(point1.getOriginalPos());
+            }
+        }
+        
+        return null;
+    }
+    
+    /**Checks for a swipe
+    @return a swipe gesture if one is read, else null*/
+    private Gesture checkSwipe() {
+        
+        //check if a swipe is currently being read
+        if (swipe) {
+            
+            if (point1 != null) {
+                
+                return new Swipe(point1.getCurrentPos(), point1.finished());
+            } else {
+                
+                //dont do anything until the user has stop messing around
+                if (point2 == null) {
+                    
+                    swipe = false;
+                }
+            }
+        }
+        else {
+            
+            if (point1 != null && point2 == null) {
+                
+                if (point1.getOriginalPos().distance(point1.getCurrentPos()) >
+                        TAP_DISTANCE) {
+                        
+                    swipe = true;
+                    return new Swipe(point1.getOriginalPos(), point1.finished());
+                }
             }
         }
         

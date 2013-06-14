@@ -1,20 +1,15 @@
 package nz.co.withfire.diecubesdie.engine.main_menu;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.revmob.RevMob;
-import com.revmob.RevMobAdsListener;
 import com.revmob.ads.link.RevMobLink;
 
 import android.content.Context;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.MotionEvent;
 
 import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.engine.Engine;
-import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
 import nz.co.withfire.diecubesdie.engine.level_select.LevelSelectEngine;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
@@ -28,6 +23,9 @@ import nz.co.withfire.diecubesdie.entities.main_menu.transitions.MenuSpikes;
 import nz.co.withfire.diecubesdie.entities.main_menu.transitions.MenuTransition;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
+import nz.co.withfire.diecubesdie.gesture.GestureWatcher;
+import nz.co.withfire.diecubesdie.gesture.gestures.Gesture;
+import nz.co.withfire.diecubesdie.gesture.gestures.Tap;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
@@ -60,6 +58,9 @@ public class MainMenuEngine implements Engine {
     //The list of all entities
     private EntityList entities = new EntityList();
     
+    //the gesture watcher
+    private GestureWatcher gestureWatcher = new GestureWatcher();
+    
     //the rev mob link
     public static RevMobLink link = null;
     
@@ -82,11 +83,6 @@ public class MainMenuEngine implements Engine {
     private boolean timedOut = false;
     //the when the connection display message was first being displayed
     private long timeOutStart = 0;
-    
-    //is true if a touch point should be added
-    private volatile boolean addTouchPoint = false;
-    //the co-ordinates of the current touch point
-    private Vector2d touchPos = new Vector2d();
     
     //the back ground colour
     private Vector4d backgroundCol =
@@ -205,20 +201,7 @@ public class MainMenuEngine implements Engine {
         //if we are paused ignore
         if (!paused) {
         
-            switch (event) {
-                
-                //the user has pressed down
-                case MotionEvent.ACTION_DOWN: {
-                    
-                    //request for a touch point to be added add a
-                    //touch point to the menu
-                    addTouchPoint = true;
-                    
-                    //set the co-ordantes from the event
-                    this.touchPos.copy(touchPos);
-                    break;
-                }
-            }
+            gestureWatcher.inputEvent(event, index, touchPos);
         }
     }
     
@@ -240,31 +223,34 @@ public class MainMenuEngine implements Engine {
     @param viewMatrix the view Matrix*/
     void processTouch() {
         
-        //add a touch point if we need too
-        if (addTouchPoint) {
+        //update the gesture watcher
+        Gesture gesture = gestureWatcher.getGesture();
+        
+        //if a tap
+        if (gesture instanceof Tap) {
             
-            //add the touch point
-            TapPoint touchPoint;
+            Tap tap = (Tap) gesture;
             
-            //add a debug touch point
+            //add the tap point
+            TapPoint tapPoint;
+            
+            //add a debug tap point
             if (DebugUtil.DEBUG) {
                 
-                 touchPoint = new TapPoint(
+                 tapPoint = new TapPoint(
                      resources.getShape("debug_touchpoint"),
-                     touchPos, resources.getBounding("gui_touch_point"));
+                     tap.getPos(), resources.getBounding("gui_touch_point"));
             }
-            //add a normal touch point
+            //add a normal tap point
             else {
                 
-                touchPoint = new TapPoint(touchPos,
+                tapPoint = new TapPoint(tap.getPos(),
                     resources.getBounding("gui_touch_point"));
             }
             
             //process any button presses
             processButtonPress(
-                CollisionUtil.checkButtonCollisions(touchPoint, buttons));
-            
-            addTouchPoint = false;
+                CollisionUtil.checkButtonCollisions(tapPoint, buttons));
         }
     }
     

@@ -55,6 +55,18 @@ public class LevelSelector {
     }
     
     //PUBLIC METHODS
+    /**Rotates the level*/
+    public void rotate(float rot) {
+        
+        //iterate over and rotate
+        for (List<SelectLevel> l : selectLevels) {
+            
+            for (SelectLevel s : l) {
+                
+                s.rotate(new Vector3d(0.0f, rot, 0.0f));
+            }
+        }
+    }
     
     //PRIVATE METHODS
     /**Initialises the level selector*/

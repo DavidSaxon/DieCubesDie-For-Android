@@ -110,6 +110,13 @@ public class SelectLevel extends Drawable {
         this.selected = select;
     }
     
+    /**Increments the rotation by the given amount
+    @param rotAmount the amount to rotate by*/
+    public void rotate(Vector3d rotAmount) {
+        
+        turnRot.add(rotAmount);
+    }
+    
     //PRIVATE METHODS
     /**Sets the fragment shader based on the current state*/
     private void setShader() {
