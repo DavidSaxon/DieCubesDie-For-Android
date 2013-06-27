@@ -143,8 +143,8 @@ public class StartUpEngine implements Engine {
             //set the font texture
             Text.texture = resources.getTexture("text");
             //set the shaders
-            Text.vertexShader = resources.getShader("plain_texture_vertex");
-            Text.fragmentShader =
+            Text.orgVertexShader = resources.getShader("plain_texture_vertex");
+            Text.orgFragmentShader =
                 resources.getShader("texture_no_lighting_fragment");
             
             //load the with fire resources

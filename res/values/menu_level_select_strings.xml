@@ -5,5 +5,11 @@
     <string name="level_select_info">TAP A GRID SQUARE\n
         TO SELECT A LEVEL\nSWIPE LEFT OR RIGHT\n
         TO SWITCH AREA</string>
+    <string name="level_select_area_1">Area 1 - Plains</string>
+    <string name="level_select_area_2">Area 2 - Mountains</string>
+    <string name="level_select_area_3">Area 3 - Metropolis</string>
+    <string name="level_select_area_4">Area 4 - Desert</string>
+    <string name="level_select_area_5">Area 5 - Jungle</string>
+    <string name="level_select_area_6">Area 6 - Stronghold</string>
 
 </resources>

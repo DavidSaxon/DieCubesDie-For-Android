@@ -57,4 +57,11 @@ public class GUIText extends GUIDrawable {
         
         text.setFragmentShader(shader);
     }
+    
+    /**@param string the new string to render*/
+    public void setString(String string) {
+        
+        text.setText(string);
+        this.string = string;
+    }
 }

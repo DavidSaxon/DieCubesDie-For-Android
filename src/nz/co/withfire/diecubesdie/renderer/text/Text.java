@@ -29,9 +29,12 @@ public class Text {
     //VARIABLES
     //always keep a static reference to the texture for the text
     public static int texture;
-    //static reference to the shaders
-    public static int vertexShader;
-    public static int fragmentShader;
+    //the standard text shaders
+    public static int orgVertexShader;
+    public static int orgFragmentShader;
+    //the shaders
+    private int vertexShader;
+    private int fragmentShader;
     
     //the coordinates for the quad for drawing a letter to
     private final float[] quadCoords = {
@@ -92,6 +95,10 @@ public class Text {
         this.size = size;
         this.alignment = alignment;
         this.text = text;
+        
+        //set the shaders
+        vertexShader = orgVertexShader;
+        fragmentShader = orgFragmentShader;
         
         //build the text based on the string
         buildText();

@@ -29,20 +29,20 @@ public class ShaderPack {
         resources.add("texture_no_lighting_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
                 R.raw.shader_fragment_texture_no_lighting));
-        resources.add("texture_dim_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_dim));
-        resources.add("texture_black_to_white_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_black_to_white));
-        resources.add("texture_dim_btw_fragment",
-                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_texture_dim_btw));
         resources.add("texture_half_dim_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
                 R.raw.shader_fragment_texture_half_dim));
         resources.add("texture_quater_dim_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
                 R.raw.shader_fragment_texture_quater_dim));
+        resources.add("grid_button_shader",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_grid_button));
+        resources.add("grid_button_shader_locked",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_grid_button_locked));
+        resources.add("grid_button_shader_select",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_grid_button_select));
     }
 }

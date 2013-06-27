@@ -132,7 +132,7 @@ public class GestureWatcher {
     private Gesture checkTap() {
         
         //if there is a point and it's finished
-        if (point1 != null && point1.finished()) {
+        if (point1 != null && point1.finished() && point2 == null) {
             
             //check how far it has moved
             if (point1.getOriginalPos().distance(point1.getCurrentPos()) <=
@@ -155,7 +155,8 @@ public class GestureWatcher {
             
             if (point1 != null) {
                 
-                return new Swipe(point1.getCurrentPos(), point1.finished());
+                return new Swipe(point1.getCurrentPos(),
+                        point1.getOriginalPos(), point1.finished());
             } else {
                 
                 //dont do anything until the user has stop messing around
@@ -173,7 +174,8 @@ public class GestureWatcher {
                         TAP_DISTANCE) {
                         
                     swipe = true;
-                    return new Swipe(point1.getOriginalPos(), point1.finished());
+                    return new Swipe(point1.getCurrentPos(),
+                        point1.getOriginalPos(), point1.finished());
                 }
             }
         }

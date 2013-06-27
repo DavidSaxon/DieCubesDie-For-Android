@@ -12,14 +12,16 @@ void main() {
     //get the texture colour
     vec4 texCol = texture2D(u_Texture, v_texCoord);
     
-    //check if the colour is black (or close to it)
-    if (texCol.r <= 0.15 && texCol.g <= 0.15 && texCol.b <= 0.15) {
+    //shade
+    texCol.a = texCol.a + 0.5;
     
-        //set to relative white
-        texCol.r = 1.0 - texCol.r;
-        texCol.g = 1.0 - texCol.g;
-        texCol.b = 1.0 - texCol.b;
+    if (texCol.r > 0.5 && texCol.b < 0.5) {
+        
+        texCol.r = 0.0;
+        texCol.g = 0.0;
+        texCol.b = 0.0;
     }
     
+    //set the colour
     gl_FragColor = texCol;
 }

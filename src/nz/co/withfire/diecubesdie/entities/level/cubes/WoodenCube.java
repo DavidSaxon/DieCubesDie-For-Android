@@ -40,7 +40,7 @@ public class WoodenCube extends Cube {
         this.cube = cube;
     }
     
-    //PUBLIC MEMBER FUNCTIONS
+    //PUBLIC METHODS
     @Override
     public void update() {
         

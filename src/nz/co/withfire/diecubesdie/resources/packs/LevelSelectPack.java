@@ -9,6 +9,7 @@ package nz.co.withfire.diecubesdie.resources.packs;
 import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.resources.types.BoundingResource;
 import nz.co.withfire.diecubesdie.resources.types.ShapeResource;
 import nz.co.withfire.diecubesdie.resources.types.TextureResource;
 
@@ -19,54 +20,35 @@ public class LevelSelectPack {
     @param resources the resource manager*/
     public static void build(ResourceManager resources) {
     
+        //BOUNDING
+        //grid bounding box
+        {
+        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+        resources.add("level_select_grid",
+            new BoundingResource(R.raw.bounding_levelselect_grid,
+            groups));
+        }
+        
         //TEXTURES
         //background
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
         resources.add("level_select_background",
-            new TextureResource(R.drawable.menu_levelselect_sky,
+            new TextureResource(R.drawable.levelselect_sky,
             groups));
         }
-        //plains level 1
+        //world
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_plains_1",
-            new TextureResource(R.drawable.menu_levelselect_plains_1,
+        resources.add("level_select_world",
+            new TextureResource(R.drawable.levelselect_world,
             groups));
         }
-        //mountains level 1
+        //grid
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_mountains_1",
-            new TextureResource(R.drawable.menu_levelselect_mountains_1,
-            groups));
-        }
-        //city level 1
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_city_1",
-            new TextureResource(R.drawable.menu_levelselect_city_1,
-            groups));
-        }
-        //desert level 1
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_desert_1",
-            new TextureResource(R.drawable.menu_levelselect_desert_1,
-            groups));
-        }
-        //desert level 1
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_jungle_1",
-            new TextureResource(R.drawable.menu_levelselect_jungle_1,
-            groups));
-        }
-        //stronghold level 1
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_stronghold_1",
-            new TextureResource(R.drawable.menu_levelselect_stronghold_1,
+        resources.add("level_select_grid",
+            new TextureResource(R.drawable.levelselect_grid,
             groups));
         }
         
@@ -75,56 +57,24 @@ public class LevelSelectPack {
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
         resources.add("level_select_background", new ShapeResource(
-            R.raw.shape_menu_levelselect_background, groups,
+            R.raw.shape_levelselect_background, groups,
             "level_select_background", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
         }
-        //plains level 1
+        //world
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_plains_1", new ShapeResource(
-            R.raw.shape_menu_levelselect_planetgrid, groups,
-            "level_select_plains_1", "plain_texture_vertex",
+        resources.add("level_select_world", new ShapeResource(
+            R.raw.shape_levelselect_world, groups,
+            "level_select_world", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
         }
-        //mountains level 1
+        //grid
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_mountains_1", new ShapeResource(
-            R.raw.shape_menu_levelselect_planetgrid, groups,
-            "level_select_mountains_1", "plain_texture_vertex",
-            "texture_no_lighting_fragment"));
-        }
-        //city level 1
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_city_1", new ShapeResource(
-            R.raw.shape_menu_levelselect_planetgrid, groups,
-            "level_select_city_1", "plain_texture_vertex",
-            "texture_no_lighting_fragment"));
-        }
-        //desert level 1
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_desert_1", new ShapeResource(
-            R.raw.shape_menu_levelselect_planetgrid, groups,
-            "level_select_desert_1", "plain_texture_vertex",
-            "texture_no_lighting_fragment"));
-        }
-        //jungle level 1
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_jungle_1", new ShapeResource(
-            R.raw.shape_menu_levelselect_planetgrid, groups,
-            "level_select_jungle_1", "plain_texture_vertex",
-            "texture_no_lighting_fragment"));
-        }
-        //stronghold level 1
-        {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
-        resources.add("level_select_stronghold_1", new ShapeResource(
-            R.raw.shape_menu_levelselect_planetgrid, groups,
-            "level_select_stronghold_1", "plain_texture_vertex",
+        resources.add("level_select_grid", new ShapeResource(
+            R.raw.shape_levelselect_grid, groups,
+            "level_select_grid", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
         }
     }
