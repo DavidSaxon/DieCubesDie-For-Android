@@ -64,7 +64,7 @@ public class LevelManager {
         this.resources = resources;
         this.entities = entities;
         this.pos.setX(pos.getX() - 0.12f);
-        this.pos.setY(pos.getY() + 0.19f);
+        this.pos.setY(pos.getY() + 0.187f);
         
         //get needed data from resources
         gridShape = resources.getShape("level_select_grid");
@@ -160,7 +160,7 @@ public class LevelManager {
                 
                 if (x == 3 && y == 3) {
                     
-                    temp.locked(false);
+                    //temp.locked(false);
                 }
                 
                 entities.add(temp);

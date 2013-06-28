@@ -12,21 +12,36 @@ void main() {
     //get the texture colour
     vec4 texCol = texture2D(u_Texture, v_texCoord);
     
-    //shade
-    texCol.a = texCol.a + 0.5;
-    
-    //invert
-    if (texCol.r > 0.4 && texCol.b < 0.4) {
+    //lock
+    if (texCol.r < 0.4 && texCol.g > 0.9 && texCol.b < 0.4) {
         
-        texCol.r = 0.2;
-        texCol.g = 0.2;
-        texCol.b = 0.2;
+        texCol.r = 0.9;
+        texCol.g = 0.9;
+        texCol.b = 0.9;
+        texCol.a = 1.0;
     }
-    else if (texCol.a > 0.99999) {
+    else if (texCol.r > 0.9 && texCol.g > 0.9 && texCol.b < 0.4) {
+        
+        texCol.r = 0.9;
+        texCol.g = 0.9;
+        texCol.b = 0.9;
+        texCol.a = 0.75;
+    }
+    //outline
+    else if (texCol.r < 0.4 && texCol.g < 0.4 && texCol.b > 0.9) {
+        
+        texCol.r = 0.0;
+        texCol.g = 0.0;
+        texCol.b = 0.0;
+        texCol.a = 1.0;
+    }
+    //background
+    else {
     
-        texCol.r = 1.0 - texCol.r;
-        texCol.g = 1.0 - texCol.g;
-        texCol.b = 1.0 - texCol.b;
+        texCol.r = 0.0;
+        texCol.g = 0.0;
+        texCol.b = 0.0;
+        texCol.a = 0.25;
     }
     
     //set the colour
