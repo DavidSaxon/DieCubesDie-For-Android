@@ -25,11 +25,6 @@ public class GridButton extends Button {
     //the shaders
     private int shaders[];
     
-    //if the buttons is selected
-    private boolean selected = false;
-    //if the button is locked
-    private boolean locked = true;
-    
     //CONSTRUCTOR
     /**Creates a new grid button
     @param shape the shape for the button
@@ -74,18 +69,6 @@ public class GridButton extends Button {
     public void shouldDraw(boolean draw) {
         
         shouldDraw = draw;
-    }
-    
-    /**@param selected if the button is selected or not*/
-    public void selected(boolean selected) {
-        
-        this.selected = selected;
-    }
-    
-    /**@param locked if the button is locked or not*/
-    public void locked(boolean locked) {
-        
-        this.locked = locked;
     }
     
     //PRIVATE METHODS

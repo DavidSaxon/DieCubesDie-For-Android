@@ -35,14 +35,17 @@ public class ShaderPack {
         resources.add("texture_quater_dim_fragment",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
                 R.raw.shader_fragment_texture_quater_dim));
-        resources.add("grid_button_shader",
+        resources.add("grid_unlocked_select",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_grid_button));
-        resources.add("grid_button_shader_locked",
+                R.raw.shader_fragment_grid_unlocked_select));
+        resources.add("grid_unlocked_deselect",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_grid_button_locked));
-        resources.add("grid_button_shader_select",
+                R.raw.shader_fragment_grid_unlocked_deselect));
+        resources.add("grid_locked_select",
                 new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
-                R.raw.shader_fragment_grid_button_select));
+                R.raw.shader_fragment_grid_locked_select));
+        resources.add("grid_locked_deselect",
+                new ShaderResource(GLES20.GL_FRAGMENT_SHADER,
+                R.raw.shader_fragment_grid_locked_deselect));
     }
 }

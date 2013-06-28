@@ -7,6 +7,7 @@
 package nz.co.withfire.diecubesdie.utilities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.util.Log;
 import nz.co.withfire.diecubesdie.bounding.Bounding;
@@ -38,7 +39,7 @@ public class CollisionUtil {
     @param the buttons
     @return the button type a collision has occured with*/
     public static ValuesUtil.ButtonType checkButtonCollisions(
-        TapPoint touchPoint, ArrayList<Button> buttons) {
+        TapPoint touchPoint, List<Button> buttons) {
         
         //create an array that stores the collision value for each button
         float[] values = new float[buttons.size()];
@@ -73,6 +74,48 @@ public class CollisionUtil {
         }
         
         return buttons.get(greatest).getType();
+    }
+    
+    /**Finds the button that the greatest collision is occurring with
+    @param touchPoint the touch point
+    @param the buttons
+    @return the button type a collision has occurred with*/
+    public static Button findButtonCollisions(
+        TapPoint touchPoint, List<Button> buttons) {
+        
+        //create an array that stores the collision value for each button
+        float[] values = new float[buttons.size()];
+        
+        //iterate over the buttons and check their collisions
+        for (int i = 0; i < buttons.size(); ++i) {
+            
+            values[i] = CollisionUtil.collision(
+                touchPoint.getBounding(), buttons.get(i).getBounding());
+        }
+        
+        //find the greatest value
+        int greatest = -1;
+        for (int i = 0; i < values.length; ++i) {
+            
+            if (values[i] > 0.0f) {
+                
+                if (greatest == -1) {
+                    
+                    greatest = i;
+                }
+                else if (values[i] > values[greatest]) {
+                    
+                    greatest = i;
+                }
+            }
+        }
+        
+        if (greatest == -1) {
+        
+            return null;
+        }
+        
+        return buttons.get(greatest);
     }
     
     //PRIVATE METHODS

@@ -22,6 +22,11 @@ public abstract class Button extends GUIDrawable {
     //the button type this is
     protected ValuesUtil.ButtonType type;
     
+    //if the buttons is selected
+    protected boolean selected = false;
+    //if the button is locked
+    protected boolean locked = false;
+    
     //Matrix
     //the model view projection matrix
     protected float[] mvpMatrix = new float[16];
@@ -38,6 +43,18 @@ public abstract class Button extends GUIDrawable {
     public void draw(float viewMatrix[], float projectionMatrix[]) {
         
         //do nothing
+    }
+    
+    /**@param selected if the button is selected or not*/
+    public void selected(boolean selected) {
+        
+        this.selected = selected;
+    }
+    
+    /**@param locked if the button is locked or not*/
+    public void locked(boolean locked) {
+        
+        this.locked = locked;
     }
     
     /**@return the bounding box of the button*/

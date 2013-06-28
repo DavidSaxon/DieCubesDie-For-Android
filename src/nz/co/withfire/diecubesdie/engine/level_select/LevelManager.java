@@ -12,10 +12,13 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 import nz.co.withfire.diecubesdie.R;
+import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
+import nz.co.withfire.diecubesdie.entities.gui.button.Button;
 import nz.co.withfire.diecubesdie.entities.level_select.GridButton;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
+import nz.co.withfire.diecubesdie.utilities.CollisionUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
@@ -50,7 +53,7 @@ public class LevelManager {
     private final String areaNames[];
     
     //the grid buttons
-    private List<GridButton> grid = new ArrayList<GridButton>();
+    private List<Button> grid = new ArrayList<Button>();
     
     //CONSTRUCTOR
     /**Creates a new level manager
@@ -78,6 +81,23 @@ public class LevelManager {
     }
     
     //PUBLIC METHODS
+    /**Checks if the tap point is pressing on the grid
+    @param tap the tap point*/
+    public void tapEvent(TapPoint tap) {
+        
+        //find if any grid buttons have been pressed
+        Button pressed =
+            CollisionUtil.findButtonCollisions(tap, grid);
+        
+        if (pressed != null) {
+            
+            //deselect all the buttons
+            deselectGrid();
+            //select the pressed button
+            pressed.selected(true);
+        }
+    }
+    
     /**Increments the area*/
     public void incrementArea() {
         
@@ -85,6 +105,8 @@ public class LevelManager {
         
         //clamp
         area = area % NUMBER_OF_AREAS;
+        
+        deselectGrid();
     }
     
     /**Decrements the area*/
@@ -97,12 +119,16 @@ public class LevelManager {
             
             area = NUMBER_OF_AREAS - 1;
         }
+        
+        deselectGrid();
     }
     
     /**@param display whether the grid should be displayed*/
     public void displayGrid(boolean display) {
         
-        for (GridButton g : grid) {
+        for (Button b : grid) {
+            
+            GridButton g = (GridButton) b;
             
             g.shouldDraw(display);
         }
@@ -115,6 +141,15 @@ public class LevelManager {
     }
     
     //PRIVATE METHODS
+    /**Deselects all grid buttons*/
+    private void deselectGrid() {
+        
+        for (Button b : grid) {
+            
+            b.selected(false);
+        }
+    }
+    
     /**Initialises the area names array
     @param context the android context*/
     private void initAreaNames(final Context context) {
@@ -133,10 +168,10 @@ public class LevelManager {
         //the array of shaders for buttons to use
         int gridShaders[] = {
                 
-            resources.getShader("texture_no_lighting_fragment"),
-            resources.getShader("grid_button_shader"),
-            resources.getShader("grid_button_shader_select"),
-            resources.getShader("grid_button_shader_locked"),
+            resources.getShader("grid_unlocked_select"),
+            resources.getShader("grid_unlocked_deselect"),
+            resources.getShader("grid_locked_select"),
+            resources.getShader("grid_locked_deselect"),
         };
         
         for (int y = 0; y < GRID_WIDTH; ++y) {
@@ -160,7 +195,11 @@ public class LevelManager {
                 
                 if (x == 3 && y == 3) {
                     
-                    //temp.locked(false);
+                    temp.locked(false);
+                }
+                else {
+                    
+                    temp.locked(true);
                 }
                 
                 entities.add(temp);

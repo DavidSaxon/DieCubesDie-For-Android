@@ -9,7 +9,7 @@ package nz.co.withfire.diecubesdie.engine.level_select;
 import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.entities.gui.GUIText;
-import nz.co.withfire.diecubesdie.entities.gui.Overlay;
+import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
 import nz.co.withfire.diecubesdie.entities.level_select.Background;
 import nz.co.withfire.diecubesdie.entities.level_select.LevelSelector;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
@@ -21,11 +21,10 @@ import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
-import nz.co.withfire.diecubesdie.touch_control.TouchTracker;
+import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
-import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 import android.content.Context;
 import android.opengl.Matrix;
@@ -152,7 +151,27 @@ public class LevelSelectEngine implements Engine {
         //check to see what kind of gesture this is
         if (gesture instanceof Tap) {
             
-            Log.v(ValuesUtil.TAG, "tap at " + ((Tap) gesture).getPos());
+            Tap tap = (Tap) gesture;
+            
+            //create the the tap point
+            TapPoint tapPoint;
+            
+            //add a debug tap point
+            if (DebugUtil.DEBUG) {
+                
+                 tapPoint = new TapPoint(
+                     resources.getShape("debug_touchpoint"),
+                     tap.getPos(), resources.getBounding("gui_touch_point"));
+            }
+            //add a normal tap point
+            else {
+                
+                tapPoint = new TapPoint(tap.getPos(),
+                    resources.getBounding("gui_touch_point"));
+            }
+            
+            //pass the tap point to the level manager
+            manager.tapEvent(tapPoint);
         }
         else if (gesture instanceof Swipe) {
             
