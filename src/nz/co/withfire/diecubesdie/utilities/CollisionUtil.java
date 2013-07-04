@@ -34,10 +34,21 @@ public class CollisionUtil {
         return 0;
     }
     
+    /**Checks if the button is colliding with the touch point
+    @param touchPoint the touch point
+    @param button the button
+    @return whether a collision is occurring*/
+    public static boolean checkButtonCollision(
+        TapPoint touchPoint, Button button) {
+        
+        return CollisionUtil.collision(
+            touchPoint.getBounding(), button.getBounding()) > 0;
+    }
+    
     /**Finds the button type that the greatest collision is occuring with
     @param touchPoint the touch point
-    @param the buttons
-    @return the button type a collision has occured with*/
+    @param buttons the buttons
+    @return the button type a collision has occurred with*/
     public static ValuesUtil.ButtonType checkButtonCollisions(
         TapPoint touchPoint, List<Button> buttons) {
         
@@ -78,7 +89,7 @@ public class CollisionUtil {
     
     /**Finds the button that the greatest collision is occurring with
     @param touchPoint the touch point
-    @param the buttons
+    @param button the buttons
     @return the button type a collision has occurred with*/
     public static Button findButtonCollisions(
         TapPoint touchPoint, List<Button> buttons) {

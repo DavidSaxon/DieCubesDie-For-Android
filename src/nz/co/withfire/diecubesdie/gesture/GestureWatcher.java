@@ -32,7 +32,7 @@ public class GestureWatcher {
     
     //VARIABLES
     //the maximum distance a point can travel for it to be considered a tap
-    private final float TAP_DISTANCE = 0.1f;
+    private final float TAP_DISTANCE = 0.2f;
     
     //the current gestures to watch for
     private List<GestureType> watchList = new ArrayList<GestureType>();

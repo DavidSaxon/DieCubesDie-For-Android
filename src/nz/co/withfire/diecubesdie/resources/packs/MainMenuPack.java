@@ -9,6 +9,7 @@ package nz.co.withfire.diecubesdie.resources.packs;
 import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.resources.types.BoundingResource;
 import nz.co.withfire.diecubesdie.resources.types.ShapeResource;
 import nz.co.withfire.diecubesdie.resources.types.TextureResource;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
@@ -19,6 +20,22 @@ public class MainMenuPack {
     /**Builds main menu resources
     @param resources the resource manager*/
     public static void build(ResourceManager resources) {
+        
+        //BOUNDING
+        //main menu button bounding box
+        {
+        ResourceGroup groups[] = {ResourceGroup.MENU};
+        resources.add("main_menu_button",
+            new BoundingResource(R.raw.bounding_menu_main_button,
+            groups));
+        }
+        //social button bounding box
+        {
+        ResourceGroup groups[] = {ResourceGroup.MENU};
+        resources.add("menu_social_button",
+            new BoundingResource(R.raw.bounding_menu_social_button,
+            groups));
+        }
         
         //TEXTURES
         //main title

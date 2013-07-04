@@ -7,6 +7,7 @@
 package nz.co.withfire.diecubesdie.resources;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
@@ -15,9 +16,11 @@ import android.util.Log;
 
 import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.bounding.Bounding;
+import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.resources.packs.DebugPack;
 import nz.co.withfire.diecubesdie.resources.packs.GUIPack;
+import nz.co.withfire.diecubesdie.resources.packs.LevelLoadPack;
 import nz.co.withfire.diecubesdie.resources.packs.LevelPack;
 import nz.co.withfire.diecubesdie.resources.packs.LevelSelectPack;
 import nz.co.withfire.diecubesdie.resources.packs.MainMenuPack;
@@ -25,11 +28,11 @@ import nz.co.withfire.diecubesdie.resources.packs.PlainsPack;
 import nz.co.withfire.diecubesdie.resources.packs.ShaderPack;
 import nz.co.withfire.diecubesdie.resources.packs.StartUpPack;
 import nz.co.withfire.diecubesdie.resources.types.BoundingResource;
+import nz.co.withfire.diecubesdie.resources.types.LevelResource;
 import nz.co.withfire.diecubesdie.resources.types.ShapeResource;
 import nz.co.withfire.diecubesdie.resources.types.ShaderResource;
 import nz.co.withfire.diecubesdie.resources.types.TextureResource;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
-import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 public class ResourceManager {
 
@@ -44,6 +47,7 @@ public class ResourceManager {
         START_UP,
         MENU,
         LEVEL_SELECT,
+        LEVEL_LOAD,
         LEVEL,
         CUBE,
         TERRIAN,
@@ -66,6 +70,9 @@ public class ResourceManager {
     //a map from labels to shape resources
     private Map<String, ShapeResource> shapes =
             new HashMap<String, ShapeResource>();
+    //a map from labels to level resources
+    private Map<String, LevelResource> levels =
+        new HashMap<String, LevelResource>();
     
     //CONSTRUCTOR
     public ResourceManager(Context context) {
@@ -78,16 +85,19 @@ public class ResourceManager {
     }
     
     //PUBLIC METHODS
-    /**Loads all of the resources into memory*/
+    /**Loads all of the resources into memory
+    NUUUU DON'T DO IT!*/
     public void loadAll() {
         
         loadAllShaders();
         loadAllBoundings();
         loadAllTextures();
         loadAllShapes();
+        loadAllLevels();
     }
     
     /**Loads all of the resources from the group
+    #NOTE: this does not contain shaders or levels
     @param group the group to load from*/
     public void loadGroup(ResourceGroup group) {
         
@@ -136,6 +146,13 @@ public class ResourceManager {
         }
     }
     
+    /**Loads the bounding with the given key
+    @param key the key of the bounding to load*/
+    public void loadBounding(String key) {
+        
+        boundings.get(key).load(context);
+    }
+    
     /**Loads all the textures into memory*/
     public void loadAllTextures() {
         
@@ -166,6 +183,13 @@ public class ResourceManager {
                 }
             }
         }
+    }
+    
+    /**Loads the texture with the given key
+    @param key the key of the texture to load*/
+    public void loadTexture(String key) {
+        
+        textures.get(key).load(context);
     }
     
     /**Loads all the shapes into memory*/
@@ -200,6 +224,31 @@ public class ResourceManager {
         }
     }
     
+    /**Loads the shape with the given key
+    @param key the key of the shape to load*/
+    public void loadShape(String key) {
+        
+        shapes.get(key).load(context, this);
+    }
+    
+    /**Loads all the levels into memory
+    OH CRAP YOU PROBABLY DON'T WANT TO DO THIS HOMIE*/
+    public void loadAllLevels() {
+        
+        //iterate over the map and load
+        for (LevelResource l : levels.values()) {
+            
+           l.load(context, this);
+        }
+    }
+    
+    /**Loads the level with the given key
+    @param key the key of the level to load*/
+    public void loadLevel(String key) {
+        
+        levels.get(key).load(context, this);
+    }
+    
     /**Gets a shader from the resource map
     @param key the key of the shader
     @return the shader*/
@@ -230,6 +279,14 @@ public class ResourceManager {
     public Shape getShape(String key) {
         
         return shapes.get(key).getShape();
+    }
+    
+    /**Gets a level map from the resource map
+    @param key the key of the level
+    @return the level map*/
+    public List<Entity> getLevelMap(String key) {
+        
+        return levels.get(key).getLevelMap();
     }
     
     /**Adds a shader resources
@@ -292,6 +349,21 @@ public class ResourceManager {
         shapes.put(key, shape);
     }
     
+    /**Adds a level resource
+    @param key the resource key
+    @param level the level resource*/
+    public void add(String key, LevelResource level) {
+        
+        //check to make sure the map doesn't contain the key
+        if (levels.containsKey(key)) {
+            
+            Log.v(ValuesUtil.TAG, "Invalid level key");
+            throw new RuntimeException("Invalid level key");
+        }
+        
+        levels.put(key, level);
+    }
+    
     //PRIVATE METHODS
     /**Initialises all the resource maps, but does not load any resources*/
     private void init() {
@@ -303,6 +375,7 @@ public class ResourceManager {
         StartUpPack.build(this);
         MainMenuPack.build(this);
         LevelSelectPack.build(this);
+        LevelLoadPack.build(this);
         LevelPack.build(this);
         PlainsPack.build(this);
     }

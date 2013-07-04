@@ -158,7 +158,8 @@ public class MainMenuEngine implements Engine {
                 
                 //add the loading overlay
                 entities.add(new Overlay(resources.getShape("overlay"),
-                        new Vector2d(), "LOADING", false));
+                    new Vector2d(), context.getString(R.string.loading),
+                    false));
                 
                 completeNext = true;
             }

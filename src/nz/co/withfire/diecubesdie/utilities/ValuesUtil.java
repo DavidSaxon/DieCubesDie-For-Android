@@ -33,6 +33,8 @@ public class ValuesUtil {
     public enum ButtonType {
         
         NONE,
+        
+        //Main menu
         PLAY,
         STORE,
         PROGRESS,
@@ -40,7 +42,10 @@ public class ValuesUtil {
         MORE,
         FACEBOOK,
         GOOGLEPLUS,
-        WITH_FIRE
+        WITH_FIRE,
+        
+        //level select
+        BEGIN
     }
     
     //the different level areas

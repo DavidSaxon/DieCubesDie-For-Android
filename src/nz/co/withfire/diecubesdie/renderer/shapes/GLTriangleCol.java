@@ -104,7 +104,7 @@ public class GLTriangleCol implements Shape {
         //set the blending function
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         
-        //Set the OpenGL program to use
+        //set the OpenGL program to use
         GLES20.glUseProgram(program);
 
         //get a handle the vertex positions and enable them

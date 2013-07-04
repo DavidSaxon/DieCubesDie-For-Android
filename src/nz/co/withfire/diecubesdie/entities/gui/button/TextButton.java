@@ -11,7 +11,6 @@ import nz.co.withfire.diecubesdie.bounding.Bounding;
 import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
-import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
 public class TextButton extends Button {
 
@@ -38,8 +37,8 @@ public class TextButton extends Button {
 
     @Override
     public void draw(float viewMatrix[], float projectionMatrix[]) {
-        
-        //draw the cube
+                
+        //draw the text
         text.draw(viewMatrix, projectionMatrix);
         
         //draw the bounding box

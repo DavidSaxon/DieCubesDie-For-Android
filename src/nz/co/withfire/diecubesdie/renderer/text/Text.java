@@ -152,6 +152,12 @@ public class Text {
         return text;
     }
     
+    /**@return the length of the text in OpenGL dimensions*/
+    public float getLength() {
+        
+        return text.length() * size;
+    }
+    
     /**@param pos the new position for the text*/
     public void setPos(Vector2d pos) {
         

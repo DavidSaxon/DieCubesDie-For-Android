@@ -29,6 +29,13 @@ public class GUIPack {
             new BoundingResource(R.raw.bounding_menu_main_button,
             groups));
         }
+        //text image button bounding box
+        {
+        ResourceGroup groups[] = {ResourceGroup.GUI};
+        resources.add("button_text_image",
+            new BoundingResource(R.raw.bounding_gui_button_text_image,
+            groups));
+        }
         
         //TEXTURES
         //text
@@ -36,6 +43,13 @@ public class GUIPack {
         ResourceGroup groups[] = {ResourceGroup.GUI};
         resources.add("text",
             new TextureResource(R.drawable.text,
+            groups));
+        }
+        //text and image button black and white transparent
+        {
+        ResourceGroup groups[] = {ResourceGroup.GUI};
+        resources.add("text_image_button_bwt",
+            new TextureResource(R.drawable.gui_button_text_image_bwt,
             groups));
         }
         
@@ -57,6 +71,14 @@ public class GUIPack {
             R.raw.shape_gui_overlay, groups,
             col, "plain_colour_vertex",
             "colour_no_lighting_fragment"));
+        }
+        //text and image button black and white transparent
+        {
+        ResourceGroup groups[] = {ResourceGroup.LEVEL_SELECT};
+        resources.add("text_image_button_bwt", new ShapeResource(
+            R.raw.shape_gui_button_text_image, groups,
+            "text_image_button_bwt", "plain_texture_vertex",
+            "texture_no_lighting_fragment"));
         }
     }
 }

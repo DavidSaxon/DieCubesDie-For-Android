@@ -60,7 +60,7 @@ public class ShaderResource {
             
             //report error
             throw new RuntimeException(
-                    "Attempted using an un-loaded shader");
+                    "Attempted to use an un-loaded shader");
         }
         
         return shader;

@@ -124,7 +124,7 @@ public class ShapeResource {
             
             //report error
             throw new RuntimeException(
-                    "Attempted using an un-loaded shape");
+                    "Attempted to use an un-loaded shape");
         }
         
         return shape;

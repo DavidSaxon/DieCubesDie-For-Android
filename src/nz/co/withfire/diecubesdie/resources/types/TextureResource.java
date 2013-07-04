@@ -59,7 +59,7 @@ public class TextureResource {
             
             //report error
             throw new RuntimeException(
-                    "Attempted using an un-loaded texture");
+                    "Attempted to use an un-loaded texture");
         }
         
         return texture;

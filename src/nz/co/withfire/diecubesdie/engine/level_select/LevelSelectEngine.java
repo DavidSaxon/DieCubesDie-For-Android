@@ -8,8 +8,13 @@ package nz.co.withfire.diecubesdie.engine.level_select;
 
 import nz.co.withfire.diecubesdie.R;
 import nz.co.withfire.diecubesdie.engine.Engine;
+import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
+import nz.co.withfire.diecubesdie.engine.level_load.LevelLoadEngine;
 import nz.co.withfire.diecubesdie.entities.gui.GUIText;
+import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
+import nz.co.withfire.diecubesdie.entities.gui.button.Button;
+import nz.co.withfire.diecubesdie.entities.gui.button.TextImageButton;
 import nz.co.withfire.diecubesdie.entities.level_select.Background;
 import nz.co.withfire.diecubesdie.entities.level_select.LevelSelector;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
@@ -21,6 +26,7 @@ import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.renderer.text.Text;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
+import nz.co.withfire.diecubesdie.utilities.CollisionUtil;
 import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
@@ -64,6 +70,9 @@ public class LevelSelectEngine implements Engine {
     private GUIText areaText;
     //the information text
     private GUIText infoText;
+    
+    //the begin button
+    private Button beginButton;
     
     //CONSTRUCTOR
     /**Creates a new level select engine
@@ -172,6 +181,16 @@ public class LevelSelectEngine implements Engine {
             
             //pass the tap point to the level manager
             manager.tapEvent(tapPoint);
+            
+            //check if the begin button is being pressed
+            if (CollisionUtil.checkButtonCollision(tapPoint, beginButton)) {
+                
+                //TODO: make sure the button is not locked
+                
+                //go to the level
+                nextState = new LevelLoadEngine(context, resources);
+                complete = true;
+            }
         }
         else if (gesture instanceof Swipe) {
             
@@ -269,8 +288,21 @@ public class LevelSelectEngine implements Engine {
             resources.getShader("texture_quater_dim_fragment"));
         entities.add(infoText);
         
+        //the begin button
+        Vector2d beginPos = new Vector2d(
+            TransformationsUtil.getOpenGLDim().getX() / 2.0f,
+            (TransformationsUtil.getOpenGLDim().getY() +
+            TransformationsUtil.scaleToScreen(0.25f)));
+        beginButton = new TextImageButton(
+            new Text(beginPos, 0.10f, Text.Align.CENTRE,
+                context.getString(R.string.level_select_begin)),
+            resources.getShape("text_image_button_bwt"),
+            resources.getBounding("button_text_image"),
+            ValuesUtil.ButtonType.BEGIN);
+        entities.add(beginButton);
+        
         //the fade in overlay
-//        entities.add(new Overlay(resources.getShape("fade_overlay"),
-//            new Vector2d(), null, true));
+        entities.add(new Overlay(resources.getShape("fade_overlay"),
+            new Vector2d(), null, true));
     }
 }

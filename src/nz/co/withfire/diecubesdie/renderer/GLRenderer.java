@@ -27,7 +27,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 import android.view.MotionEvent;
 
-public class GLRenderer implements GLSurfaceView.Renderer{
+public class GLRenderer implements GLSurfaceView.Renderer {
 
     //VARIABLES
     //the android context
@@ -115,6 +115,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
                 
                 engine.touchEvent(e.getAction(), e.getActionIndex() ,touchPos);
             }
+            
             //clear the touch events
             touchEvents.clear();
             

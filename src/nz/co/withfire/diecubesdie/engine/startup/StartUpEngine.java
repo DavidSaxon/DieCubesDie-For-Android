@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.level.LevelEngine;
+import nz.co.withfire.diecubesdie.engine.level_load.LevelLoadEngine;
 import nz.co.withfire.diecubesdie.engine.main_menu.MainMenuEngine;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
@@ -106,8 +107,8 @@ public class StartUpEngine implements Engine {
     public Engine nextState() {
 
         //go to the menu
-        return new MainMenuEngine(context, resources);
-        //return new LevelEngine(context, resources);
+        //return new MainMenuEngine(context, resources);
+        return new LevelLoadEngine(context, resources);
     }
 
     //PRIVATE FUNCTIONS
@@ -137,6 +138,20 @@ public class StartUpEngine implements Engine {
         }
         else if (loadCounter == 1) {
             
+            //debug start up
+            if (DebugUtil.DEBUG) {
+                
+                //load the debug resources
+                resources.loadGroup(ResourceGroup.DEBUG);
+                
+                //set the debug bounding box shaders
+                DebugUtil.boundingVertexShader =
+                    resources.getShader("plain_colour_vertex");
+                
+                DebugUtil.boundingFragmentShader =
+                    resources.getShader("colour_no_lighting_fragment");
+            }
+            
             //load the resources that are required by all
             resources.loadGroup(ResourceGroup.GUI);
             
@@ -162,19 +177,6 @@ public class StartUpEngine implements Engine {
             entities.add(splash);
         }
         else if (loadCounter == 2) {
-            
-            if (DebugUtil.DEBUG) {
-                
-                //load the debug resources
-                resources.loadGroup(ResourceGroup.DEBUG);
-                
-                //set the debug bounding box shaders
-                DebugUtil.boundingVertexShader =
-                    resources.getShader("plain_colour_vertex");
-                
-                DebugUtil.boundingFragmentShader =
-                    resources.getShader("colour_no_lighting_fragment");
-            }
             
             //load the menu resources
             resources.loadGroup(ResourceGroup.MENU);

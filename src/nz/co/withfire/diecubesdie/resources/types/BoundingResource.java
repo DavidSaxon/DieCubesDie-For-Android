@@ -53,6 +53,14 @@ public class BoundingResource {
     /**@return the bounding box*/
     public Bounding getBounding() {
         
+        //check that the bounding has been loaded
+        if (!loaded) {
+            
+            //report error
+            throw new RuntimeException(
+                    "Attempted to use an un-loaded bounding");
+        }
+        
         return bounding;
     }
     
