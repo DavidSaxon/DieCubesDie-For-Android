@@ -108,7 +108,7 @@ public class StartUpEngine implements Engine {
 
         //go to the menu
         //return new MainMenuEngine(context, resources);
-        return new LevelLoadEngine(context, resources);
+        return new LevelLoadEngine(context, resources, "test_level");
     }
 
     //PRIVATE FUNCTIONS

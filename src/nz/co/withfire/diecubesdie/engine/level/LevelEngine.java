@@ -51,12 +51,17 @@ public class LevelEngine implements Engine {
     //CONSTRUCTOR
     /**!Constructs a new Level engine
     @param context the android context
-    @param resources the resource manager to use*/
-    public LevelEngine(Context context, ResourceManager resources) {
+    @param resources the resource manager to use
+    @param ground the ground*/
+    public LevelEngine(Context context, ResourceManager resources,
+        Ground ground) {
         
         //set the variables
         this.context = context;
         this.resources = resources;
+        
+        //add the ground
+        entities.add(ground);
     }
     
     //PUBLIC METHODS
@@ -74,17 +79,6 @@ public class LevelEngine implements Engine {
         WoodenCube testWoodenCube = new WoodenCube(
             resources.getShape("wooden_cube"));
         entities.add(testWoodenCube);
-        
-        //add ground
-        for (int i = -20; i < 4; ++i) {
-            for (int j = -1; j < 4; ++j) {
-                
-                Vector2d gPos = new Vector2d(i, j);
-                Ground g = new Ground(gPos,
-                    resources.getShape("plains_grass_tile"));
-                entities.add(g);
-            }
-        }
         
         //the fade in overlay
         entities.add(new Overlay(resources.getShape("fade_overlay"),
@@ -109,15 +103,15 @@ public class LevelEngine implements Engine {
     @Override
     public void applyCamera(float[] viewMatrix) {
 
-        //TESTING
-        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
-                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, 0.0f, 0.0f, 15.0f);
-        Matrix.rotateM(viewMatrix, 0, 70, -1.0f, 0, 0.0f);
-        Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
-        
-       // Matrix.translateM(viewMatrix, 0, 0, -20.0f, 20.0f);
-        Matrix.translateM(viewMatrix, 0, followCam, 0.0f, 0.0f);
+//        //TESTING
+//        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
+//                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        Matrix.translateM(viewMatrix, 0, -4.0f, -4.0f, 9.0f);
+        Matrix.rotateM(viewMatrix, 0, 90, -1.0f, 0, 0.0f);
+//        Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
+//        
+//       // Matrix.translateM(viewMatrix, 0, 0, -20.0f, 20.0f);
+//        Matrix.translateM(viewMatrix, 0, followCam, 0.0f, 0.0f);
     }
     
     @Override

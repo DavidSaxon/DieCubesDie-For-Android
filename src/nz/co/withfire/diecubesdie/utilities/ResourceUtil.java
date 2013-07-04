@@ -18,6 +18,7 @@ import nz.co.withfire.diecubesdie.bounding.BoundingRect;
 import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleCol;
 import nz.co.withfire.diecubesdie.renderer.shapes.GLTriangleTex;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
+import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
@@ -30,6 +31,41 @@ import android.opengl.GLUtils;
 import android.util.Log;
 
 public class ResourceUtil {
+    
+    /**Converts a level area to a resource group
+    @param area the level area
+    @return the resource group*/
+    static public ResourceManager.ResourceGroup areaToGroup(
+        ValuesUtil.LevelArea area) {
+        
+        switch(area) {
+        
+            case PLAINS: {
+                
+                return ResourceManager.ResourceGroup.PLAINS;
+            }
+            case MOUNTAINS: {
+                
+                return ResourceManager.ResourceGroup.MOUNTAINS;
+            }
+            case CITY: {
+                
+                return ResourceManager.ResourceGroup.CITY;
+            }
+            case DESERT: {
+                
+                return ResourceManager.ResourceGroup.DESERT;
+            }
+            case JUNGLE: {
+                
+                return ResourceManager.ResourceGroup.JUNGLE;
+            }
+            default : {
+                
+                return ResourceManager.ResourceGroup.STRONGHOLD;
+            }
+        }
+    }
     
     /**Reads a resource into a string
     @param context the android context

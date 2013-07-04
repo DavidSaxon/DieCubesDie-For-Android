@@ -188,7 +188,8 @@ public class LevelSelectEngine implements Engine {
                 //TODO: make sure the button is not locked
                 
                 //go to the level
-                nextState = new LevelLoadEngine(context, resources);
+                nextState = new LevelLoadEngine(context,
+                    resources, "test_level");
                 complete = true;
             }
         }

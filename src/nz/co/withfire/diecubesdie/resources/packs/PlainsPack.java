@@ -22,20 +22,42 @@ public class PlainsPack {
         //TEXTURES
         //grass 1 tile
         {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                ResourceGroup.MENU, ResourceGroup.TERRIAN,
-                ResourceGroup.PLAINS};
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
         resources.add("plains_grass_tile",
             new TextureResource(R.drawable.terrain_plains_grass_1,
             groups));
         }
         
         //SHAPES
+        //grass 1 north
         {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                ResourceGroup.CUBE};
-        resources.add("plains_grass_tile", new ShapeResource(
-            R.raw.shape_terrian_ground_tile, groups,
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
+        resources.add("plains_ground_grass_1_north", new ShapeResource(
+            R.raw.shape_terrain_ground_north, groups,
+            "plains_grass_tile", "plain_texture_vertex",
+            "texture_no_lighting_fragment"));
+        }
+        //grass 1 east
+        {
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
+        resources.add("plains_ground_grass_1_east", new ShapeResource(
+            R.raw.shape_terrain_ground_east, groups,
+            "plains_grass_tile", "plain_texture_vertex",
+            "texture_no_lighting_fragment"));
+        }
+        //grass 1 south
+        {
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
+        resources.add("plains_ground_grass_1_south", new ShapeResource(
+            R.raw.shape_terrain_ground_south, groups,
+            "plains_grass_tile", "plain_texture_vertex",
+            "texture_no_lighting_fragment"));
+        }
+        //grass 1 west
+        {
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
+        resources.add("plains_ground_grass_1_west", new ShapeResource(
+            R.raw.shape_terrain_ground_west, groups,
             "plains_grass_tile", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
         }

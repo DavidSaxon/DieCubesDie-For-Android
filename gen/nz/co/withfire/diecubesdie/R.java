@@ -77,7 +77,10 @@ public final class R {
         public static final int shape_menu_withfire_button=0x7f03001f;
         public static final int shape_startup__splash_small=0x7f030020;
         public static final int shape_startup_splash=0x7f030021;
-        public static final int shape_terrian_ground_tile=0x7f030022;
+        public static final int shape_terrain_ground_east=0x7f030022;
+        public static final int shape_terrain_ground_north=0x7f030023;
+        public static final int shape_terrain_ground_south=0x7f030024;
+        public static final int shape_terrain_ground_west=0x7f030025;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

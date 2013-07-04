@@ -20,6 +20,7 @@ import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.resources.packs.DebugPack;
 import nz.co.withfire.diecubesdie.resources.packs.GUIPack;
+import nz.co.withfire.diecubesdie.resources.packs.LevelDataPack;
 import nz.co.withfire.diecubesdie.resources.packs.LevelLoadPack;
 import nz.co.withfire.diecubesdie.resources.packs.LevelPack;
 import nz.co.withfire.diecubesdie.resources.packs.LevelSelectPack;
@@ -49,9 +50,12 @@ public class ResourceManager {
         LEVEL_SELECT,
         LEVEL_LOAD,
         LEVEL,
-        CUBE,
-        TERRIAN,
-        PLAINS
+        PLAINS,
+        MOUNTAINS,
+        CITY,
+        DESERT,
+        JUNGLE,
+        STRONGHOLD
     }
     
     //VARIABLES
@@ -86,14 +90,14 @@ public class ResourceManager {
     
     //PUBLIC METHODS
     /**Loads all of the resources into memory
-    NUUUU DON'T DO IT!*/
+    #NOTE: does not load levels
+    #WARNING: NUUUU DON'T DO IT!*/
     public void loadAll() {
         
         loadAllShaders();
         loadAllBoundings();
         loadAllTextures();
         loadAllShapes();
-        loadAllLevels();
     }
     
     /**Loads all of the resources from the group
@@ -231,24 +235,6 @@ public class ResourceManager {
         shapes.get(key).load(context, this);
     }
     
-    /**Loads all the levels into memory
-    OH CRAP YOU PROBABLY DON'T WANT TO DO THIS HOMIE*/
-    public void loadAllLevels() {
-        
-        //iterate over the map and load
-        for (LevelResource l : levels.values()) {
-            
-           l.load(context, this);
-        }
-    }
-    
-    /**Loads the level with the given key
-    @param key the key of the level to load*/
-    public void loadLevel(String key) {
-        
-        levels.get(key).load(context, this);
-    }
-    
     /**Gets a shader from the resource map
     @param key the key of the shader
     @return the shader*/
@@ -281,12 +267,12 @@ public class ResourceManager {
         return shapes.get(key).getShape();
     }
     
-    /**Gets a level map from the resource map
-    @param key the key of the level
-    @return the level map*/
-    public List<Entity> getLevelMap(String key) {
+    /**Gets the level resource associated with the key
+    @param key the key of the level resource
+    @return the level resource*/
+    public LevelResource getLevel(String key) {
         
-        return levels.get(key).getLevelMap();
+        return levels.get(key);
     }
     
     /**Adds a shader resources
@@ -376,6 +362,7 @@ public class ResourceManager {
         MainMenuPack.build(this);
         LevelSelectPack.build(this);
         LevelLoadPack.build(this);
+        LevelDataPack.build(this);
         LevelPack.build(this);
         PlainsPack.build(this);
     }

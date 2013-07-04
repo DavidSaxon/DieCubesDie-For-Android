@@ -14,10 +14,6 @@ import nz.co.withfire.diecubesdie.resources.types.ShapeResource;
 import nz.co.withfire.diecubesdie.resources.types.TextureResource;
 
 public class LevelPack {
-
-    /********************************************\
-    | TODO: separate once testing is complete!!! |
-    \********************************************/
     
     //PUBLIC METHODS
     /**Builds general level resources
@@ -27,8 +23,7 @@ public class LevelPack {
         //TEXTURES
         //wooden cube
         {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                ResourceGroup.MENU, ResourceGroup.CUBE};
+        ResourceGroup groups[] = {ResourceGroup.LEVEL};
         resources.add("wooden_cube",
             new TextureResource(R.drawable.cube_wood,
             groups));
@@ -37,17 +32,11 @@ public class LevelPack {
         //SHAPES
         //wooden cube
         {
-        ResourceGroup groups[] = {ResourceGroup.LEVEL,
-                ResourceGroup.CUBE};
+        ResourceGroup groups[] = {ResourceGroup.LEVEL};
         resources.add("wooden_cube", new ShapeResource(
             R.raw.shape_cube_textured, groups,
             "wooden_cube", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
         }
-        
-        //LEVELS
-        //plains level
-        resources.add("test", new LevelResource(
-            R.raw.level_test, null));
     }
 }
