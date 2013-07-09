@@ -27,6 +27,21 @@ public class PlainsPack {
             new TextureResource(R.drawable.terrain_plains_grass_1,
             groups));
         }
+        //cliff side 1
+        {
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
+        resources.add("plains_cliff_side_1",
+            new TextureResource(R.drawable.terrain_plains_cliff_side_1,
+            groups));
+        }
+        //cliff top grass 1
+        {
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
+        resources.add("plains_cliff_top_1",
+            new TextureResource(R.drawable.terrain_plains_cliff_top_1,
+            groups));
+        }
+        
         
         //SHAPES
         //grass 1 north
@@ -59,6 +74,24 @@ public class PlainsPack {
         resources.add("plains_ground_grass_1_west", new ShapeResource(
             R.raw.shape_terrain_ground_west, groups,
             "plains_grass_tile", "plain_texture_vertex",
+            "texture_no_lighting_fragment"));
+        }
+        
+        //cliff side 1
+        {
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
+        resources.add("plains_cliff_side_1", new ShapeResource(
+            R.raw.shape_terrain_cliff_side, groups,
+            "plains_cliff_side_1", "plain_texture_vertex",
+            "texture_no_lighting_fragment"));
+        }
+        
+        //cliff top grass 1
+        {
+        ResourceGroup groups[] = {ResourceGroup.PLAINS};
+        resources.add("plains_cliff_top_1", new ShapeResource(
+            R.raw.shape_terrain_cliff_top, groups,
+            "plains_cliff_top_1", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
         }
     }

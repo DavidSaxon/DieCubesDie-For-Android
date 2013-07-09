@@ -56,9 +56,8 @@ public class LevelLoadEngine implements Engine {
     //the current iteration count
     private int iterations = 0;
     
-    //the map of all entities in the level
-    private List<List<List<Entity>>> entityMap =
-        new ArrayList<List<List<Entity>>>();
+    //the map of all terrain entities
+    private Entity entityMap[][][];
     //the ground object for the level
     private Ground ground;
     
@@ -144,7 +143,7 @@ public class LevelLoadEngine implements Engine {
     @Override
     public Engine nextState() {
 
-        return new LevelEngine(context, resources, ground);
+        return new LevelEngine(context, resources, entityMap, ground);
     }
     
     //PRIVATE FUNCTIONS
@@ -155,7 +154,7 @@ public class LevelLoadEngine implements Engine {
         LevelResource levelData = resources.getLevel(levelName);
         levelData.preload(context);
         
-        //load general level resorces
+        //load general level resources
         resources.loadGroup(ResourceManager.ResourceGroup.LEVEL);
         
         //load the area
@@ -192,13 +191,9 @@ public class LevelLoadEngine implements Engine {
         //create the ground
         ground = new Ground(dim);
         
-        
-        
-        //create the level floors
-        for (int floor = 0; floor < (int) dim.getZ(); ++floor) {
-
-            entityMap.add(new ArrayList<List<Entity>>());
-        }
+        //create the empty entity map
+        entityMap = new Entity[(int) dim.getZ()]
+            [(int) dim.getY()][(int) dim.getX()];
         
         //get the code map
         List<List<String>> codeMap = levelData.getMap();

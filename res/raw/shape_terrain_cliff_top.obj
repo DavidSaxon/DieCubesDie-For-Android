@@ -1,0 +1,16 @@
+# Blender v2.67 (sub 0) OBJ File: 'cliff_top.blend'
+# www.blender.org
+mtllib shape_terrain_cliff_top.mtl
+o Cube_Cube.003
+v -0.500000 0.500000 0.500000
+v -0.500000 0.500000 -0.500000
+v 0.500000 0.500000 -0.500000
+v 0.500000 0.500000 0.500000
+vt 0.000017 0.000010
+vt 0.999997 0.000013
+vt 0.999998 0.999997
+vt 0.000002 1.000002
+usemtl Material.001
+s off
+f 4/1 3/2 2/3
+f 1/4 4/1 2/3

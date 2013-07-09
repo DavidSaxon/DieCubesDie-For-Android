@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
+import nz.co.withfire.diecubesdie.entities.level.terrian.Spawn;
+import nz.co.withfire.diecubesdie.entities.level.terrian.Wall;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
@@ -126,7 +128,7 @@ public class LevelLoadUtil {
     @param resources the resource manager
     @return the entity*/
     static public void createEntity(String code, Vector2d pos,
-        List<List<List<Entity>>> entityList, Ground ground,
+        Entity entityMap[][][], Ground ground,
         ResourceManager resources) {
         
         //get the type
@@ -144,6 +146,16 @@ public class LevelLoadUtil {
             case 'G': {
                 
                 createGround(version, pos3, ground, resources);
+                break;
+            }
+            case 'W': {
+                
+                createWall(version, pos3, entityMap, resources);
+                break;
+            }
+            case 'S': {
+                
+                createSpawn(pos3, entityMap, resources);
                 break;
             }
         }
@@ -186,5 +198,41 @@ public class LevelLoadUtil {
                 break;
             }
         }
+    }
+    
+    /**Adds a wall object to the entity map
+    @param version the version of the wall
+    @param pos the position of the wall
+    @param entityMap the entity map
+    @param resources the resource manager*/
+    static private void createWall(char version, Vector3d pos,
+        Entity entityMap[][][], ResourceManager resources) {
+        
+        //find the version and add
+        switch (version) {
+        
+            case 'a': {
+                
+                entityMap[(int) pos.getZ()]
+                    [(int) pos.getY()][(int) pos.getX()] =
+                    new Wall(resources.getShape("plains_cliff_side_1"),
+                        resources.getShape("plains_cliff_top_1"),
+                        pos);
+                break;
+            }
+        }
+    }
+    
+    /**Adds a spawn point to the entity map
+    @param pos the position of the spawn
+    @param entityMap the entity map
+    @param resources the resource manager*/
+    static private void createSpawn(Vector3d pos,
+        Entity entityMap[][][], ResourceManager resources) {
+        
+        entityMap[(int) pos.getZ()]
+            [(int) pos.getY()][(int) pos.getX()] = 
+            new Spawn(resources.getShape("spawn"),
+                resources.getShape("spawn_inside"), pos);
     }
 }

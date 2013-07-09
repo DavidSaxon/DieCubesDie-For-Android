@@ -2,7 +2,7 @@ package nz.co.withfire.diecubesdie.engine.main_menu;
 
 import java.util.ArrayList;
 
-import com.revmob.ads.link.RevMobLink;
+//import com.revmob.ads.link.RevMobLink;
 
 import android.content.Context;
 import android.os.SystemClock;
@@ -62,7 +62,7 @@ public class MainMenuEngine implements Engine {
     private GestureWatcher gestureWatcher = new GestureWatcher();
     
     //the rev mob link
-    public static RevMobLink link = null;
+    //public static RevMobLink link = null;
     
     //the next state to move to once completed
     private Engine nextState = null;
@@ -285,7 +285,17 @@ public class MainMenuEngine implements Engine {
                 beginConnectionAttempt();
                 
                 //open the rev mob link
-                link.open();
+                
+
+                /********************/
+                
+                
+                /*TODO: fix here*/
+                //link.open();
+                
+                
+                /*******************/
+                
                 break;
             }
         }

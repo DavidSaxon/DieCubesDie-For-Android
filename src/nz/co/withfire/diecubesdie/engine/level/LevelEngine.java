@@ -13,7 +13,7 @@ import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
-import nz.co.withfire.diecubesdie.entities.level.cubes.WoodenCube;
+import nz.co.withfire.diecubesdie.entities.level.cubes.PaperCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
@@ -24,6 +24,7 @@ import nz.co.withfire.diecubesdie.utilities.DebugUtil;
 import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
+import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector4d;
 
 public class LevelEngine implements Engine {
@@ -41,6 +42,9 @@ public class LevelEngine implements Engine {
     //The list of all entities
     private EntityList entities = new EntityList();
     
+    //the map of terrain entities
+    private Entity entityMap[][][];
+    
     //is true to add a touch point
     private boolean addTouchPoint= false;
     private Vector2d touchPos = new Vector2d();
@@ -52,13 +56,18 @@ public class LevelEngine implements Engine {
     /**!Constructs a new Level engine
     @param context the android context
     @param resources the resource manager to use
+    @param entityMap the entityMap for the terrian
     @param ground the ground*/
     public LevelEngine(Context context, ResourceManager resources,
-        Ground ground) {
+        Entity entityMap[][][], Ground ground) {
         
         //set the variables
         this.context = context;
         this.resources = resources;
+        this.entityMap = entityMap;
+        
+        //add the terrian entities
+        addTerrain();
         
         //add the ground
         entities.add(ground);
@@ -75,14 +84,12 @@ public class LevelEngine implements Engine {
         resources.loadGroup(ResourceGroup.LEVEL);
         
         //TESTING
-        //add a wooden cube
-        WoodenCube testWoodenCube = new WoodenCube(
-            resources.getShape("wooden_cube"));
-        entities.add(testWoodenCube);
+        entities.add(new PaperCube(resources.getShape("paper_cube"),
+            new Vector3d(4.0f, 0.0f, 0.0f), PaperCube.Side.LEFT, entityMap));
         
         //the fade in overlay
-        entities.add(new Overlay(resources.getShape("fade_overlay"),
-            new Vector2d(), null, true));
+        //entities.add(new Overlay(resources.getShape("fade_overlay"),
+        //    new Vector2d(), null, true));
     }
 
     @Override
@@ -106,8 +113,8 @@ public class LevelEngine implements Engine {
 //        //TESTING
 //        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
 //                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, -4.0f, -4.0f, 9.0f);
-        Matrix.rotateM(viewMatrix, 0, 90, -1.0f, 0, 0.0f);
+        Matrix.translateM(viewMatrix, 0, -4.0f, -3.7f, 11.0f);
+        Matrix.rotateM(viewMatrix, 0, 65, -1.0f, 0, 0.0f);
 //        Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
 //        
 //       // Matrix.translateM(viewMatrix, 0, 0, -20.0f, 20.0f);
@@ -151,30 +158,21 @@ public class LevelEngine implements Engine {
     @param viewMatrix the view Matrix*/
     void processTouch() {
         
-//        //add a touch point if we need too
-//        if (addTouchPoint) {
-//            
-//            //add the touch point
-//            TouchPoint touchPoint;
-//            
-//            //add a debug touch point
-//            if (DebugUtil.DEBUG) {
-//                
-//                Log.v(ValuesUtil.TAG, "pos: " + touchPos);
-//                
-//                 touchPoint = new TouchPoint(
-//                     resources.getShape("debug_touchpoint"),
-//                     touchPos);
-//            }
-//            //add a normal touch point
-//            else {
-//                
-//                touchPoint = new TouchPoint(touchPos);
-//            }
-//            
-//            entities.add(touchPoint);
-//            
-//            addTouchPoint = false;
-//        }
+    }
+    
+    /**Adds the terrian from the entity map to the entity list*/
+    private void addTerrain() {
+        
+        for (int z = 0; z < entityMap.length; ++z) {
+            for (int y = 0; y < entityMap[0].length; ++y) {
+                for (int x = 0; x < entityMap[0][0].length; ++x) {
+                    
+                    if (entityMap[z][y][x] != null) {
+                        
+                        entities.add(entityMap[z][y][x]);
+                    }
+                }
+            }
+        }
     }
 }

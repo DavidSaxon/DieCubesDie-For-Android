@@ -6,9 +6,9 @@
 
 package nz.co.withfire.diecubesdie;
 
-import com.revmob.RevMob;
-import com.revmob.RevMobAdsListener;
-import com.revmob.ads.link.RevMobLink;
+//import com.revmob.RevMob;
+//import com.revmob.RevMobAdsListener;
+//import com.revmob.ads.link.RevMobLink;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
 import nz.co.withfire.diecubesdie.engine.main_menu.MainMenuEngine;
@@ -38,23 +38,27 @@ public class MainActivity extends Activity {
         
         //super call
         super.onCreate(savedInstanceState);
-        
+            
         //set to full screen mode
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         //set up revmob
-        RevMob revmob = RevMob.start(this, ValuesUtil.REVMOB_APP_ID);
-        RevMobAdsListener listener = new RevMobAdsListener() {
-            public void onRevMobAdReceived() {}
-            public void onRevMobAdNotReceived(String message) {}
-            public void onRevMobAdDisplayed() {}
-            public void onRevMobAdDismiss() {}
-            public void onRevMobAdClicked() {}
-        };
+//        RevMob revmob = RevMob.start(this, ValuesUtil.REVMOB_APP_ID);
+//        
+//        Log.v(ValuesUtil.TAG, "3");
+//        
+//        RevMobAdsListener listener = new RevMobAdsListener() {
+//            public void onRevMobAdReceived() {}
+//            public void onRevMobAdNotReceived(String message) {}
+//            public void onRevMobAdDisplayed() {}
+//            public void onRevMobAdDismiss() {}
+//            public void onRevMobAdClicked() {}
+//        };
+        
         //create the link
-        MainMenuEngine.link = revmob.createAdLink(this, listener);
+//        MainMenuEngine.link = revmob.createAdLink(this, listener);
         
         //set the display
         surfaceView = new MainSurfaceView(this);
@@ -70,16 +74,16 @@ public class MainActivity extends Activity {
         super.onResume();
         
         //set up revmob
-        RevMob revmob = RevMob.session();
-        RevMobAdsListener listener = new RevMobAdsListener() {
-            public void onRevMobAdReceived() {}
-            public void onRevMobAdNotReceived(String message) {}
-            public void onRevMobAdDisplayed() {}
-            public void onRevMobAdDismiss() {}
-            public void onRevMobAdClicked() {}
-        };
-        //create the link
-        MainMenuEngine.link = revmob.createAdLink(this, listener);
+//        RevMob revmob = RevMob.session();
+//        RevMobAdsListener listener = new RevMobAdsListener() {
+//            public void onRevMobAdReceived() {}
+//            public void onRevMobAdNotReceived(String message) {}
+//            public void onRevMobAdDisplayed() {}
+//            public void onRevMobAdDismiss() {}
+//            public void onRevMobAdClicked() {}
+//        };
+//        //create the link
+//        MainMenuEngine.link = revmob.createAdLink(this, listener);
         
         //tell the engine we have resumed
         MainMenuEngine.resume = true;

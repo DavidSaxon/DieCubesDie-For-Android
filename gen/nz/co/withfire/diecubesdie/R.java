@@ -16,25 +16,30 @@ public final class R {
         public static final int cube_carbon=0x7f020002;
         public static final int cube_metal=0x7f020003;
         public static final int cube_nano=0x7f020004;
-        public static final int cube_wood=0x7f020005;
-        public static final int gui_button_text_image_bwt=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
-        public static final int levelload_box_cutters=0x7f020008;
-        public static final int levelload_ice_fire=0x7f020009;
-        public static final int levelselect_grid=0x7f02000a;
-        public static final int levelselect_sky=0x7f02000b;
-        public static final int levelselect_world=0x7f02000c;
-        public static final int menu_main_cube=0x7f02000d;
-        public static final int menu_main_facebook=0x7f02000e;
-        public static final int menu_main_googleplus=0x7f02000f;
-        public static final int menu_main_title=0x7f020010;
-        public static final int menu_main_withfire=0x7f020011;
-        public static final int startup_omicron_splash=0x7f020012;
-        public static final int startup_presents_splash=0x7f020013;
-        public static final int startup_with_fire_splash=0x7f020014;
-        public static final int terrain_plains_grass_1=0x7f020015;
-        public static final int terrain_plains_wall=0x7f020016;
-        public static final int text=0x7f020017;
+        public static final int cube_paper=0x7f020005;
+        public static final int cube_wood=0x7f020006;
+        public static final int gui_button_text_image_bwt=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int levelload_box_cutters=0x7f020009;
+        public static final int levelload_ice_fire=0x7f02000a;
+        public static final int levelselect_grid=0x7f02000b;
+        public static final int levelselect_sky=0x7f02000c;
+        public static final int levelselect_world=0x7f02000d;
+        public static final int menu_main_cube=0x7f02000e;
+        public static final int menu_main_facebook=0x7f02000f;
+        public static final int menu_main_googleplus=0x7f020010;
+        public static final int menu_main_title=0x7f020011;
+        public static final int menu_main_withfire=0x7f020012;
+        public static final int startup_omicron_splash=0x7f020013;
+        public static final int startup_presents_splash=0x7f020014;
+        public static final int startup_with_fire_splash=0x7f020015;
+        public static final int terrain_plains_cliff_side_1=0x7f020016;
+        public static final int terrain_plains_cliff_top_1=0x7f020017;
+        public static final int terrain_plains_grass_1=0x7f020018;
+        public static final int terrain_plains_wall=0x7f020019;
+        public static final int terrain_spawn=0x7f02001a;
+        public static final int terrain_spawn_inside=0x7f02001b;
+        public static final int text=0x7f02001c;
     }
     public static final class id {
         public static final int menu_settings=0x7f070000;
@@ -60,7 +65,7 @@ public final class R {
         public static final int shader_fragment_texture_quater_dim=0x7f03000e;
         public static final int shader_vertex_plain_colour=0x7f03000f;
         public static final int shader_vertex_plain_texture=0x7f030010;
-        public static final int shape_cube_textured=0x7f030011;
+        public static final int shape_cube=0x7f030011;
         public static final int shape_debug_touchpoint=0x7f030012;
         public static final int shape_gui_button_text_image=0x7f030013;
         public static final int shape_gui_fade=0x7f030014;
@@ -77,10 +82,14 @@ public final class R {
         public static final int shape_menu_withfire_button=0x7f03001f;
         public static final int shape_startup__splash_small=0x7f030020;
         public static final int shape_startup_splash=0x7f030021;
-        public static final int shape_terrain_ground_east=0x7f030022;
-        public static final int shape_terrain_ground_north=0x7f030023;
-        public static final int shape_terrain_ground_south=0x7f030024;
-        public static final int shape_terrain_ground_west=0x7f030025;
+        public static final int shape_terrain_cliff_side=0x7f030022;
+        public static final int shape_terrain_cliff_top=0x7f030023;
+        public static final int shape_terrain_ground_east=0x7f030024;
+        public static final int shape_terrain_ground_north=0x7f030025;
+        public static final int shape_terrain_ground_south=0x7f030026;
+        public static final int shape_terrain_ground_west=0x7f030027;
+        public static final int shape_terrain_spawn=0x7f030028;
+        public static final int shape_terrain_spawn_inside=0x7f030029;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
