@@ -55,9 +55,9 @@ abstract class Cube extends Drawable {
     //the position of the cube
     protected Vector3d pos = new Vector3d();
     //the rolling animation rotation of the cube
-    protected Vector3d rollingRot = new Vector3d();
+    protected float rollingRot = 0.0f;
     //the current rotation of the cube
-    protected Vector3d currentRot = new Vector3d();
+    protected float currentRot =0.0f;
     
     //the side the cube is following
     protected Side side;
@@ -66,7 +66,7 @@ abstract class Cube extends Drawable {
     protected Entity entityMap[][][];
     
     //the speed at which the cube rotates
-    protected final float ROT_SPEED = 1.5f;
+    protected final float ROT_SPEED = 2.0f;
     
     //the current state of the cube
     protected State state;
@@ -122,14 +122,22 @@ abstract class Cube extends Drawable {
                 idle();
                 break;
             }
+            case MOVE: {
+                
+                move();
+                break;
+            }
             case SPAWN: {
                 
                 spawn();
                 break;
             }
-            case MOVE: {
+            case FINISH: {
                 
-                move();
+                break;
+            }
+            case DIE: {
+                
                 break;
             }
         }
@@ -142,17 +150,39 @@ abstract class Cube extends Drawable {
         Matrix.setIdentityM(tMatrix, 0);
         Matrix.translateM(tMatrix, 0, pos.getX(), pos.getZ(), pos.getY());
         
+        //turning rotation
+        switch (direction) {
+            
+            case EAST: {
+                
+                Matrix.rotateM(tMatrix, 0, 90.0f, 0, 1, 0);
+                break;
+            }
+            case SOUTH: {
+                
+                Matrix.rotateM(tMatrix, 0, 180.0f, 0, 1, 0);
+                break;
+            }
+            case WEST: {
+                
+                Matrix.rotateM(tMatrix, 0, 90.0f, 0, -1, 0);
+                break;
+            }
+            default: {
+                
+                //do nothing
+                break;
+            }
+            
+        }
+        
         //rolling rotation
-        shiftTransform();
-        Matrix.rotateM(tMatrix, 0, rollingRot.getZ(), 0, 0, 1);
-        Matrix.rotateM(tMatrix, 0, rollingRot.getY(), 0, 1, 0);
-        Matrix.rotateM(tMatrix, 0, rollingRot.getX(), 1, 0, 0);
+        Matrix.translateM(tMatrix, 0, 0.0f, -0.5f, 0.5f);
+        Matrix.rotateM(tMatrix, 0, rollingRot, 1, 0, 0);
         
         //current rotation
-        shiftBackTransform();
-        Matrix.rotateM(tMatrix, 0, currentRot.getZ(), 0, 0, 1);
-        Matrix.rotateM(tMatrix, 0, currentRot.getY(), 0, 1, 0);
-        Matrix.rotateM(tMatrix, 0, currentRot.getX(), 1, 0, 0);
+        Matrix.translateM(tMatrix, 0, 0.0f, 0.5f, -0.5f);
+        Matrix.rotateM(tMatrix, 0, currentRot, 1, 0, 0);
         
         //multiply the matrix
         Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, tMatrix, 0);
@@ -196,15 +226,61 @@ abstract class Cube extends Drawable {
             
             //perform left side path finding
             leftPathFind();
-            
-            Log.v(ValuesUtil.TAG, direction + "");
-            
-            //get moving
-            state = State.MOVE;
-            move();
         }
         else {
             
+            //perform right side path finding
+            rightPathFind();
+        }
+        
+        //get moving
+        state = State.MOVE;
+        move();
+    }
+    
+    /**Moves the cube*/
+    protected void move() {
+        
+        //the rotation increase
+        float increase = ROT_SPEED * FpsManager.getTimeScale(); 
+        
+            
+        if (rollingRot < 90.0f) {
+            
+            rollingRot += increase;
+        }
+        else {
+            
+            //rollingRot = rollingRot - 90.0f + increase;
+            rollingRot = 0;
+            
+            currentRot += 90.0f;
+            state = State.IDLE;
+            
+            //move the direction we need to
+            switch (direction) {
+            
+                case NORTH: {
+                    
+                    pos.setY(pos.getY() + 1.0f);
+                    break;
+                }
+                case EAST: {
+                    
+                    pos.setX(pos.getX() + 1.0f);
+                    break;
+                }
+                case SOUTH: {
+                    
+                    pos.setY(pos.getY() - 1.0f);
+                    break;
+                }
+                case WEST: {
+                    
+                    pos.setX(pos.getX() - 1.0f);
+                    break;
+                }
+            }
             
         }
     }
@@ -267,45 +343,162 @@ abstract class Cube extends Drawable {
                 direction = Direction.WEST;
                 return;
             }
-            default: {
+            case SOUTH: {
                 
-                break;
+                if (canMoveTo(x - 1, y, z)) {
+                    
+                    //turn left
+                    direction = Direction.WEST;
+                    return;
+                }
+                else if (canMoveTo(x, y - 1, z)){
+                    
+                    //continue straight
+                    return;
+                }
+                else if (canMoveTo(x + 1, y, z)) {
+                    
+                    //turn right
+                    direction = Direction.EAST;
+                    return;
+                }
+                
+                //go backwards
+                direction = Direction.NORTH;
+                return;
+            }
+            case WEST: {
+                
+                if (canMoveTo(x, y + 1, z)) {
+                    
+                    //turn left
+                    direction = Direction.NORTH;
+                    return;
+                }
+                else if (canMoveTo(x - 1, y, z)){
+                    
+                    //continue straight
+                    return;
+                }
+                else if (canMoveTo(x, y - 1, z)) {
+                    
+                    //turn right
+                    direction = Direction.SOUTH;
+                    return;
+                }
+                
+                //go backwards
+                direction = Direction.EAST;
+                return;
             }
         }
     }
     
-    /**Moves the cube*/
-    protected void move() {
+    /**Performs right side path finding*/
+    protected void rightPathFind() {
         
-        //the rotation increase
-        float increase = ROT_SPEED * FpsManager.getTimeScale(); 
+        //shorthand
+        int x = (int) pos.getX();
+        int y = (int) pos.getY();
+        int z = (int) pos.getZ();
         
-        if (direction == Direction.NORTH) {
-            
-            if (rollingRot.getX() < 90.0f) {
+        switch (direction) {
+        
+            case NORTH: {
+               
+                if (canMoveTo(x - 1, y, z)) {
+                    
+                    //turn left
+                    direction = Direction.WEST;
+                    return;
+                }
+                else if (canMoveTo(x, y + 1, z)){
+                    
+                    //continue straight
+                    return;
+                }
+                else if (canMoveTo(x + 1, y, z)) {
+                    
+                    //turn right
+                    direction = Direction.EAST;
+                    return;
+                }
                 
-                rollingRot.setX(rollingRot.getX() + increase);
+                //go backwards
+                direction = Direction.SOUTH;
+                return;
             }
-            else {
+            case EAST: {
                 
-                rollingRot.setX(rollingRot.getX() - 90.0f + increase);
-                pos.setY(pos.getY() + 1.0f);
-                currentRot.setX(currentRot.getX() + 90.0f);
-                state = State.IDLE;
+                if (canMoveTo(x, y + 1, z)) {
+                    
+                    //turn left
+                    direction = Direction.NORTH;
+                    return;
+                }
+                else if (canMoveTo(x + 1, y, z)){
+                    
+                    //continue straight
+                    return;
+                }
+                else if (canMoveTo(x, y - 1, z)) {
+                    
+                    //turn right
+                    direction = Direction.SOUTH;
+                    return;
+                }
+                
+                //go backwards
+                direction = Direction.WEST;
+                return;
             }
-        }
-        else if (direction == Direction.EAST) {
-            
-            if (rollingRot.getZ() > -90.0f) {
+            case SOUTH: {
                 
-                rollingRot.setZ(rollingRot.getZ() - increase);
+                if (canMoveTo(x + 1, y, z)) {
+                    
+                    //turn left
+                    direction = Direction.EAST;
+                    return;
+                }
+                else if (canMoveTo(x, y - 1, z)){
+                    
+                    //continue straight
+                    return;
+                }
+                else if (canMoveTo(x - 1, y, z)) {
+                    
+                    //turn right
+                    direction = Direction.WEST;
+                    return;
+                }
+                
+                //go backwards
+                direction = Direction.NORTH;
+                return;
             }
-            else {
+            case WEST: {
                 
-                rollingRot.setZ(rollingRot.getZ() + 90.0f - increase);
-                pos.setX(pos.getX() + 1.0f);
-                currentRot.setZ(currentRot.getZ() - 90.0f);
-                state = State.IDLE;
+                if (canMoveTo(x, y - 1, z)) {
+                    
+                    //turn left
+                    direction = Direction.SOUTH;
+                    return;
+                }
+                else if (canMoveTo(x - 1, y, z)){
+                    
+                    //continue straight
+                    return;
+                }
+                else if (canMoveTo(x, y + 1, z)) {
+                    
+                    //turn right
+                    direction = Direction.NORTH;
+                    return;
+                }
+                
+                //go backwards
+                direction = Direction.EAST;
+                return;
             }
         }
     }
@@ -319,62 +512,6 @@ abstract class Cube extends Drawable {
         
         return !(entityMap[z][y][x] instanceof Wall ||
                 entityMap[z][y][x] instanceof Spawn);
-    }
-    
-    /**Shifts the transformation matrix for rolling rotation*/
-    protected void shiftTransform() {
-        
-        switch (direction) {
-        
-            case NORTH: {
-                
-                Matrix.translateM(tMatrix, 0, 0.0f, -0.5f, 0.5f);
-                break;
-            }
-            case EAST: {
-                
-                Matrix.translateM(tMatrix, 0, 0.5f, -0.5f, 0.0f);
-                break;
-            }
-            case SOUTH: {
-                
-                
-                break;
-            }
-            case WEST: {
-                
-                
-                break;
-            }
-        }
-    }
-    
-    /**Shifts back the transformation matrix after rolling rotation*/
-    protected void shiftBackTransform() {
-        
-        switch (direction) {
-        
-            case NORTH: {
-                
-                Matrix.translateM(tMatrix, 0, 0.0f, 0.5f, -0.5f);
-                break;
-            }
-            case EAST: {
-                
-                Matrix.translateM(tMatrix, 0, -0.5f, 0.5f, 0.0f);
-                break;
-            }
-            case SOUTH: {
-                
-                
-                break;
-            }
-            case WEST: {
-                
-                
-                break;
-            }
-        }
     }
     
     /**Initialises the cube at the spawning position*/

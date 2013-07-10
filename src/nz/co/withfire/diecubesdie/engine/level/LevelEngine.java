@@ -1,27 +1,23 @@
 package nz.co.withfire.diecubesdie.engine.level;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.opengl.Matrix;
 import android.util.Log;
-import android.view.MotionEvent;
 
 import nz.co.withfire.diecubesdie.engine.Engine;
-import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.gui.Overlay;
-import nz.co.withfire.diecubesdie.entities.gui.TapPoint;
 import nz.co.withfire.diecubesdie.entities.level.cubes.PaperCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
+import nz.co.withfire.diecubesdie.gesture.GestureWatcher;
+import nz.co.withfire.diecubesdie.gesture.gestures.Gesture;
+import nz.co.withfire.diecubesdie.gesture.gestures.Swipe;
+import nz.co.withfire.diecubesdie.gesture.gestures.Tap;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.resources.ResourceManager.ResourceGroup;
-import nz.co.withfire.diecubesdie.utilities.DebugUtil;
-import nz.co.withfire.diecubesdie.utilities.TransformationsUtil;
 import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
@@ -36,27 +32,32 @@ public class LevelEngine implements Engine {
     //the resource manager
     private ResourceManager resources;
     
-    //is true once the level is complete
-    private boolean complete = false;
-    
     //The list of all entities
     private EntityList entities = new EntityList();
+    
+    //the gesture watcher
+    private GestureWatcher gestureWatcher = new GestureWatcher();
     
     //the map of terrain entities
     private Entity entityMap[][][];
     
-    //is true to add a touch point
-    private boolean addTouchPoint= false;
-    private Vector2d touchPos = new Vector2d();
+    //is true once the level is complete
+    private boolean complete = false;
     
-    //TESTING
-    private float followCam = 0.0f;
+    //gesture
+    //multiples the distance moved by swiping
+    private final float CAM_MOVE_MULTIPLY = 2.0f;
+    //the last swipe position
+    private Vector2d lastSwipe = null;
+    
+    //the camera position
+    private Vector3d camPos = new Vector3d(-4.0f, -3.7f, 7.0f);
     
     //CONSTRUCTOR
     /**!Constructs a new Level engine
     @param context the android context
     @param resources the resource manager to use
-    @param entityMap the entityMap for the terrian
+    @param entityMap the entityMap for the terrain
     @param ground the ground*/
     public LevelEngine(Context context, ResourceManager resources,
         Entity entityMap[][][], Ground ground) {
@@ -66,7 +67,7 @@ public class LevelEngine implements Engine {
         this.resources = resources;
         this.entityMap = entityMap;
         
-        //add the terrian entities
+        //add the terrain entities
         addTerrain();
         
         //add the ground
@@ -85,59 +86,40 @@ public class LevelEngine implements Engine {
         
         //TESTING
         entities.add(new PaperCube(resources.getShape("paper_cube"),
-            new Vector3d(4.0f, 0.0f, 0.0f), PaperCube.Side.LEFT, entityMap));
+            new Vector3d(4.0f, 0.0f, 0.0f), PaperCube.Side.RIGHT, entityMap));
         
         //the fade in overlay
-        //entities.add(new Overlay(resources.getShape("fade_overlay"),
-        //    new Vector2d(), null, true));
+        entities.add(new Overlay(resources.getShape("fade_overlay"),
+            new Vector2d(), null, true));
     }
 
     @Override
     public boolean execute() {
         
-        //TESTING
-        followCam += (0.0445f * FpsManager.getTimeScale());
-        
-        //process any touch input
-        //processTouch();
-        
         //update the entities
         entities.update();
+        
+        //process any touch input
+        processTouch();
 
         return complete;
     }
     
     @Override
     public void applyCamera(float[] viewMatrix) {
-
-//        //TESTING
-//        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3.0f, 0.0f,
-//                0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(viewMatrix, 0, -4.0f, -3.7f, 11.0f);
+        
+        //translate to the camera position
+        Matrix.translateM(viewMatrix, 0, camPos.getX(),
+            camPos.getY(), camPos.getZ());
+        
+        //camera rotations
         Matrix.rotateM(viewMatrix, 0, 65, -1.0f, 0, 0.0f);
-//        Matrix.rotateM(viewMatrix, 0, 0, 0, 1.0f, 0.0f);
-//        
-//       // Matrix.translateM(viewMatrix, 0, 0, -20.0f, 20.0f);
-//        Matrix.translateM(viewMatrix, 0, followCam, 0.0f, 0.0f);
     }
     
     @Override
     public void touchEvent(int event, int index, Vector2d touchPos) {
         
-        switch (event) {
-        
-            //the user has pressed down
-            case MotionEvent.ACTION_DOWN: {
-                
-                //request for a touch point to be added add a
-                //touch point to the menu
-                addTouchPoint = true;
-                
-                //set the co-ordantes from the event
-                this.touchPos.copy(touchPos);
-                break;
-            }
-        }
+        gestureWatcher.inputEvent(event, index, touchPos);
     }
 
 
@@ -158,9 +140,49 @@ public class LevelEngine implements Engine {
     @param viewMatrix the view Matrix*/
     void processTouch() {
         
+        Gesture gesture = gestureWatcher.getGesture();
+        
+        Vector2d lastSwipeStore = lastSwipe;
+        lastSwipe = null;
+        
+        //check to see what kind of gesture this is
+        if (gesture instanceof Tap) {
+            
+            //do nothing for now
+        }
+        else if (gesture instanceof Swipe) {
+            
+            Swipe swipe = (Swipe) gesture;
+            
+            //the camera movement
+            Vector2d camMove = new Vector2d();
+            
+            //calculate the camera movement
+            if (lastSwipeStore == null) {
+                
+                camMove.setX(swipe.getPos().getX() -
+                    swipe.getOriginalPos().getX());
+                camMove.setY(swipe.getPos().getY() -
+                        swipe.getOriginalPos().getY());
+            }
+            else {
+                
+                camMove.setX(swipe.getPos().getX() -
+                        lastSwipeStore.getX());
+                    camMove.setY(swipe.getPos().getY() -
+                            lastSwipeStore.getY());
+            }
+            
+            camPos.setX(camPos.getX() +
+                (CAM_MOVE_MULTIPLY * camMove.getX()));
+            camPos.setY(camPos.getY() +
+                (CAM_MOVE_MULTIPLY * camMove.getY()));
+            
+            lastSwipe = swipe.getPos();
+        }
     }
     
-    /**Adds the terrian from the entity map to the entity list*/
+    /**Adds the terrain from the entity map to the entity list*/
     private void addTerrain() {
         
         for (int z = 0; z < entityMap.length; ++z) {

@@ -5,24 +5,11 @@
 \*********************/
 
 package nz.co.withfire.diecubesdie.entities.level.cubes;
-
-import android.opengl.Matrix;
-import android.os.SystemClock;
-import android.util.Log;
 import nz.co.withfire.diecubesdie.entities.Entity;
-import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
-import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
-import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 
 public class PaperCube extends Cube {
-
-    //Matrix
-    //the model view projection matrix
-    private float[] mvpMatrix = new float[16];
-    //the transformation matrix
-    private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
     /**Creates a new paper cube

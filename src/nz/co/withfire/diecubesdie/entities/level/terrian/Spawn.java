@@ -129,14 +129,22 @@ public class Spawn extends Drawable {
         }
         else {
             
-            doorPos = DOOR_WIDTH;
-            state = State.IDLE;
+            doorPos = 4 * DOOR_WIDTH;
+            state = State.CLOSE;
         }
     }
     
     /**Closes the spawn hatch*/
     private void close() {
         
-        
+        if (doorPos > 0.0f) {
+            
+            doorPos -= DOOR_SPEED;
+        }
+        else {
+            
+            doorPos = 0.0f;
+            state = State.IDLE;
+        }
     }
 }
