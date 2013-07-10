@@ -35,6 +35,20 @@ public class LevelPack {
             new TextureResource(R.drawable.terrain_spawn_inside,
             groups));
         }
+        //finish
+        {
+        ResourceGroup groups[] = {ResourceGroup.LEVEL};
+        resources.add("finish",
+            new TextureResource(R.drawable.terrain_finish,
+            groups));
+        }
+        //finish inside
+        {
+        ResourceGroup groups[] = {ResourceGroup.LEVEL};
+        resources.add("finish_inside",
+            new TextureResource(R.drawable.terrain_finish_inside,
+            groups));
+        }
     
         //paper cube
         {
@@ -66,6 +80,22 @@ public class LevelPack {
         resources.add("spawn_inside", new ShapeResource(
             R.raw.shape_terrain_spawn_inside, groups,
             "spawn_inside", "plain_texture_vertex",
+            "texture_no_lighting_fragment"));
+        }
+        //finish
+        {
+        ResourceGroup groups[] = {ResourceGroup.LEVEL};
+        resources.add("finish", new ShapeResource(
+            R.raw.shape_terrain_spawn, groups,
+            "finish", "plain_texture_vertex",
+            "texture_no_lighting_fragment"));
+        }
+        //finish inside
+        {
+        ResourceGroup groups[] = {ResourceGroup.LEVEL};
+        resources.add("finish_inside", new ShapeResource(
+            R.raw.shape_terrain_spawn_inside, groups,
+            "finish_inside", "plain_texture_vertex",
             "texture_no_lighting_fragment"));
         }
         

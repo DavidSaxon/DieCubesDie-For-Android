@@ -106,14 +106,18 @@ public class GLRenderer implements GLSurfaceView.Renderer {
             //process the events and pass them to the engine
             for (MotionEvent e : touchEvents) {
                 
-                //get the touch point
-                Vector2d touchPos = new Vector2d(e.getX(), e.getY());
-                
-                //convert to OpenGL co-ordinates
-                touchPos.copy(TransformationsUtil.screenPosToOpenGLPos(
-                    touchPos, viewMatrix, projectionMatrix));
-                
-                engine.touchEvent(e.getAction(), e.getActionIndex() ,touchPos);
+                for (int index = 0; index < e.getPointerCount(); ++index) {
+                    
+                    //get the touch point
+                    Vector2d touchPos = new Vector2d(e.getX(index),
+                        e.getY(index));
+                    
+                    //convert to OpenGL co-ordinates
+                    touchPos.copy(TransformationsUtil.screenPosToOpenGLPos(
+                        touchPos, viewMatrix, projectionMatrix));
+                    
+                    engine.touchEvent(e.getAction(), index, touchPos);
+                }
             }
             
             //clear the touch events

@@ -13,6 +13,7 @@ import nz.co.withfire.diecubesdie.entity_list.EntityList;
 import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.gesture.GestureWatcher;
 import nz.co.withfire.diecubesdie.gesture.gestures.Gesture;
+import nz.co.withfire.diecubesdie.gesture.gestures.Pinch;
 import nz.co.withfire.diecubesdie.gesture.gestures.Swipe;
 import nz.co.withfire.diecubesdie.gesture.gestures.Tap;
 import nz.co.withfire.diecubesdie.renderer.GLRenderer;
@@ -45,10 +46,16 @@ public class LevelEngine implements Engine {
     private boolean complete = false;
     
     //gesture
-    //multiples the distance moved by swiping
+    //multiplies the distance moved by swiping
     private final float CAM_MOVE_MULTIPLY = 2.0f;
     //the last swipe position
     private Vector2d lastSwipe = null;
+    //if there was a pinch last frame
+    private boolean pinchLast = false;
+    //multiplies the zoom
+    private final float CAM_ZOOM_MULTIPLY = 3.0f;
+    //the pinch distance
+    private float pinchDis = 0.0f;
     
     //the camera position
     private Vector3d camPos = new Vector3d(-4.0f, -3.7f, 7.0f);
@@ -113,7 +120,7 @@ public class LevelEngine implements Engine {
             camPos.getY(), camPos.getZ());
         
         //camera rotations
-        Matrix.rotateM(viewMatrix, 0, 65, -1.0f, 0, 0.0f);
+        Matrix.rotateM(viewMatrix, 0, 90, -1.0f, 0, 0.0f);
     }
     
     @Override
@@ -142,8 +149,13 @@ public class LevelEngine implements Engine {
         
         Gesture gesture = gestureWatcher.getGesture();
         
+        //swipe store
         Vector2d lastSwipeStore = lastSwipe;
         lastSwipe = null;
+        
+        //pinch store
+        boolean pinchLastStore = pinchLast;
+        pinchLast = false;
         
         //check to see what kind of gesture this is
         if (gesture instanceof Tap) {
@@ -158,14 +170,7 @@ public class LevelEngine implements Engine {
             Vector2d camMove = new Vector2d();
             
             //calculate the camera movement
-            if (lastSwipeStore == null) {
-                
-                camMove.setX(swipe.getPos().getX() -
-                    swipe.getOriginalPos().getX());
-                camMove.setY(swipe.getPos().getY() -
-                        swipe.getOriginalPos().getY());
-            }
-            else {
+            if (lastSwipeStore != null) {
                 
                 camMove.setX(swipe.getPos().getX() -
                         lastSwipeStore.getX());
@@ -179,6 +184,32 @@ public class LevelEngine implements Engine {
                 (CAM_MOVE_MULTIPLY * camMove.getY()));
             
             lastSwipe = swipe.getPos();
+        }
+        else if (gesture instanceof Pinch) {
+            
+            Pinch pinch = (Pinch) gesture;
+            
+            Log.v(ValuesUtil.TAG, "point1: " + pinch.getPos1());
+            Log.v(ValuesUtil.TAG, "point2: " + pinch.getPos2());
+            Log.v(ValuesUtil.TAG, "distance: " +
+                pinch.getPos1().distance(pinch.getPos2()));
+            
+            if (pinchLastStore) {
+                
+                //zoom based on the distance change
+                float thisPinchDis = pinch.getPos1().distance(pinch.getPos2());
+                float zoom = (pinchDis - thisPinchDis) * CAM_ZOOM_MULTIPLY;
+                pinchDis = thisPinchDis;
+                camPos.setZ(camPos.getZ() + zoom);
+                
+                pinchLast = true;
+            }
+            else {
+                
+                //store the pinch details
+                pinchLast = true;
+                pinchDis = pinch.getPos1().distance(pinch.getPos2());
+            }
         }
     }
     

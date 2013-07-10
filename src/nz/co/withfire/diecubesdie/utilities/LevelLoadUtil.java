@@ -12,8 +12,9 @@ import java.util.Scanner;
 
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
-import nz.co.withfire.diecubesdie.entities.level.terrian.Spawn;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Wall;
+import nz.co.withfire.diecubesdie.entities.level.terrian.entry.Finish;
+import nz.co.withfire.diecubesdie.entities.level.terrian.entry.Spawn;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
@@ -158,6 +159,11 @@ public class LevelLoadUtil {
                 createSpawn(pos3, entityMap, resources);
                 break;
             }
+            case 'F': {
+                
+                createFinish(pos3, entityMap, resources);
+                break;
+            }
         }
     }
     
@@ -234,5 +240,18 @@ public class LevelLoadUtil {
             [(int) pos.getY()][(int) pos.getX()] = 
             new Spawn(resources.getShape("spawn"),
                 resources.getShape("spawn_inside"), pos);
+    }
+    
+    /**Adds a finish point to the entity map
+    @param pos the position of the finish
+    @param entityMap the entity map
+    @param resources the resources manager*/
+    static private void createFinish(Vector3d pos,
+        Entity entityMap[][][], ResourceManager resources) {
+        
+        entityMap[(int) pos.getZ()]
+            [(int) pos.getY()][(int) pos.getX()] = 
+            new Finish(resources.getShape("finish"),
+                resources.getShape("finish_inside"), pos);
     }
 }

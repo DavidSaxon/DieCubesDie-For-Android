@@ -33,13 +33,15 @@ public final class R {
         public static final int startup_omicron_splash=0x7f020013;
         public static final int startup_presents_splash=0x7f020014;
         public static final int startup_with_fire_splash=0x7f020015;
-        public static final int terrain_plains_cliff_side_1=0x7f020016;
-        public static final int terrain_plains_cliff_top_1=0x7f020017;
-        public static final int terrain_plains_grass_1=0x7f020018;
-        public static final int terrain_plains_wall=0x7f020019;
-        public static final int terrain_spawn=0x7f02001a;
-        public static final int terrain_spawn_inside=0x7f02001b;
-        public static final int text=0x7f02001c;
+        public static final int terrain_finish=0x7f020016;
+        public static final int terrain_finish_inside=0x7f020017;
+        public static final int terrain_plains_cliff_side_1=0x7f020018;
+        public static final int terrain_plains_cliff_top_1=0x7f020019;
+        public static final int terrain_plains_grass_1=0x7f02001a;
+        public static final int terrain_plains_wall=0x7f02001b;
+        public static final int terrain_spawn=0x7f02001c;
+        public static final int terrain_spawn_inside=0x7f02001d;
+        public static final int text=0x7f02001e;
     }
     public static final class id {
         public static final int menu_settings=0x7f070000;

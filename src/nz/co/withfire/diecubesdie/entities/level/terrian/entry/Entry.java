@@ -1,17 +1,17 @@
-/*****************************\
-| The spawn point in a level. |
-|                             |
-| @author David Saxon         |
-\*****************************/
+/*********************************************************************\
+| Represents either a spawning point or a a finish point in the maze. |
+|                                                                     |
+| @author David Saxon                                                 |
+\*********************************************************************/
 
-package nz.co.withfire.diecubesdie.entities.level.terrian;
+package nz.co.withfire.diecubesdie.entities.level.terrian.entry;
 
 import android.opengl.Matrix;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 
-public class Spawn extends Drawable {
+public abstract class Entry extends Drawable {
 
     //ENUMERATORS
     //the state of the spawner
@@ -23,21 +23,21 @@ public class Spawn extends Drawable {
     };
     
     //VARIABLES
-    //the shape for the door of the spawn point
-    private Shape door;
-    //the shape for the inside of the spawn point
-    private Shape inside;
+    //the shape for the door of the entry
+    protected Shape door;
+    //the shape for the inside of the entry
+    protected Shape inside;
     
-    //the position of the spawn point
-    private Vector3d pos = new Vector3d();
+    //the position of the entry
+    protected Vector3d pos = new Vector3d();
     
     //the current state of the spawner
-    private State state = State.OPEN;
+    protected State state = State.OPEN;
     
-    //the open/speed
-    private final float DOOR_SPEED = 0.03f;
-    //the width of a door of the spawner
-    private final float DOOR_WIDTH = 0.5f;
+    //the open/close speed
+    protected final float DOOR_SPEED = 0.03f;
+    //the width of the door
+    protected final float DOOR_WIDTH = 0.5f;
     
     //the current distance from the centre the doors are when opening or closing
     private float doorPos = 0.0f;
@@ -49,11 +49,11 @@ public class Spawn extends Drawable {
     private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
-    /**Creates a new spawn point
+    /**Creates a new maze entry
     @param door the shape for the door of the spawn point
     @param inside the inside of the spawn point
     @param pos the the position of the spawn point*/
-    public Spawn(Shape door, Shape inside, Vector3d pos) {
+    public Entry(Shape door, Shape inside, Vector3d pos) {
         
         this.door = door;
         this.inside = inside;
@@ -119,9 +119,9 @@ public class Spawn extends Drawable {
         door.draw(mvpMatrix);
     }
     
-    //PRIVATE METHODS
+    //PROTECTED METHODS
     /**Opens the spawn hatch*/
-    private void open() {
+    protected void open() {
         
         if (doorPos < DOOR_WIDTH) {
             
@@ -135,7 +135,7 @@ public class Spawn extends Drawable {
     }
     
     /**Closes the spawn hatch*/
-    private void close() {
+    protected void close() {
         
         if (doorPos > 0.0f) {
             

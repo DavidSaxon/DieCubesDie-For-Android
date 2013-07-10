@@ -12,6 +12,7 @@ import java.util.List;
 import android.util.Log;
 
 import nz.co.withfire.diecubesdie.gesture.gestures.Gesture;
+import nz.co.withfire.diecubesdie.gesture.gestures.Pinch;
 import nz.co.withfire.diecubesdie.gesture.gestures.Swipe;
 import nz.co.withfire.diecubesdie.gesture.gestures.Tap;
 import nz.co.withfire.diecubesdie.touch_control.TouchPoint;
@@ -20,22 +21,10 @@ import nz.co.withfire.diecubesdie.utilities.ValuesUtil;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 
 public class GestureWatcher {
-
-    //ENUMERATOR
-    //The different types of gestures
-    public enum GestureType {
-        
-        TAP,
-        SWIPE,
-        PINCH
-    }
     
     //VARIABLES
     //the maximum distance a point can travel for it to be considered a tap
     private final float TAP_DISTANCE = 0.2f;
-    
-    //the current gestures to watch for
-    private List<GestureType> watchList = new ArrayList<GestureType>();
     
     //the touch tracker
     private TouchTracker touchTracker = new TouchTracker();
@@ -47,15 +36,12 @@ public class GestureWatcher {
     
     //we are watching a swipe
     private boolean swipe = false;
-    //we are watching a pinch
-    private boolean pinch = false;
     
     //CONSTRUCTOR
     /**Creates a new gesture watcher
     @param gestures the gestures to watch for*/
-    public GestureWatcher(GestureType ... gestures) {
-        
-        addGestures(gestures);
+    public GestureWatcher() {
+
     }
     
     //PUBLIC METHODS
@@ -75,12 +61,17 @@ public class GestureWatcher {
             point2 = touchTracker.getPoint2();
         }
         
+        //check for pinch
+        if (!swipe) {
+            
+            gesture = checkPinch();
+        }
         //check for tap
-        if (!swipe && !pinch) {
+        if (gesture == null && !swipe) {
             
             gesture = checkTap();
         }
-        if (gesture == null && !pinch) {
+        if (gesture == null) {
             
             gesture = checkSwipe();
         }
@@ -110,20 +101,6 @@ public class GestureWatcher {
         
         //pass on to the touch tracker
         touchTracker.inputEvent(eventType, index, pos);
-    }
-    
-    /**Adds new gestures to the watch list
-    @param gestures the new gestures to watch for*/
-    public void addGestures(GestureType ... gestures) {
-        
-        //add the gestures to the watch list if they are not already in there
-        for (GestureType g : watchList) {
-            
-            if (!watchList.contains(g)) {
-                
-                watchList.add(g);
-            }
-        }
     }
     
     //PRIVATE METHODS
@@ -178,6 +155,18 @@ public class GestureWatcher {
                         point1.getOriginalPos(), point1.finished());
                 }
             }
+        }
+        
+        return null;
+    }
+    
+    /**Checks for a pinch
+    @return a pinch gesture if one is read, else null*/
+    private Gesture checkPinch() {
+        
+        if (point1 != null && point2 != null) {
+            
+            return new Pinch(point1.getCurrentPos(), point2.getCurrentPos());
         }
         
         return null;

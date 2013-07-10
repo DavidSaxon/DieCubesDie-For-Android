@@ -22,9 +22,6 @@ public class TouchTracker {
     //current points
     private TouchPoint points[] = new TouchPoint[2];
     
-    //next points
-    private TouchPoint nextPoints[] = new TouchPoint[2];
-    
     //CONSTRUCTOR
     /**Creates a new gesture reader
     @param gestures the gestures to watch for*/
@@ -40,8 +37,7 @@ public class TouchTracker {
             
             if (points[i] != null && points[i].readingDone()) {
                 
-                points[i] = nextPoints[i];
-                nextPoints[i] = null;
+                points[i] = null;
             }
         }
     }
@@ -51,66 +47,37 @@ public class TouchTracker {
     @param index the index of the event
     @param pos the position of the event*/
     public void inputEvent(int eventType, int index, Vector2d pos) {
-
+        
         //we only care about 2 points so ignore others
         if (index < 2) {
             
             //press down
             if (eventType == MotionEvent.ACTION_DOWN ||
                 eventType == MotionEvent.ACTION_POINTER_DOWN ||
-                eventType == MotionEvent.ACTION_POINTER_1_DOWN) {
-                
-                if (points[index] == null) {
-                    
-                    //create a new touch point
-                    points[index] = new TouchPoint(pos);
-                }
-                else {
-                    
-                    //store this new point
-                    nextPoints[index] = new TouchPoint(pos);
-                    //finish the current point
-                    points[index].finish();
-                }
+                eventType == MotionEvent.ACTION_POINTER_1_DOWN ||
+                eventType == MotionEvent.ACTION_POINTER_2_DOWN) {
+
+                //create a new touch point
+                points[index] = new TouchPoint(pos);
             }
             //move
             if (eventType == MotionEvent.ACTION_MOVE) {
                 
-                //update the points position
-                if (nextPoints[index] == null) {
+                if (points[index] != null) {
                     
-                    if (points[index] != null) {
-                        
-                        points[index].setCurrentPos(pos);
-                    }
-                    else {
-                        
-                        points[index] = new TouchPoint(pos);
-                    }
+                    points[index].setCurrentPos(pos);
                 }
                 else {
                     
-                    nextPoints[index].setCurrentPos(pos);
+                    points[index] = new TouchPoint(pos);
                 }
             } 
             else if (eventType == MotionEvent.ACTION_UP ||
                 eventType == MotionEvent.ACTION_POINTER_UP ||
-                eventType == MotionEvent.ACTION_POINTER_1_UP) {
+                eventType == MotionEvent.ACTION_POINTER_1_UP ||
+                eventType == MotionEvent.ACTION_POINTER_2_UP) {
                 
-                //finish the point
-                if (nextPoints[index] == null) {
-                    
-                    if (points[index] != null) {
-                        
-                        points[index].setCurrentPos(pos);
-                        points[index].finish();
-                    }
-                }
-                else {
-                    
-                    nextPoints[index].setCurrentPos(pos);
-                    nextPoints[index].finish();
-                }
+                points[index].finish();
             }
         }
     }
