@@ -30,6 +30,8 @@ public class ValuesUtil {
     
     //radians to degrees constant
     public static float RADIANS_TO_DEGREES = 57.2957795f;
+    //degrees to radians constant
+    public static float DEGREES_TO_RADIANS = 0.0174532925f;
     
     //ENUMERATORS
     //the different kind of buttons

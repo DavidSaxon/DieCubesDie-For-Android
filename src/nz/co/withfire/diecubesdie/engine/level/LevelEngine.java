@@ -10,7 +10,6 @@ import nz.co.withfire.diecubesdie.entities.gui.Overlay;
 import nz.co.withfire.diecubesdie.entities.level.cubes.PaperCube;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.entity_list.EntityList;
-import nz.co.withfire.diecubesdie.fps_manager.FpsManager;
 import nz.co.withfire.diecubesdie.gesture.GestureWatcher;
 import nz.co.withfire.diecubesdie.gesture.gestures.Gesture;
 import nz.co.withfire.diecubesdie.gesture.gestures.Pinch;
@@ -119,18 +118,13 @@ public class LevelEngine implements Engine {
     @Override
     public void applyCamera(float[] viewMatrix) {
         
-        
-        //translate to the camera position
-        Matrix.translateM(viewMatrix, 0, camPos.getX(),
-            camPos.getY(), camPos.getZ());
-        
-        //camera rotations
-        
-        
+        //rotation
         Matrix.rotateM(viewMatrix, 0, camRot.getX(), -1.0f, 0, 0.0f);
         Matrix.rotateM(viewMatrix, 0, camRot.getY(), 0.0f, 1.0f, 0.0f);
-
         
+        //movement
+        Matrix.translateM(viewMatrix, 0, camPos.getX(),
+            camPos.getY(), camPos.getZ());
     }
     
     @Override
@@ -176,21 +170,38 @@ public class LevelEngine implements Engine {
             
             Swipe swipe = (Swipe) gesture;
             
-            //the camera movement
-            Vector2d camMove = new Vector2d();
+            //the camera movement before rotation
+            float xMove = 0.0f;
+            float yMove = 0.0f;
             
             //calculate the camera movement
             if (lastSwipeStore != null) {
                 
-                camMove.setX(swipe.getPos().getX() -
-                        lastSwipeStore.getX());
-                    camMove.setY(swipe.getPos().getY() -
-                            lastSwipeStore.getY());
+                xMove = swipe.getPos().getX() -
+                        lastSwipeStore.getX();
+                yMove = swipe.getPos().getY() -
+                            lastSwipeStore.getY();
             }
+            
+            //calculate the movement based on rotation
+            float xMoveRot = -(float)
+                (yMove * Math.sin(camRot.getY() *
+                ValuesUtil.DEGREES_TO_RADIANS));
+            float yMoveRot = (float)
+                (yMove * Math.cos(camRot.getY() *
+                ValuesUtil.DEGREES_TO_RADIANS));
+            xMoveRot += (float)
+                (xMove * Math.cos(camRot.getY() *
+                ValuesUtil.DEGREES_TO_RADIANS));
+            yMoveRot += (float)
+                (xMove * Math.sin(camRot.getY() *
+                ValuesUtil.DEGREES_TO_RADIANS));
+            
+            Vector2d camMove = new Vector2d(xMoveRot, yMoveRot);
             
             camPos.setX(camPos.getX() +
                 (CAM_MOVE_MULTIPLY * camMove.getX()));
-            camPos.setY(camPos.getY() +
+            camPos.setZ(camPos.getZ() +
                 (CAM_MOVE_MULTIPLY * camMove.getY()));
             
             lastSwipe = swipe.getPos();
@@ -203,17 +214,19 @@ public class LevelEngine implements Engine {
                 
                 //zoom based on the distance change
                 float thisPinchDis = pinch.getPos1().distance(pinch.getPos2());
-                float zoom = (pinchDis - thisPinchDis) * CAM_ZOOM_MULTIPLY;
+                float zoom = (thisPinchDis - pinchDis) * CAM_ZOOM_MULTIPLY;
                 pinchDis = thisPinchDis;
-                camPos.setZ(camPos.getZ() + zoom);
+                camPos.setY(camPos.getY() + zoom);
                 
                 //rotate based on the angle change
                 float thisAngle =
                     pinch.getCentrePos().angleBetween(pinch.getPos1()) *
                     ValuesUtil.RADIANS_TO_DEGREES;
-                float rot = pinchAngle - thisAngle;
+                float rot = thisAngle - pinchAngle;
                 pinchAngle = thisAngle;
                 camRot.setY(camRot.getY() + rot);
+                
+                Log.v(ValuesUtil.TAG, "Angle: " + thisAngle);
                 
                 Log.v(ValuesUtil.TAG, "rot: " + rot);
                 
