@@ -56,9 +56,13 @@ public class LevelEngine implements Engine {
     private final float CAM_ZOOM_MULTIPLY = 5.0f;
     //the pinch distance
     private float pinchDis = 0.0f;
+    //the pinch angle
+    private float pinchAngle = 0.0f;
     
     //the camera position
-    private Vector3d camPos = new Vector3d(-4.0f, -3.7f, 7.0f);
+    private Vector3d camPos = new Vector3d(0.0f, 0.0f, 0.0f);
+    //the camera rotation
+    private Vector2d camRot = new Vector2d(65.0f, 0.0f);
     
     //CONSTRUCTOR
     /**!Constructs a new Level engine
@@ -115,12 +119,18 @@ public class LevelEngine implements Engine {
     @Override
     public void applyCamera(float[] viewMatrix) {
         
+        
         //translate to the camera position
         Matrix.translateM(viewMatrix, 0, camPos.getX(),
             camPos.getY(), camPos.getZ());
         
         //camera rotations
-        Matrix.rotateM(viewMatrix, 0, 90, -1.0f, 0, 0.0f);
+        
+        
+        Matrix.rotateM(viewMatrix, 0, camRot.getX(), -1.0f, 0, 0.0f);
+        Matrix.rotateM(viewMatrix, 0, camRot.getY(), 0.0f, 1.0f, 0.0f);
+
+        
     }
     
     @Override
@@ -197,6 +207,16 @@ public class LevelEngine implements Engine {
                 pinchDis = thisPinchDis;
                 camPos.setZ(camPos.getZ() + zoom);
                 
+                //rotate based on the angle change
+                float thisAngle =
+                    pinch.getCentrePos().angleBetween(pinch.getPos1()) *
+                    ValuesUtil.RADIANS_TO_DEGREES;
+                float rot = pinchAngle - thisAngle;
+                pinchAngle = thisAngle;
+                camRot.setY(camRot.getY() + rot);
+                
+                Log.v(ValuesUtil.TAG, "rot: " + rot);
+                
                 pinchLast = true;
             }
             else {
@@ -204,6 +224,9 @@ public class LevelEngine implements Engine {
                 //store the pinch details
                 pinchLast = true;
                 pinchDis = pinch.getPos1().distance(pinch.getPos2());
+                pinchAngle =
+                    pinch.getCentrePos().angleBetween(pinch.getPos1()) *
+                    ValuesUtil.RADIANS_TO_DEGREES;
             }
         }
     }

@@ -28,6 +28,9 @@ public class ValuesUtil {
     //connection time-out duration for internet actions (in ms)
     public static int TIME_OUT = 40000;
     
+    //radians to degrees constant
+    public static float RADIANS_TO_DEGREES = 57.2957795f;
+    
     //ENUMERATORS
     //the different kind of buttons
     public enum ButtonType {
