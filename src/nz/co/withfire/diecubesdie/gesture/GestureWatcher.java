@@ -51,15 +51,9 @@ public class GestureWatcher {
         //the current gesture
         Gesture gesture = null;
         
-        //get the new touch points if we need to
-        if (point1 == null) {
-            
-            point1 = touchTracker.getPoint1();
-        }
-        if (point2 == null) {
-            
-            point2 = touchTracker.getPoint2();
-        }
+        //get the new touch points
+        point1 = touchTracker.getPoint1();
+        point2 = touchTracker.getPoint2();
         
         //check for pinch
         if (!swipe) {
@@ -75,6 +69,8 @@ public class GestureWatcher {
             
             gesture = checkSwipe();
         }
+        
+        
         
         //mark any finish touch points and clear them
         if (point1 != null && point1.finished()) {

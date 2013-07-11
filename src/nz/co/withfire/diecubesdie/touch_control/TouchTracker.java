@@ -59,6 +59,11 @@ public class TouchTracker {
 
                 //create a new touch point
                 points[index] = new TouchPoint(pos);
+                
+                if (index == 0 && points[1] != null) {
+                    
+                    points[1].finish();
+                }
             }
             //move
             if (eventType == MotionEvent.ACTION_MOVE) {
@@ -77,7 +82,13 @@ public class TouchTracker {
                 eventType == MotionEvent.ACTION_POINTER_1_UP ||
                 eventType == MotionEvent.ACTION_POINTER_2_UP) {
                 
-                points[index].finish();
+                for (int i = 0; i < 2; ++i) {
+                
+                    if (points[i] != null && !points[i].finished()) {
+                        
+                        points[i].finish();
+                    }
+                }
             }
         }
     }

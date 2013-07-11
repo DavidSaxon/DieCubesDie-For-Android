@@ -53,7 +53,7 @@ public class LevelEngine implements Engine {
     //if there was a pinch last frame
     private boolean pinchLast = false;
     //multiplies the zoom
-    private final float CAM_ZOOM_MULTIPLY = 3.0f;
+    private final float CAM_ZOOM_MULTIPLY = 5.0f;
     //the pinch distance
     private float pinchDis = 0.0f;
     
@@ -188,11 +188,6 @@ public class LevelEngine implements Engine {
         else if (gesture instanceof Pinch) {
             
             Pinch pinch = (Pinch) gesture;
-            
-            Log.v(ValuesUtil.TAG, "point1: " + pinch.getPos1());
-            Log.v(ValuesUtil.TAG, "point2: " + pinch.getPos2());
-            Log.v(ValuesUtil.TAG, "distance: " +
-                pinch.getPos1().distance(pinch.getPos2()));
             
             if (pinchLastStore) {
                 
