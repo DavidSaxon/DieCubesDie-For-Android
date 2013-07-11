@@ -45,21 +45,25 @@ public class LevelEngine implements Engine {
     private boolean complete = false;
     
     //gesture
+    //float camera limit
+    private final float CAMERA_LIMIT = 1.5f;
     //multiplies the distance moved by swiping
     private final float CAM_MOVE_MULTIPLY = 2.0f;
     //the last swipe position
     private Vector2d lastSwipe = null;
     //if there was a pinch last frame
     private boolean pinchLast = false;
+    //the minimum zoom amount
+    private final float MIN_ZOOM = -1.4f;
+    //the maximum zoom amount
+    private final float MAX_ZOOM = -16.0f;
     //multiplies the zoom
     private final float CAM_ZOOM_MULTIPLY = 5.0f;
     //the pinch distance
     private float pinchDis = 0.0f;
-    //the pinch angle
-    private float pinchAngle = 0.0f;
     
     //the camera position
-    private Vector3d camPos = new Vector3d(0.0f, 0.0f, 0.0f);
+    private Vector3d camPos;
     //the camera rotation
     private Vector2d camRot = new Vector2d(65.0f, 0.0f);
     
@@ -76,6 +80,9 @@ public class LevelEngine implements Engine {
         this.context = context;
         this.resources = resources;
         this.entityMap = entityMap;
+        
+        //set the starting camera position
+        camPos = new Vector3d(-(entityMap[0][0].length / 2.0f), -10.0f, 0.8f);
         
         //add the terrain entities
         addTerrain();
@@ -123,6 +130,7 @@ public class LevelEngine implements Engine {
         Matrix.rotateM(viewMatrix, 0, camRot.getY(), 0.0f, 1.0f, 0.0f);
         
         //movement
+        
         Matrix.translateM(viewMatrix, 0, camPos.getX(),
             camPos.getY(), camPos.getZ());
     }
@@ -168,81 +176,114 @@ public class LevelEngine implements Engine {
         }
         else if (gesture instanceof Swipe) {
             
-            Swipe swipe = (Swipe) gesture;
-            
-            //the camera movement before rotation
-            float xMove = 0.0f;
-            float yMove = 0.0f;
-            
-            //calculate the camera movement
-            if (lastSwipeStore != null) {
-                
-                xMove = swipe.getPos().getX() -
-                        lastSwipeStore.getX();
-                yMove = swipe.getPos().getY() -
-                            lastSwipeStore.getY();
-            }
-            
-            //calculate the movement based on rotation
-            float xMoveRot = -(float)
-                (yMove * Math.sin(camRot.getY() *
-                ValuesUtil.DEGREES_TO_RADIANS));
-            float yMoveRot = (float)
-                (yMove * Math.cos(camRot.getY() *
-                ValuesUtil.DEGREES_TO_RADIANS));
-            xMoveRot += (float)
-                (xMove * Math.cos(camRot.getY() *
-                ValuesUtil.DEGREES_TO_RADIANS));
-            yMoveRot += (float)
-                (xMove * Math.sin(camRot.getY() *
-                ValuesUtil.DEGREES_TO_RADIANS));
-            
-            Vector2d camMove = new Vector2d(xMoveRot, yMoveRot);
-            
-            camPos.setX(camPos.getX() +
-                (CAM_MOVE_MULTIPLY * camMove.getX()));
-            camPos.setZ(camPos.getZ() +
-                (CAM_MOVE_MULTIPLY * camMove.getY()));
-            
-            lastSwipe = swipe.getPos();
+            //move the camera
+            moveCamera((Swipe) gesture, lastSwipeStore);
         }
         else if (gesture instanceof Pinch) {
             
-            Pinch pinch = (Pinch) gesture;
-            
-            if (pinchLastStore) {
-                
-                //zoom based on the distance change
-                float thisPinchDis = pinch.getPos1().distance(pinch.getPos2());
-                float zoom = (thisPinchDis - pinchDis) * CAM_ZOOM_MULTIPLY;
-                pinchDis = thisPinchDis;
-                camPos.setY(camPos.getY() + zoom);
-                
-                //rotate based on the angle change
-                float thisAngle =
-                    pinch.getCentrePos().angleBetween(pinch.getPos1()) *
-                    ValuesUtil.RADIANS_TO_DEGREES;
-                float rot = thisAngle - pinchAngle;
-                pinchAngle = thisAngle;
-                camRot.setY(camRot.getY() + rot);
-                
-                Log.v(ValuesUtil.TAG, "Angle: " + thisAngle);
-                
-                Log.v(ValuesUtil.TAG, "rot: " + rot);
-                
-                pinchLast = true;
-            }
-            else {
-                
-                //store the pinch details
-                pinchLast = true;
-                pinchDis = pinch.getPos1().distance(pinch.getPos2());
-                pinchAngle =
-                    pinch.getCentrePos().angleBetween(pinch.getPos1()) *
-                    ValuesUtil.RADIANS_TO_DEGREES;
-            }
+            //zoom the camera
+            zoomCamera((Pinch) gesture, pinchLastStore);
         }
     }
+    
+    /**Moves the camera based on the swipe gesture
+    @param swipe the swipe gesture
+    @param lastSwipeStore the store of the last swipe*/
+    private void moveCamera(Swipe swipe, Vector2d lastSwipeStore) {
+        
+        //the camera movement before rotation
+        float xMove = 0.0f;
+        float yMove = 0.0f;
+        
+        //calculate the camera movement
+        if (lastSwipeStore != null) {
+            
+            xMove = swipe.getPos().getX() -
+                    lastSwipeStore.getX();
+            yMove = swipe.getPos().getY() -
+                        lastSwipeStore.getY();
+        }
+        
+        //calculate the movement based on rotation
+        float xMoveRot = -(float)
+            (yMove * Math.sin(camRot.getY() *
+            ValuesUtil.DEGREES_TO_RADIANS));
+        float yMoveRot = (float)
+            (yMove * Math.cos(camRot.getY() *
+            ValuesUtil.DEGREES_TO_RADIANS));
+        xMoveRot += (float)
+            (xMove * Math.cos(camRot.getY() *
+            ValuesUtil.DEGREES_TO_RADIANS));
+        yMoveRot += (float)
+            (xMove * Math.sin(camRot.getY() *
+            ValuesUtil.DEGREES_TO_RADIANS));
+        
+        //multiply by zoom
+        float zoomFactor = Math.abs(camPos.getY() + MIN_ZOOM) /
+            12.0f + 1.0f;
+        
+        Vector2d camMove = new Vector2d(xMoveRot * zoomFactor,
+            yMoveRot * zoomFactor);
+        
+        camPos.setX(camPos.getX() +
+            (CAM_MOVE_MULTIPLY * camMove.getX()));
+        camPos.setZ(camPos.getZ() +
+            (CAM_MOVE_MULTIPLY * camMove.getY()));
+        
+        //clamp camera movement
+        if (camPos.getX() > CAMERA_LIMIT) {
+            
+            camPos.setX(CAMERA_LIMIT);
+        }
+        else if (camPos.getX() < -(entityMap[0][0].length + CAMERA_LIMIT)) {
+            
+            camPos.setX(-(entityMap[0][0].length - CAMERA_LIMIT));
+        }
+        if (camPos.getZ() > CAMERA_LIMIT) {
+            
+            camPos.setZ(CAMERA_LIMIT);
+        }
+        else if (camPos.getZ() < -(entityMap[0].length - 8 + CAMERA_LIMIT)) {
+            
+            camPos.setZ(-(entityMap[0].length - 8 + CAMERA_LIMIT));
+        }
+        
+        lastSwipe = swipe.getPos();
+    }
+    
+    /**Zooms the camera based on the pinch gesture
+    @param pinch the pinch gesture
+    @param pinchLastStore whether there was a pinch last frame*/
+    private void zoomCamera(Pinch pinch, boolean pinchLastStore) {
+        
+        if (pinchLastStore) {
+            
+            //zoom based on the distance change
+            float thisPinchDis = pinch.getPos1().distance(pinch.getPos2());
+            float zoom = (thisPinchDis - pinchDis) * CAM_ZOOM_MULTIPLY;
+            pinchDis = thisPinchDis;
+            camPos.setY(camPos.getY() + zoom);
+            
+            //clamp the zoom
+            if (camPos.getY() > MIN_ZOOM) {
+                
+                camPos.setY(MIN_ZOOM);
+            }
+            else if (camPos.getY() < MAX_ZOOM) {
+                
+                camPos.setY(MAX_ZOOM);
+            }
+            
+            pinchLast = true;
+        }
+        else {
+            
+            //store the pinch details
+            pinchLast = true;
+            pinchDis = pinch.getPos1().distance(pinch.getPos2());
+        }
+    }
+    
     
     /**Adds the terrain from the entity map to the entity list*/
     private void addTerrain() {

@@ -10,6 +10,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.entities.Entity;
+import nz.co.withfire.diecubesdie.entities.level.terrian.Ramp;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Wall;
 import nz.co.withfire.diecubesdie.entities.level.terrian.entry.Entry;
 import nz.co.withfire.diecubesdie.entities.level.terrian.entry.Spawn;
@@ -511,7 +512,8 @@ abstract class Cube extends Drawable {
     @param z the z position*/
     protected boolean canMoveTo(int x, int y, int z) {
         
-        return !(entityMap[z][y][x] instanceof Wall ||
+        return !(entityMap[z][y][x] instanceof Ramp ||
+                entityMap[z][y][x] instanceof Wall ||
                 entityMap[z][y][x] instanceof Entry);
     }
     

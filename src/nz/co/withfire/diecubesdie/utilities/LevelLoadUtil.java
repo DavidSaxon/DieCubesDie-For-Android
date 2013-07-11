@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
+import nz.co.withfire.diecubesdie.entities.level.terrian.Ramp;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Wall;
 import nz.co.withfire.diecubesdie.entities.level.terrian.entry.Finish;
 import nz.co.withfire.diecubesdie.entities.level.terrian.entry.Spawn;
@@ -154,6 +155,11 @@ public class LevelLoadUtil {
                 createWall(version, pos3, entityMap, resources);
                 break;
             }
+            case 'R': {
+                
+                createRamp(version, pos3, entityMap, resources);
+                break;
+            }
             case 'S': {
                 
                 createSpawn(pos3, entityMap, resources);
@@ -206,7 +212,7 @@ public class LevelLoadUtil {
         }
     }
     
-    /**Adds a wall object to the entity map
+    /**Adds a wall to the entity map
     @param version the version of the wall
     @param pos the position of the wall
     @param entityMap the entity map
@@ -221,8 +227,31 @@ public class LevelLoadUtil {
                 
                 entityMap[(int) pos.getZ()]
                     [(int) pos.getY()][(int) pos.getX()] =
-                    new Wall(resources.getShape("plains_cliff_side_1"),
-                        resources.getShape("plains_cliff_top_1"),
+                    new Wall(resources.getShape("plains_cliff_top_1"),
+                        resources.getShape("plains_cliff_side_1"),
+                        pos);
+                break;
+            }
+        }
+    }
+    
+    /**Adds a ramp to the entity map
+    @param version the version of the ramp
+    @param pos the position of the ramp
+    @param entityMap the entity map
+    @param resources the resource manager*/
+    static private void createRamp(char version, Vector3d pos,
+        Entity entityMap[][][], ResourceManager resources) {
+        
+        //find the version
+        switch(version) {
+        
+            case 'a': {
+                
+                entityMap[(int) pos.getZ()]
+                    [(int) pos.getY()][(int) pos.getX()] =
+                    new Ramp(resources.getShape("plains_ramp_top_1"),
+                        resources.getShape("plains_ramp_side_1"),
                         pos);
                 break;
             }

@@ -1,5 +1,5 @@
 /**********************\
-| A wall in the level. |
+| A ramp in the level. |
 |                      |
 | @author David Saxon  |
 \**********************/
@@ -11,15 +11,16 @@ import nz.co.withfire.diecubesdie.entities.Drawable;
 import nz.co.withfire.diecubesdie.renderer.shapes.Shape;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 
-public class Wall extends Drawable {
+public class Ramp extends Drawable {
 
+    
     //VARIABLES
-    //the shape for the top of the wall
+    //the shape for the top of the ramp
     private Shape top;
-    //the shape for side of the wall
+    //the shape for the side of the ramp
     private Shape side;
     
-    //the position of the wall
+    //the position of the ramp
     private Vector3d pos = new Vector3d();
     
     //Matrix
@@ -29,13 +30,13 @@ public class Wall extends Drawable {
     private float[] tMatrix = new float[16];
     
     //CONSTRUCTOR
-    /**Creates a new wall
-    @param top the shape for the top of the wall
-    @param side the shape for side of the wall
-    @param pos the position of the wall*/
-    public Wall(Shape top, Shape side, Vector3d pos) {
+    /**Creates a new ramp
+    @param top the shape for the top of the ramp
+    @param side the shape for the side of the ramp
+    @param pos the position of the ramp*/
+    public Ramp(Shape top, Shape side, Vector3d pos) {
         
-        //initialise the variables
+        //initialise variables
         this.top = top;
         this.side = side;
         this.pos.copy(pos);

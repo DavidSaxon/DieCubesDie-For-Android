@@ -35,13 +35,15 @@ public final class R {
         public static final int startup_with_fire_splash=0x7f020015;
         public static final int terrain_finish=0x7f020016;
         public static final int terrain_finish_inside=0x7f020017;
-        public static final int terrain_plains_cliff_side_1=0x7f020018;
-        public static final int terrain_plains_cliff_top_1=0x7f020019;
-        public static final int terrain_plains_grass_1=0x7f02001a;
-        public static final int terrain_plains_wall=0x7f02001b;
-        public static final int terrain_spawn=0x7f02001c;
-        public static final int terrain_spawn_inside=0x7f02001d;
-        public static final int text=0x7f02001e;
+        public static final int terrain_plains_grass_1=0x7f020018;
+        public static final int terrain_plains_side_1=0x7f020019;
+        public static final int terrain_plains_side_2=0x7f02001a;
+        public static final int terrain_plains_top_1=0x7f02001b;
+        public static final int terrain_plains_top_2=0x7f02001c;
+        public static final int terrain_plains_wall=0x7f02001d;
+        public static final int terrain_spawn=0x7f02001e;
+        public static final int terrain_spawn_inside=0x7f02001f;
+        public static final int text=0x7f020020;
     }
     public static final class id {
         public static final int menu_settings=0x7f070000;
@@ -90,8 +92,10 @@ public final class R {
         public static final int shape_terrain_ground_north=0x7f030025;
         public static final int shape_terrain_ground_south=0x7f030026;
         public static final int shape_terrain_ground_west=0x7f030027;
-        public static final int shape_terrain_spawn=0x7f030028;
-        public static final int shape_terrain_spawn_inside=0x7f030029;
+        public static final int shape_terrain_ramp_side=0x7f030028;
+        public static final int shape_terrain_ramp_top=0x7f030029;
+        public static final int shape_terrain_spawn=0x7f03002a;
+        public static final int shape_terrain_spawn_inside=0x7f03002b;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

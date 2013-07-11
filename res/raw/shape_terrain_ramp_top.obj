@@ -1,0 +1,16 @@
+# Blender v2.67 (sub 0) OBJ File: 'ramp_top.blend'
+# www.blender.org
+mtllib shape_terrain_ramp_top.mtl
+o Cube_Cube.001
+v 0.500000 -0.500000 -0.500000
+v -0.500000 -0.500000 -0.500000
+v 0.500000 0.500000 0.500000
+v -0.500000 0.500000 0.500000
+vt 0.999968 0.000000
+vt 0.999976 0.999922
+vt 0.000058 0.999928
+vt 0.000000 0.000086
+usemtl Material
+s off
+f 3/1 1/2 2/3
+f 4/4 3/1 2/3
