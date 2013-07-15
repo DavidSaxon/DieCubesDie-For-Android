@@ -13,9 +13,10 @@ import java.util.Scanner;
 import nz.co.withfire.diecubesdie.entities.Entity;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ground;
 import nz.co.withfire.diecubesdie.entities.level.terrian.Ramp;
-import nz.co.withfire.diecubesdie.entities.level.terrian.Wall;
 import nz.co.withfire.diecubesdie.entities.level.terrian.entry.Finish;
 import nz.co.withfire.diecubesdie.entities.level.terrian.entry.Spawn;
+import nz.co.withfire.diecubesdie.entities.level.terrian.wall.Filler;
+import nz.co.withfire.diecubesdie.entities.level.terrian.wall.Wall;
 import nz.co.withfire.diecubesdie.resources.ResourceManager;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector2d;
 import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
@@ -36,7 +37,7 @@ public class LevelLoadUtil {
         //read through the file until we find the area tag
         while (!scan.nextLine().equals("#AREA"));
         
-        //read the area and get the equivlent enum for it
+        //read the area and get the equivalent enum for it
         String levelArea = scan.nextLine();
         
         if (levelArea.equals("PLAINS")) {
@@ -147,7 +148,7 @@ public class LevelLoadUtil {
         
             case 'G': {
                 
-                createGround(version, pos3, ground, resources);
+                createGround(version, pos3, ground, entityMap, resources);
                 break;
             }
             case 'W': {
@@ -178,35 +179,26 @@ public class LevelLoadUtil {
     @param version the version of floor
     @param pos the position of the floor
     @param ground the ground
+    @param entityMap the entity map
     @param resources the resource manager*/
-    static private void createGround(char version,
-        Vector3d pos, Ground ground, ResourceManager resources) {
-        
-        //choose the tile of ground
-        String tile = "north";
-        int hor = (int) pos.getX();
-        int vert = (int) pos.getY();
-        
-        if (hor % 2 == 0 && vert % 2 == 0) {
-            
-            tile = "south";
-        }
-        else if (hor % 2 == 0 && vert % 2 != 0) {
-            
-            tile = "west";
-        }
-        else if (hor % 2 != 0 && vert % 2 == 0) {
-            
-            tile = "east";
-        }
+    static private void createGround(char version, Vector3d pos,
+		Ground ground, Entity entityMap[][][], ResourceManager resources) {
         
         //find the version and add
         switch (version) {
         
             case 'a': {
-                
+            	
+            	//get the tile type
+            	String tile = findTileType(pos);
+            	
+                //create the ground
                 ground.add(
                     resources.getShape("plains_ground_grass_1_" + tile), pos);
+                
+                //fill below the ground
+                fill('a', 'A', pos, entityMap, resources, false);
+                
                 break;
             }
         }
@@ -224,15 +216,130 @@ public class LevelLoadUtil {
         switch (version) {
         
             case 'a': {
-                
+            	
+            	//get the top tile
+            	String tileTop = findTileType(pos);
+            	//get the north and south tile type
+            	String tileNS = findTileTypeCliffNS(pos);
+            	//get the east and west tile type
+            	String tileEW = findTileTypeCliffEW(pos);
+            	
+            	//create the wall
                 entityMap[(int) pos.getZ()]
                     [(int) pos.getY()][(int) pos.getX()] =
-                    new Wall(resources.getShape("plains_cliff_top_1"),
-                        resources.getShape("plains_cliff_side_1"),
+                    new Wall(resources.getShape("plains_wall_1_" + tileTop),
+                        resources.getShape("plains_cliff_3_" + tileNS),
+                        resources.getShape("plains_cliff_3_" + tileEW),
                         pos);
+                
+                //fill below the wall
+                fill('B', 'B', pos, entityMap, resources, true);
+                
                 break;
             }
         }
+    }
+    
+    /**Fills in below ground with filler
+    @param versionTop the version type for the top layer of filler
+    @param versionOther the version type for the other layers of filler
+    @param pos the position of the filler
+    @param enitityMap the entityMap
+    @param resources the resource manager
+    @param wall is true if this is filling below a wall*/
+    static private void fill(char versionTop, char versionOther,
+		Vector3d pos, Entity entityMap[][][], ResourceManager resources,
+		boolean wall) {
+    	
+    	//is true if the top layer
+    	boolean top = true;
+    	//the top z position
+    	float topZ = pos.getZ();
+    	if (!wall) {
+    		
+    		topZ -= 1.0f;
+    	}
+    	
+    	for (int i = (int) (pos.getZ() - 1); i > -1; --i) {
+    		
+    		Vector3d newPos = new Vector3d(pos);
+    		newPos.setZ(i);
+    		
+    		if (top) {
+    			
+    			createFiller(versionTop, newPos, topZ,
+					entityMap, resources);
+    			top = false;
+    		}
+    		else {
+    			
+    			createFiller(versionOther, newPos, topZ,
+					entityMap, resources);
+    		}
+    	}
+    }
+    
+    /**Adds filler to the entity map
+    @param version the version type for the filler
+    @param pos the position of the filler
+    @param topZ the z position of the top of the cliff
+    @param enitityMap the entityMap
+    @param resources the resource manager*/
+    static private void createFiller(char version, Vector3d pos,
+		float topZ, Entity entityMap[][][], ResourceManager resources) {
+    	
+    	//find the version and add
+    	switch (version) {
+    	
+	        case 'a': {
+	        	
+            	//get the north and south tile type
+            	String tileNS = findTileTypeCliffNS(pos);
+            	//get the east and west tile type
+            	String tileEW = findTileTypeCliffEW(pos);
+	        	
+            	//create the filler
+	            entityMap[(int) pos.getZ()]
+	                    [(int) pos.getY()][(int) pos.getX()] =
+	                    new Filler(
+                    		resources.getShape("plains_cliff_1_" + tileNS),
+                    		resources.getShape("plains_cliff_1_" + tileEW),
+	                        pos);
+	                break;
+	        }
+	        case 'A': { int i;
+	        	
+            	//get the north and south tile type
+            	String tileNS = findTileTypeFillerNS(pos, topZ);
+            	//get the east and west tile type
+            	String tileEW = findTileTypeFillerEW(pos, topZ);
+	        	
+            	//create the filler
+	            entityMap[(int) pos.getZ()]
+	                    [(int) pos.getY()][(int) pos.getX()] =
+	                    new Filler(
+                    		resources.getShape("plains_cliff_2_" + tileNS),
+                    		resources.getShape("plains_cliff_2_" + tileEW),
+	                        pos);
+	                break;
+	        }
+	        case 'B': {
+	        	
+            	//get the north and south tile type
+            	String tileNS = findTileTypeFillerNS(pos, topZ);
+            	//get the east and west tile type
+            	String tileEW = findTileTypeFillerEW(pos, topZ);
+	        	
+            	//create the filler
+	            entityMap[(int) pos.getZ()]
+	                    [(int) pos.getY()][(int) pos.getX()] =
+	                    new Filler(
+                    		resources.getShape("plains_cliff_4_" + tileNS),
+                    		resources.getShape("plains_cliff_4_" + tileEW),
+	                        pos);
+	                break;
+	        }
+    	}
     }
     
     /**Adds a ramp to the entity map
@@ -252,7 +359,7 @@ public class LevelLoadUtil {
                     [(int) pos.getY()][(int) pos.getX()] =
                     new Ramp(resources.getShape("plains_ramp_top_1"),
                         resources.getShape("plains_ramp_side_1"),
-                        pos);
+                        pos, Ramp.Direction.NORTH);
                 break;
             }
         }
@@ -282,5 +389,125 @@ public class LevelLoadUtil {
             [(int) pos.getY()][(int) pos.getX()] = 
             new Finish(resources.getShape("finish"),
                 resources.getShape("finish_inside"), pos);
+    }
+    
+    /**Finds the the tile type based on the position of the tile
+    @param pos the position of the tile
+    @return the tile type append string*/
+    static private String findTileType(Vector3d pos) {
+    	
+        //choose the tile of ground
+        String tile = "tr";
+        int hor = (int) pos.getX();
+        int vert = (int) pos.getY();
+        
+        if (hor % 2 == 0 && vert % 2 == 0) {
+            
+            tile = "bl";
+        }
+        else if (hor % 2 == 0 && vert % 2 != 0) {
+            
+            tile = "tl";
+        }
+        else if (hor % 2 != 0 && vert % 2 == 0) {
+            
+            tile = "br";
+        }
+        
+        return tile;
+    }
+    
+    /**Finds the the tile type based on the position of the tile
+    for north and south cliff tiles
+    @param pos the position of the tile
+    @return the tile type append string*/
+    static private String findTileTypeCliffNS(Vector3d pos) {
+    	
+        //choose the tile of ground
+        String tile = "tr";
+        int hor = (int) pos.getX();
+        
+        if (hor % 2 == 0) {
+            
+            tile = "tl";
+        }
+        
+        return tile;
+    }
+    
+    /**Finds the the tile type based on the position of the tile
+    for east and west cliff tiles
+    @param pos the position of the tile
+    @return the tile type append string*/
+    static private String findTileTypeCliffEW(Vector3d pos) {
+    	
+        //choose the tile of ground
+        String tile = "tr";
+        int hor = (int) pos.getY();
+        
+        if (hor % 2 == 0) {
+            
+            tile = "tl";
+        }
+        
+        return tile;
+    }
+    
+    /**Finds the the tile type based on the position of the tile
+    for north and south cliff fillers
+    @param pos the position of the tile
+    @param top the top position of the cliff
+    @return the tile type append string*/
+    static private String findTileTypeFillerNS(Vector3d pos,
+		float top) {
+    	
+        //choose the tile of ground
+        String tile = "tr";
+        int hor = (int) pos.getX();
+        int vert = (int) (top - pos.getZ() + 1.0f);
+        
+        if (hor % 2 == 0 && vert % 2 == 0) {
+            
+            tile = "bl";
+        }
+        else if (hor % 2 == 0 && vert % 2 != 0) {
+            
+            tile = "tl";
+        }
+        else if (hor % 2 != 0 && vert % 2 == 0) {
+            
+            tile = "br";
+        }
+        
+        return tile;
+    }
+    
+    /**Finds the the tile type based on the position of the tile
+    for east and west cliff fillers
+    @param pos the position of the tile
+    @param top the top position of the cliff
+    @return the tile type append string*/
+    static private String findTileTypeFillerEW(Vector3d pos,
+		float top) {
+    	
+        //choose the tile of ground
+        String tile = "tr";
+        int hor = (int) pos.getY();
+        int vert = (int) (top - pos.getZ() + 1.0f);
+        
+        if (hor % 2 == 0 && vert % 2 == 0) {
+            
+            tile = "bl";
+        }
+        else if (hor % 2 == 0 && vert % 2 != 0) {
+            
+            tile = "tl";
+        }
+        else if (hor % 2 != 0 && vert % 2 == 0) {
+            
+            tile = "br";
+        }
+        
+        return tile;
     }
 }

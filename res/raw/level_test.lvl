@@ -1,16 +1,16 @@
 #AREA
 PLAINS
 #DIM
-9 9 2
+9 9 4
 #MAP
 
-W1a W1a W1a W1a F0F W0a W0a W0a W0a
+W2a W2a W2a W2a F0F W0a W0a W0a W0a
 
-W1a G1a G1a G1a G0a G0a G0a G0a W0a
+W2a G2a G2a G2a G0a G0a G0a G0a W0a
 
-W1a G1a G1a G1a G0a W0a G0a G0a W0a
+W2a G2a G2a G2a G0a W0a G0a G0a W0a
 
-W1a G1a G1a G1a G0a W0a G0a G0a W0a
+W1a R1a G1a G1a G0a W0a G0a G0a W0a
 
 W1a G1a G1a G1a G0a W0a W0a W0a W0a
 

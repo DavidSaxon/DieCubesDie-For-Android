@@ -45,6 +45,8 @@ public class LevelEngine implements Engine {
     private boolean complete = false;
     
     //gesture
+    //the centre point of the level
+    private Vector2d centrePos = new Vector2d();
     //float camera limit
     private final float CAMERA_LIMIT = 1.5f;
     //multiplies the distance moved by swiping
@@ -81,8 +83,12 @@ public class LevelEngine implements Engine {
         this.resources = resources;
         this.entityMap = entityMap;
         
+        //find the centre of the level
+        centrePos = new Vector2d(-entityMap[0][0].length / 2.0f,
+        		-entityMap[0].length / 2.0f);
+        
         //set the starting camera position
-        camPos = new Vector3d(-(entityMap[0][0].length / 2.0f), -10.0f, 0.8f);
+        camPos = new Vector3d(centrePos.getX(), -10.0f, centrePos.getY());
         
         //add the terrain entities
         addTerrain();
@@ -231,21 +237,9 @@ public class LevelEngine implements Engine {
             (CAM_MOVE_MULTIPLY * camMove.getY()));
         
         //clamp camera movement
-        if (camPos.getX() > CAMERA_LIMIT) {
-            
-            camPos.setX(CAMERA_LIMIT);
-        }
-        else if (camPos.getX() < -(entityMap[0][0].length + CAMERA_LIMIT)) {
-            
-            camPos.setX(-(entityMap[0][0].length - CAMERA_LIMIT));
-        }
         if (camPos.getZ() > CAMERA_LIMIT) {
             
             camPos.setZ(CAMERA_LIMIT);
-        }
-        else if (camPos.getZ() < -(entityMap[0].length - 8 + CAMERA_LIMIT)) {
-            
-            camPos.setZ(-(entityMap[0].length - 8 + CAMERA_LIMIT));
         }
         
         lastSwipe = swipe.getPos();

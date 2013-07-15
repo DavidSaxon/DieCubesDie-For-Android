@@ -13,7 +13,16 @@ import nz.co.withfire.diecubesdie.utilities.vectors.Vector3d;
 
 public class Ramp extends Drawable {
 
-    
+    //ENUMERATORS
+	//The direction the ramp can be facing
+	public enum Direction {
+		
+		NORTH,
+		EAST,
+		SOUTH,
+		WEST
+	};
+	
     //VARIABLES
     //the shape for the top of the ramp
     private Shape top;
@@ -22,6 +31,9 @@ public class Ramp extends Drawable {
     
     //the position of the ramp
     private Vector3d pos = new Vector3d();
+    
+    //the direction of the ramp
+    private Direction direction;
     
     //Matrix
     //the model view projection matrix
@@ -33,13 +45,15 @@ public class Ramp extends Drawable {
     /**Creates a new ramp
     @param top the shape for the top of the ramp
     @param side the shape for the side of the ramp
-    @param pos the position of the ramp*/
-    public Ramp(Shape top, Shape side, Vector3d pos) {
+    @param pos the position of the ramp
+    @param direction the direction of the ramp*/
+    public Ramp(Shape top, Shape side, Vector3d pos, Direction direction) {
         
         //initialise variables
         this.top = top;
         this.side = side;
         this.pos.copy(pos);
+        this.direction = direction;
     }
     
     //PUBLIC METHODS

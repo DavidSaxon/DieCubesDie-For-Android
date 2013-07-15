@@ -1,0 +1,16 @@
+# Blender v2.67 (sub 0) OBJ File: 'ground.blend'
+# www.blender.org
+mtllib shape_terrain_ground_bottom_left.mtl
+o Plane
+v -0.500000 0.500000 0.500000
+v -0.500000 0.500000 -0.500000
+v 0.500000 0.500000 0.500000
+v 0.500000 0.500000 -0.500000
+vt 0.500000 1.000000
+vt 0.500000 0.500000
+vt 0.000000 0.500000
+vt 0.000000 1.000000
+usemtl Material.001
+s off
+f 2/1 1/2 3/3
+f 4/4 2/1 3/3

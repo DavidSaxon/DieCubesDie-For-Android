@@ -1,0 +1,16 @@
+# Blender v2.67 (sub 0) OBJ File: 'cliff_side.blend'
+# www.blender.org
+mtllib shape_terrain_cliff_south.mtl
+o Cube_Cube.003
+v -0.500000 -0.500000 -0.500000
+v 0.500000 -0.500000 -0.500000
+v -0.500000 0.500000 -0.500000
+v 0.500000 0.500000 -0.500000
+vt 1.000000 0.500000
+vt 0.500000 0.500000
+vt 0.500000 1.000000
+vt 1.000000 1.000000
+usemtl Material.001
+s off
+f 3/1 4/2 2/3
+f 1/4 3/1 2/3

@@ -21,32 +21,39 @@ public class LevelPack {
     public static void build(ResourceManager resources) {
         
         //TEXTURES
+    	//test
+    	{
+        ResourceGroup groups[] = {ResourceGroup.LEVEL};
+        resources.add("terrain_test",
+            new TextureResource(R.drawable.terrain_all_test,
+            groups));
+        } int sfffjfFsdssavb;
         //spawn
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL};
         resources.add("spawn",
-            new TextureResource(R.drawable.terrain_spawn,
+            new TextureResource(R.drawable.terrain_all_spawn,
             groups));
         }
         //spawn inside
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL};
         resources.add("spawn_inside",
-            new TextureResource(R.drawable.terrain_spawn_inside,
+            new TextureResource(R.drawable.terrain_all_spawn_inside,
             groups));
         }
         //finish
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL};
         resources.add("finish",
-            new TextureResource(R.drawable.terrain_finish,
+            new TextureResource(R.drawable.terrain_all_finish,
             groups));
         }
         //finish inside
         {
         ResourceGroup groups[] = {ResourceGroup.LEVEL};
         resources.add("finish_inside",
-            new TextureResource(R.drawable.terrain_finish_inside,
+            new TextureResource(R.drawable.terrain_all_finish_inside,
             groups));
         }
     
